@@ -1,4 +1,6 @@
 import { useMemo } from 'react'
+import { useSession, signIn, signOut } from 'next-auth/react'
+import Link from 'next/link'
 import Image from 'next/image'
 import Select from 'react-select'
 
@@ -9,6 +11,7 @@ import * as styles from './AppHeader.module.css'
 import logo from '@public/x-team-logo.svg'
 
 const AppHeader = () => {
+  const { data: session } = useSession()
   const { collections, selectedFeature, selectedNode, setSelected, toggleModal } = useAppContext()
 
   const GROUP_LABEL_BY_PROFILES = 'By Profiles'
@@ -77,12 +80,12 @@ const AppHeader = () => {
         <Image src={logo} width="109" alt="X-Team" />
       </div>
       <div className={styles.controls}>
-        <button
+        {/* <button
           className={styles.button}
           onClick={toggleModal}
         >
           Add new profile
-        </button>
+        </button> */}
         <div className={styles.selector}>
           <Select
             instanceId="profile-selector"
@@ -95,6 +98,29 @@ const AppHeader = () => {
             isDisabled={!options}
           />
         </div>
+        {session ? (
+          <Link href="/api/auth/signout">
+            <button
+              onClick={(e) => {
+                e.preventDefault()
+                signOut()
+              }}
+            >
+              Sign Out
+            </button>
+          </Link>
+        ) : (
+          <Link href="/api/auth/signin">
+          <button
+            onClick={(e) => {
+              e.preventDefault()
+              signIn()
+            }}
+          >
+            Sign In
+          </button>
+          </Link>
+        )}
       </div>
     </div>
   )

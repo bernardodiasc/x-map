@@ -2,7 +2,7 @@
   "name": "x-map",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "develop": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
