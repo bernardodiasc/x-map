@@ -20,7 +20,7 @@ export default NextAuth({
       const isSignIn = user ? true : false
       if (isSignIn) {
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/auth/${account.provider}/callback?access_token=${account?.accessToken}`
+          `${process.env.NEXT_PUBLIC_API_URL}/api/auth/${account.provider}/callback?access_token=${account?.accessToken}`
         )
         const { data } = await response.json()
         if (data) {
