@@ -10,18 +10,19 @@ import Button from '@components/Button'
 
 import { setAuthToken } from '@lib/auth'
 
-import * as styles from './LogInForm.module.css'
+import * as styles from './SignUpForm.module.css'
 
-const LOG_IN_ENDPOINT = `${process.env.NEXT_PUBLIC_API_URL}/api/auth/local`
+const SIGN_UP_ENDPOINT = `${process.env.NEXT_PUBLIC_API_URL}/api/auth/local/register`
 
-const LogInForm = () => {
+const SignUpForm = () => {
   const { logIn, setUser } = useAuthContext()
   const { register, handleSubmit, formState: { errors }, clearErrors } = useForm()
 
-  const onLogIn = async ({ identifier, password }) => {
+  const onSignUp = async ({ email, password }) => {
     try {
-      const response = await axios.post(LOG_IN_ENDPOINT, {
-        identifier,
+      const response = await axios.post(SIGN_UP_ENDPOINT, {
+        username: email,
+        email,
         password,
       })
       const { data, status, headers } = response
@@ -32,21 +33,21 @@ const LogInForm = () => {
   }
 
   return (
-    <form className={styles.component} onSubmit={handleSubmit(onLogIn)}>
-      <h1>Log In</h1>
+    <form className={styles.component}  onSubmit={handleSubmit(onSignUp)}>
+      <h1>Sign Up</h1>
       <InputLabel title="Email">
-        <InputField type="text" register={register("identifier", { required: true })} />
-        <InputError hasError={errors.identifier}>This field is required</InputError>
+        <InputField type="text" register={register("email", { required: true })} />
+        <InputError hasError={errors.email}>This field is required</InputError>
       </InputLabel>
       <InputLabel title="Password">
         <InputField type="password" register={register("password", { required: true })} />
         <InputError hasError={errors.password}>This field is required</InputError>
       </InputLabel>
       <InputLabel>
-        <Button type="submit" wide>Log In</Button>
+        <Button type="submit" wide>Sign Up</Button>
       </InputLabel>
     </form>
   )
 }
 
-export default LogInForm
+export default SignUpForm

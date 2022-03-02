@@ -2,7 +2,7 @@ import useAppContext from '@contexts/App'
 
 import AppHeader from '@components/AppHeader'
 import Modal from '@components/Modal'
-import LoginForm from '@components/LoginForm'
+import JoinScreen from '@components/JoinScreen'
 
 import { MODAL_IDS } from '@lib/constants'
 
@@ -12,7 +12,7 @@ const AppLayout = ({ children }) => {
   const { visibleModal, toggleVisibleModal } = useAppContext()
 
   const modalContents = {
-    [MODAL_IDS.LOGIN_FORM]: <LoginForm />
+    [MODAL_IDS.JOIN_SCREEN]: <JoinScreen />
   }
 
   return (

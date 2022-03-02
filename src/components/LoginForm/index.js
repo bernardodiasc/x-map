@@ -1,3 +1,3 @@
-import LoginForm from './LoginForm'
+import LogInForm from './LogInForm'
 
-export default LoginForm
+export default LogInForm

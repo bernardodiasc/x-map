@@ -12,7 +12,7 @@ import * as styles from './AppHeader.module.css'
 import logo from '@public/x-team-logo.svg'
 
 const AppHeader = () => {
-  const { token } = useAuthContext()
+  const { token, logOut } = useAuthContext()
   const { toggleVisibleModal } = useAppContext()
 
   return (
@@ -24,14 +24,14 @@ const AppHeader = () => {
         {token ? (
           <button
             className={styles.button}
-            onClick={() => setAuthToken(null)}
+            onClick={logOut}
           >
             Logout
           </button>
         ) : (
           <button
             className={styles.button}
-            onClick={() => toggleVisibleModal(MODAL_IDS.LOGIN_FORM)}
+            onClick={() => toggleVisibleModal(MODAL_IDS.JOIN_SCREEN)}
           >
             Join
           </button>

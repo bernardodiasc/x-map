@@ -1,3 +1,3 @@
 export const MODAL_IDS = {
-  LOGIN_FORM: 'LOGIN_FORM'
+  JOIN_SCREEN: 'JOIN_SCREEN'
 }
