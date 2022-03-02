@@ -2,8 +2,10 @@ import { useMemo, useState } from 'react'
 import Image from 'next/image'
 
 import useAuthContext from '@contexts/Auth'
-import useModal from '@hooks/useModal'
-import Modal from '@components/Modal'
+import useAppContext from '@contexts/App'
+
+import { setAuthToken } from '@lib/auth'
+import { MODAL_IDS } from '@lib/constants'
 
 import * as styles from './AppHeader.module.css'
 
@@ -11,7 +13,7 @@ import logo from '@public/x-team-logo.svg'
 
 const AppHeader = () => {
   const { token } = useAuthContext()
-  const { isModalVisible, toggleModal } = useModal()
+  const { toggleVisibleModal } = useAppContext()
 
   return (
     <div className={styles.component}>
@@ -22,24 +24,19 @@ const AppHeader = () => {
         {token ? (
           <button
             className={styles.button}
-            // onClick={toggleModal}
+            onClick={() => setAuthToken(null)}
           >
-            logout
+            Logout
           </button>
         ) : (
           <button
             className={styles.button}
-            onClick={toggleModal}
+            onClick={() => toggleVisibleModal(MODAL_IDS.LOGIN_FORM)}
           >
-            login
+            Join
           </button>
         )}
       </div>
-      {isModalVisible && (
-        <Modal onClose={toggleModal}>
-          Login form
-        </Modal>
-      )}
     </div>
   )
 }

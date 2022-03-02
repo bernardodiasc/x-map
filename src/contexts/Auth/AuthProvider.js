@@ -1,9 +1,10 @@
 import AuthContext from './AuthContext'
 
-import { getAuthToken } from '@lib/auth'
+import { getAuthToken, setAuthToken } from '@lib/auth'
 
 const AuthProvider = ({ children }) => {
   const token = getAuthToken()
+
   return (
     <AuthContext.Provider
       value={{

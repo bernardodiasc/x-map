@@ -3,9 +3,11 @@ import { useMemo } from 'react'
 import AppContext from './AppContext'
 
 import useProfiles from '@hooks/useProfiles'
+import useModal from '@hooks/useModal'
 
 const AppProvider = ({ children }) => {
   const { profiles } = useProfiles()
+  const { visibleModal, toggleVisibleModal } = useModal()
 
   const collections = useMemo(() => ({
     profiles,
@@ -15,6 +17,8 @@ const AppProvider = ({ children }) => {
     <AppContext.Provider
       value={{
         collections,
+        visibleModal,
+        toggleVisibleModal,
       }}
     >
       {children}

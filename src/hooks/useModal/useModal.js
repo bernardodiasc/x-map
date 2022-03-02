@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 
 function useModal () {
-  const [isModalVisible, setIsModalVisible] = useState(false)
+  const [visibleModal, setVisibleModal] = useState(undefined)
 
   useEffect(
     () => () => {
@@ -10,15 +10,15 @@ function useModal () {
     []
   )
 
-  const toggleModal = () =>
-    setIsModalVisible(isModalVisible => {
-      document.body.style.overflowY = !isModalVisible ? 'hidden' : ''
-      return !isModalVisible
+  const toggleVisibleModal = modalId =>
+    setVisibleModal(visibleModal => {
+      document.body.style.overflowY = !modalId ? 'hidden' : ''
+      return modalId || undefined
     })
 
   return {
-    isModalVisible,
-    toggleModal
+    visibleModal,
+    toggleVisibleModal
   }
 }
 
