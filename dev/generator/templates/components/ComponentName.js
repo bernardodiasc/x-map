@@ -1,5 +1,3 @@
-import * as React from 'react'
-
 import * as styles from './<%= componentName %>.module.css'
 
 const <%= componentName %> = ({ children }) => {

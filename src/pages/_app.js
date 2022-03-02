@@ -1,13 +1,16 @@
-import { SessionProvider } from 'next-auth/react'
 import axios from 'axios'
 import { SWRConfig } from 'swr'
 import Head from 'next/head'
 
+import { AuthProvider } from '@contexts/Auth'
 import { AppProvider } from '@contexts/App'
+import { MapProvider } from '@contexts/Map'
+
+import AppLayout from '@components/AppLayout'
 
 import '../styles/globals.css'
 
-function App({ Component, pageProps: { session, ...pageProps } }) {
+function App({ Component, pageProps }) {
   return (
     <SWRConfig
       value={{
@@ -17,18 +20,22 @@ function App({ Component, pageProps: { session, ...pageProps } }) {
         shouldRetryOnError: false,
       }}
     >
-      <SessionProvider session={session}>
-        <AppProvider {...pageProps}>
-          <Head>
-            <meta
-              name="viewport"
-              content="width=device-width, initial-scale=1, shrink-to-fit=no"
-            />
-            <title>X-Map | X-Team</title>
-          </Head>
-          <Component {...pageProps} />
+      <AuthProvider>
+        <AppProvider>
+          <MapProvider>
+            <Head>
+              <meta
+                name="viewport"
+                content="width=device-width, initial-scale=1, shrink-to-fit=no"
+              />
+              <title>X-Map | X-Team</title>
+            </Head>
+            <AppLayout>
+              <Component {...pageProps} />
+            </AppLayout>
+          </MapProvider>
         </AppProvider>
-      </SessionProvider>
+      </AuthProvider>
     </SWRConfig>
   )
 }

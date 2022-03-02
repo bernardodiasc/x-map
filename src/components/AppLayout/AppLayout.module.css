@@ -10,11 +10,11 @@
   background: white;
 }
 
-.map {
+.children {
   height: calc(100vh - 80px);
 }
 
-.map > div {
+.children > div {
   height: calc(100vh - 80px);
   position: relative;
 }

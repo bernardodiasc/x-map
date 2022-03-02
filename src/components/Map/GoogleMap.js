@@ -2,8 +2,6 @@ import { useEffect, useState, useMemo } from 'react'
 import { Map } from 'google-maps-react'
 import { MarkerClusterer } from "@googlemaps/markerclusterer"
 
-import Loading from '../Loading'
-
 import useAppContext from '@contexts/App'
 
 const mapStyles = {
@@ -14,7 +12,7 @@ const mapStyles = {
 let googleMap
 
 export default function MapContainer({ google, featureCollection }) {
-  const { setSelected, selectedFeature } = useAppContext()
+  // const { setSelected, selectedFeature } = useAppContext()
   const [map, setMap] = useState()
 
   useEffect(() => {
@@ -22,15 +20,17 @@ export default function MapContainer({ google, featureCollection }) {
       return null
     }
 
-    if (selectedFeature) {
-      const lng = selectedFeature.coordinates[0]
-      const lat = selectedFeature.coordinates[1]
-      googleMap.setCenter({ lat, lng })
-      googleMap.setZoom(9)
-    } else {
-      googleMap.fitBounds(bounds)
-    }
-  }, [selectedFeature, bounds])
+    // if (selectedFeature) {
+    //   const lng = selectedFeature.coordinates[0]
+    //   const lat = selectedFeature.coordinates[1]
+    //   googleMap.setCenter({ lat, lng })
+    //   googleMap.setZoom(9)
+    // } else {
+    //   googleMap.fitBounds(bounds)
+    // }
+
+    googleMap.fitBounds(bounds)
+  }, [bounds])
 
   const bounds = useMemo(() => new google.maps.LatLngBounds(), [google])
 
@@ -39,6 +39,7 @@ export default function MapContainer({ google, featureCollection }) {
 
     const markerClusterer = new MarkerClusterer(map, null, { imagePath: 'https://cdn.rawgit.com/googlemaps/js-marker-clusterer/gh-pages/images/m' })
     markerClusterer.setMap(map)
+
     google.maps.event.addListener(map.data, 'addfeature', function (event) {
       if (event.feature.getGeometry().getType() === 'Point') {
         const marker = new google.maps.Marker({
@@ -49,9 +50,9 @@ export default function MapContainer({ google, featureCollection }) {
 
         google.maps.event.addListener(marker, 'click', function (marker, event) {
           return function() {
-            const type = event.feature.getProperty('type')
-            const location = event.feature.getProperty('location')
-            setSelected({ type, location })
+            // const type = event.feature.getProperty('type')
+            // const location = event.feature.getProperty('location')
+            // setSelected({ type, location })
           }
         }(marker, event))
 
@@ -61,17 +62,16 @@ export default function MapContainer({ google, featureCollection }) {
         map.setCenter(event.feature.getGeometry().get())
       }
     })
+
     map.data.addGeoJson(featureCollection)
     map.data.setMap(null)
   }
 
-  return featureCollection ? (
+  return (
     <Map
       google={google}
       style={mapStyles}
       onReady={loadGeoData}
     />
-  ) : (
-    <Loading />
   )
 }
