@@ -12,7 +12,7 @@ import { setAuthToken } from '@lib/auth'
 import * as styles from './JoinScreen.module.css'
 
 const JoinScreen = () => {
-  const { user } = useAuthContext()
+  const { user, profile } = useAuthContext()
   const [displaySignUpForm, setDisplaySignUpForm] = useState(false)
   const toggleSignUpForm = () => {
     setDisplaySignUpForm(!displaySignUpForm)
@@ -21,8 +21,11 @@ const JoinScreen = () => {
   if (user) {
     return (
       <div className={styles.component}>
-        Hello there!<br/>
-        {JSON.stringify(user)}
+        Hello there!
+        <br/>
+        USER: {JSON.stringify(user)}
+        <br/>
+        PROFILE: {JSON.stringify(profile)}
       </div>
     )
   }

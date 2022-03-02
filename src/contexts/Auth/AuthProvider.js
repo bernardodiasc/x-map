@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import axios from 'axios'
-import qs from 'qs'
 
 import AuthContext from './AuthContext'
 
@@ -13,25 +12,20 @@ const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null)
   const [profile, setProfile] = useState(null)
 
-  const logIn = async data => {
-    setAuthToken(data.jwt)
-    setToken(data.jwt)
-    setUser(data.user)
-
-    const query = qs.stringify({
-      filters: {
-        where: {
-          user: data.user.id
-        }
-      }
+  const logIn = async userData => {
+    setAuthToken(userData.jwt)
+    setToken(userData.jwt)
+    setUser({
+      id: userData.user.id,
+      email: userData.user.email,
     })
 
-    try {
-      const response = await axios.get(`${PROFILE_ENDPOINT}?${query}`)
-      const { data, status, headers } = response
-      console.log(data)
-    } catch (error) {
-      console.error(error)
+    const { data: profileData } = await axios.get(`${PROFILE_ENDPOINT}/user/${userData.user.id}`)
+    if (profileData?.data && profileData?.data[0]) {
+      setProfile({
+        id: profileData.data[0].id,
+        name: profileData.data[0].attributes.name,
+      })
     }
   }
 
@@ -47,6 +41,7 @@ const AuthProvider = ({ children }) => {
       value={{
         token,
         user,
+        profile,
         logIn,
         logOut,
       }}
