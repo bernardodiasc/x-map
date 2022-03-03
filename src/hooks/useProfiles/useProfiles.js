@@ -1,11 +1,13 @@
 import useSWR from 'swr'
+import qs from 'qs'
 
 import { translateApiDataToProfiles } from './utils'
 
 const PROFILES_ENDPOINT = `${process.env.NEXT_PUBLIC_API_URL}/api/profiles`
 
 function useProfiles () {
-  const { data, error } = useSWR(PROFILES_ENDPOINT)
+  const query = qs.stringify({ populate: 'locations' })
+  const { data, error } = useSWR(`${PROFILES_ENDPOINT}?${query}`)
 
   const profiles = translateApiDataToProfiles(data)
 

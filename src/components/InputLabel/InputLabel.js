@@ -4,7 +4,7 @@ const InputLabel = ({ title, children }) => {
   return (
     <label className={styles.component}>
       {title && (
-        <div>{title}</div>
+        <div className={styles.title}>{title}</div>
       )}
       {children}
     </label>

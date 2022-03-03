@@ -1,9 +1,9 @@
 import * as styles from './Button.module.css'
 
-const Button = props => {
+const Button = ({ wide, ...props }) => {
   const classNames = [
     styles.component,
-    props.wide ? styles.wide : ''
+    wide ? styles.wide : ''
   ].join(' ')
   return (
     <button className={classNames} {...props} />

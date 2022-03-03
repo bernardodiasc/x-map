@@ -1,4 +1,18 @@
 .component {
   width: 500px;
+  max-width: 100%;
   height: 400px;
+}
+
+.extra {
+  margin: 0 20px;
+}
+
+.extra a {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.extra a:hover {
+  text-decoration: none;
 }

@@ -1,3 +1,5 @@
 .component {
   color: red;
+  font-style: italic;
+  font-size: 13px;
 }

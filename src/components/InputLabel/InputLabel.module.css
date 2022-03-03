@@ -1,4 +1,8 @@
 .component {
   display: block;
-  margin: 20px;
+  margin: 20px 0;
+}
+
+.component > * {
+  margin: 2px 0;
 }
