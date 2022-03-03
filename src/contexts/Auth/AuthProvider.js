@@ -4,6 +4,8 @@ import qs from 'qs'
 
 import AuthContext from './AuthContext'
 
+import { translateApiDataToLocations } from '@hooks/useProfiles/utils'
+
 import { getAuthToken, setAuthToken, initAuthHeader, checkAuth } from '@lib/auth'
 
 const PROFILE_ENDPOINT = `${process.env.NEXT_PUBLIC_API_URL}/api/profiles`
@@ -16,13 +18,14 @@ const AuthProvider = ({ children }) => {
 
   const loadProfile = async (email) => {
     setIsLoadingProfile(true)
-    const queryProfile = qs.stringify({ filters: { email } })
+    const queryProfile = qs.stringify({ filters: { email }, populate: 'locations' })
     const { data: profileData } = await axios.get(`${PROFILE_ENDPOINT}?${queryProfile}`)
     if (profileData?.data && profileData?.data[0]) {
       setProfile({
         id: profileData.data[0].id,
         name: profileData.data[0].attributes.name,
         email: profileData.data[0].attributes.email,
+        locations: translateApiDataToLocations(profileData.data[0].attributes.locations),
       })
     }
     setIsLoadingProfile(false)
