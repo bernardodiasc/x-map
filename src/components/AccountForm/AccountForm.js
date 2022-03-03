@@ -30,6 +30,7 @@ const AccountForm = () => {
       setProfile({
         id: apiData.data.id,
         name: apiData.data.attributes.name,
+        email: apiData.data.attributes.email,
       })
     } catch (error) {
       console.error(error)

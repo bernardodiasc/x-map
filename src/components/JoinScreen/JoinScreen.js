@@ -53,7 +53,11 @@ const JoinScreen = () => {
       ) : (
         <LogInForm />
       )}
-      <Button onClick={toggleSignUpForm} link>
+      <Button
+        onClick={toggleSignUpForm}
+        className={styles.extra}
+        link
+      >
         {displaySignUpForm
           ? 'Already have an account?'
           : 'Need new account?'

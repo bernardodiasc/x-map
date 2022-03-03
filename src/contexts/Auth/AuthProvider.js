@@ -14,14 +14,15 @@ const AuthProvider = ({ children }) => {
   const [profile, setProfile] = useState(null)
   const [isLoadingProfile, setIsLoadingProfile] = useState(false)
 
-  const loadProfile = async (userId) => {
+  const loadProfile = async (email) => {
     setIsLoadingProfile(true)
-    const queryProfile = qs.stringify({ filters: { user: userId } })
+    const queryProfile = qs.stringify({ filters: { email } })
     const { data: profileData } = await axios.get(`${PROFILE_ENDPOINT}?${queryProfile}`)
     if (profileData?.data && profileData?.data[0]) {
       setProfile({
         id: profileData.data[0].id,
         name: profileData.data[0].attributes.name,
+        email: profileData.data[0].attributes.email,
       })
     }
     setIsLoadingProfile(false)
@@ -34,7 +35,7 @@ const AuthProvider = ({ children }) => {
       id: userData.user.id,
       email: userData.user.email,
     })
-    loadProfile(userData.user.id)
+    loadProfile(userData.user.email)
   }
 
   const logOut = () => {
@@ -63,7 +64,7 @@ const AuthProvider = ({ children }) => {
           id: response.data.id,
           email: response.data.email,
         })
-        loadProfile(response.data.id)
+        loadProfile(response.data.email)
       } catch (error) {
         console.error(error)
         logOut()

@@ -23,12 +23,13 @@ const ProfileForm = () => {
       const { data: apiData } = await axios.post(PROFILES_ENDPOINT, {
         data: {
           name,
-          user: user.id,
+          email: user.email,
         }
       })
       setProfile({
         id: apiData.data.id,
         name: apiData.data.attributes.name,
+        email: apiData.data.attributes.email,
       })
     } catch (error) {
       console.error(error)
