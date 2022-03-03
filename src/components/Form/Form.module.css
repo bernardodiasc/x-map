@@ -1,9 +1,14 @@
 .component {
-  margin: 20px;
+  margin: 0;
+}
+
+.component :last-child {
+  margin-bottom: 0;
 }
 
 .title {
   text-align: center;
+  margin: 0 0 20px;
 }
 
 .error {

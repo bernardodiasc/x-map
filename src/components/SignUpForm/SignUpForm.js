@@ -10,35 +10,32 @@ import InputLabel from '@components/InputLabel'
 import InputError from '@components/InputError'
 import Button from '@components/Button'
 
-import { setAuthToken } from '@lib/auth'
-
 const SIGN_UP_ENDPOINT = `${process.env.NEXT_PUBLIC_API_URL}/api/auth/local/register`
 
 const SignUpForm = () => {
-  const [apiError, setApiError] = useState()
-  const { logIn } = useAuthContext()
   const { register, handleSubmit, formState: { errors }, isSubmitting } = useForm()
+  const { logIn } = useAuthContext()
+  const [apiError, setApiError] = useState()
 
-  const onSignUp = async ({ email, password }) => {
+  const onSubmit = async ({ email, password }) => {
     setApiError()
     try {
-      const response = await axios.post(SIGN_UP_ENDPOINT, {
+      const { data } = await axios.post(SIGN_UP_ENDPOINT, {
         username: email,
         email,
         password,
       })
-      logIn(response.data)
+      logIn(data)
     } catch (error) {
       console.error(error)
-      setApiError(error.response.data.error.message)
+      setApiError(error?.response?.data?.error?.message)
     }
   }
 
   return (
     <Form
       title="Sign Up"
-      // description="TBD: some description here..."
-      onSubmit={handleSubmit(onSignUp)}
+      onSubmit={handleSubmit(onSubmit)}
       errorMessage={apiError}
     >
       <InputLabel title="Email:">

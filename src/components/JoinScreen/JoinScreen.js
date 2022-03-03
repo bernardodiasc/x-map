@@ -18,6 +18,7 @@ const JoinScreen = () => {
   const { user, profile, isLoadingProfile } = useAuthContext()
   const { toggleVisibleModal } = useAppContext()
   const [displaySignUpForm, setDisplaySignUpForm] = useState(false)
+
   const toggleSignUpForm = e => {
     e.preventDefault()
     setDisplaySignUpForm(!displaySignUpForm)
@@ -37,7 +38,6 @@ const JoinScreen = () => {
     )
   }
 
-  console.log(user, profile)
   if (user) {
     return (
       <div className={styles.component}>
@@ -53,14 +53,12 @@ const JoinScreen = () => {
       ) : (
         <LogInForm />
       )}
-      <div className={styles.extra}>
-        <a onClick={toggleSignUpForm}>
-          {displaySignUpForm
-            ? 'Already have an account?'
-            : 'Need new account?'
-          }
-        </a>
-      </div>
+      <Button onClick={toggleSignUpForm} link>
+        {displaySignUpForm
+          ? 'Already have an account?'
+          : 'Need new account?'
+        }
+      </Button>
     </div>
   )
 }

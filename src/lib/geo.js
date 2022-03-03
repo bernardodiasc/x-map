@@ -13,7 +13,10 @@ export const dataToGeoFeature = (data = {}) => ({
 
 export const dataToGeoFeatureCollection = (data = []) => ({
   type: 'FeatureCollection',
-  features: data.map(each => dataToGeoFeature(each)),
+  features: data.reduce((acc, cur) => cur.coordinates
+    ? [...acc, dataToGeoFeature(cur)]
+    : acc
+  , []),
 })
 
 export const geoFeaturesToCollection = (features = {}) => ({

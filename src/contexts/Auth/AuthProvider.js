@@ -79,6 +79,7 @@ const AuthProvider = ({ children }) => {
         token,
         user,
         profile,
+        setProfile,
         isLoadingProfile,
         logIn,
         logOut,

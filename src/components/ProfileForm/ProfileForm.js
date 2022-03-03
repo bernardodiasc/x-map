@@ -10,36 +10,37 @@ import InputLabel from '@components/InputLabel'
 import InputError from '@components/InputError'
 import Button from '@components/Button'
 
-import { setAuthToken } from '@lib/auth'
-
-// const SIGN_UP_ENDPOINT = `${process.env.NEXT_PUBLIC_API_URL}/api/auth/local/register`
+const PROFILES_ENDPOINT = `${process.env.NEXT_PUBLIC_API_URL}/api/profiles`
 
 const ProfileForm = () => {
-  const [apiError, setApiError] = useState()
-  const { setProfile } = useAuthContext()
   const { register, handleSubmit, formState: { errors }, isSubmitting } = useForm()
+  const { user, setProfile } = useAuthContext()
+  const [apiError, setApiError] = useState()
 
-  const onSignUp = async ({ name }) => {
-    // setApiError()
-    // try {
-    //   const response = await axios.post(SIGN_UP_ENDPOINT, {
-    //     username: email,
-    //     email,
-    //     password,
-    //   })
-    //   const { data, status, headers } = response
-    //   logIn(data)
-    // } catch (error) {
-    //   console.error(error)
-    //   setApiError(error.response.data.error.message)
-    // }
+  const onSubmit = async ({ name }) => {
+    setApiError()
+    try {
+      const { data: apiData } = await axios.post(PROFILES_ENDPOINT, {
+        data: {
+          name,
+          user: user.id,
+        }
+      })
+      setProfile({
+        id: apiData.data.id,
+        name: apiData.data.attributes.name,
+      })
+    } catch (error) {
+      console.error(error)
+      setApiError(error?.response?.data?.error?.message)
+    }
   }
 
   return (
     <Form
       title="Welcome!"
       description="Please fill up some more info before proceed :)"
-      onSubmit={handleSubmit(onSignUp)}
+      onSubmit={handleSubmit(onSubmit)}
       errorMessage={apiError}
     >
       <InputLabel title="Full name:">

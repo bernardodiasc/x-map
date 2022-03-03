@@ -1,1 +1,5 @@
-.component {}
+.component {
+  margin: 20px;
+  width: 500px;
+  max-width: 100%;
+}

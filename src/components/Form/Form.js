@@ -1,8 +1,12 @@
 import * as styles from './Form.module.css'
 
-const Form = ({ title, description, onSubmit, errorMessage, children }) => {
+const Form = ({ title, description, onSubmit, errorMessage, className, children }) => {
+  const classNames = [
+    styles.component,
+    className
+  ].join(' ')
   return (
-    <form className={styles.component} onSubmit={onSubmit}>
+    <form className={classNames} onSubmit={onSubmit}>
       {title && (
         <h1 className={styles.title}>{title}</h1>
       )}

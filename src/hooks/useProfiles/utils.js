@@ -1,13 +1,22 @@
-export const getLatestProfileLocation = profile => profile.attributes.locations.data
-  .reduce((a, b) => (a.attributes.since > b.attributes.since ? a : b))
+export const getLatestProfileLocation = locations => locations
+  .reduce((acc, cur) => (acc.attributes.since > cur.attributes.since ? acc : cur))
 
-export const translateApiDataToProfiles = data => data
-  ? data.data.map(profile => {
-    const latestLocation = getLatestProfileLocation(profile)
+export const translateApiDataToProfiles = apiData => apiData?.data
+  ? apiData.data.map(profile => {
+    const locations = profile.attributes.locations.data
+    if (locations.length === 0) {
+      return {
+        id: profile.id,
+        name: profile.attributes.name,
+      }
+    }
+
+    const latestLocation = getLatestProfileLocation(locations)
     const coordinates = [
       Number(latestLocation.attributes.latitude),
       Number(latestLocation.attributes.longitude),
     ]
+
     return {
       id: profile.id,
       name: profile.attributes.name,
