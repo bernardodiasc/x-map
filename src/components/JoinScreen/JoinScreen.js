@@ -4,7 +4,7 @@ import useAuthContext from '@contexts/Auth'
 import useAppContext from '@contexts/App'
 
 import ProfileForm from '@components/ProfileForm'
-import LogInFormTemp from '@components/LogInFormTemp'
+import LogInForm from '@components/LogInForm'
 import SignUpForm from '@components/SignUpForm'
 import InputLabel from '@components/InputLabel'
 import Button from '@components/Button'
@@ -51,7 +51,7 @@ const JoinScreen = () => {
       {displaySignUpForm ? (
         <SignUpForm />
       ) : (
-        <LogInFormTemp />
+        <LogInForm />
       )}
       <div className={styles.extra}>
         <a onClick={toggleSignUpForm}>
