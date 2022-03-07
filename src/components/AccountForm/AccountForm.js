@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react'
 import { useForm } from 'react-hook-form'
 import axios from 'axios'
+import qs from 'qs'
 
 import useAuthContext from '@contexts/Auth'
 
@@ -11,10 +12,9 @@ import InputError from '@components/InputError'
 import Button from '@components/Button'
 
 import { normalizeProfileApiData } from '@lib/profiles'
+import { ENDPOINTS } from '@lib/constants'
 
 import * as styles from './AccountForm.module.css'
-
-const PROFILES_ENDPOINT = `${process.env.NEXT_PUBLIC_API_URL}/api/profiles`
 
 const AccountForm = () => {
   const { register, handleSubmit, formState: { errors }, isSubmitting } = useForm()
@@ -24,13 +24,15 @@ const AccountForm = () => {
   const onSubmit = useCallback(async ({ name }) => {
     setApiError()
     try {
-      const { data: apiData } = await axios.put(`${PROFILES_ENDPOINT}/${profile.id}`, {
+      const queryProfile = qs.stringify({ populate: 'locations' })
+      const { data: apiData } = await axios.put(`${ENDPOINTS.PROFILES}/${profile.id}?${queryProfile}`, {
         data: {
           name,
         }
       })
       const updatedProfile = normalizeProfileApiData(apiData.data)
       setProfile(updatedProfile)
+      // to do: update 'profiles' collection
     } catch (error) {
       console.error(error)
       setApiError(error?.response?.data?.error?.message)
@@ -49,6 +51,7 @@ const AccountForm = () => {
           type="text"
           register={register("name", { required: true })}
           defaultValue={profile.name}
+          disabled={isSubmitting}
         />
         <InputError hasError={errors.name}>This field is required.</InputError>
       </InputLabel>

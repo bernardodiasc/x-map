@@ -6,6 +6,8 @@ import LocationForm from '@components/LocationForm'
 import Modal from '@components/Modal'
 import Button from '@components/Button'
 
+import { sortBySinceDate } from '@lib/locations'
+
 import * as styles from './LocationsForm.module.css'
 
 const LocationsForm = () => {

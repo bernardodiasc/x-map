@@ -7,11 +7,11 @@ import {
   normalizeProfilesApiData,
   normalizeProfileApiData,
 } from '@lib/profiles'
-
-const PROFILES_ENDPOINT = `${process.env.NEXT_PUBLIC_API_URL}/api/profiles`
+import { ENDPOINTS } from '@lib/constants'
 
 function useProfiles () {
-  const { data, error } = useSWR(PROFILES_ENDPOINT)
+    const queryProfile = qs.stringify({ populate: 'locations' })
+    const { data, error } = useSWR(`${ENDPOINTS.PROFILES}?${queryProfile}`)
 
   const [profile, setProfile] = useState(null)
   const [isLoadingProfile, setIsLoadingProfile] = useState(false)
@@ -21,13 +21,14 @@ function useProfiles () {
 
   const loadProfile = useCallback(async (email) => {
     setIsLoadingProfile(true)
-    const queryProfile = qs.stringify({ filters: { email } })
-    const { data: profileData } = await axios.get(`${PROFILES_ENDPOINT}?${queryProfile}`)
+    const queryProfile = qs.stringify({ filters: { email }, populate: 'locations' })
+    const { data: profileData } = await axios.get(`${ENDPOINTS.PROFILES}?${queryProfile}`)
+    // to do: catch errors
     if (profileData?.data && profileData?.data[0]) {
       const profile = normalizeProfileApiData(profileData.data[0])
       setProfile(profile)
-      setIsLoadedProfile(true)
     }
+    setIsLoadedProfile(true)
     setIsLoadingProfile(false)
   }, [])
 
@@ -38,7 +39,7 @@ function useProfiles () {
     isLoadingProfile,
     isLoadedProfile,
     profiles,
-    error
+    error,
   }
 }
 

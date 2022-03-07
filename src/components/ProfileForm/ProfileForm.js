@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react'
 import { useForm } from 'react-hook-form'
 import axios from 'axios'
+import qs from 'qs'
 
 import useAuthContext from '@contexts/Auth'
 
@@ -11,8 +12,7 @@ import InputError from '@components/InputError'
 import Button from '@components/Button'
 
 import { normalizeProfileApiData } from '@lib/profiles'
-
-const PROFILES_ENDPOINT = `${process.env.NEXT_PUBLIC_API_URL}/api/profiles`
+import { ENDPOINTS } from '@lib/constants'
 
 const ProfileForm = () => {
   const { register, handleSubmit, formState: { errors }, isSubmitting } = useForm()
@@ -22,7 +22,8 @@ const ProfileForm = () => {
   const onSubmit = useCallback(async ({ name }) => {
     setApiError()
     try {
-      const { data: apiData } = await axios.post(PROFILES_ENDPOINT, {
+      const queryProfile = qs.stringify({ populate: 'locations' })
+      const { data: apiData } = await axios.post(`${ENDPOINTS.PROFILES}?${queryProfile}`, {
         data: {
           name,
           email: user.email,
@@ -30,6 +31,7 @@ const ProfileForm = () => {
       })
       const newProfile = normalizeProfileApiData(apiData.data)
       setProfile(newProfile)
+      // to do: update 'profiles' collection
     } catch (error) {
       console.error(error)
       setApiError(error?.response?.data?.error?.message)
@@ -44,7 +46,11 @@ const ProfileForm = () => {
       errorMessage={apiError}
     >
       <InputLabel title="Full name:">
-        <InputField type="text" register={register("name", { required: true })} />
+        <InputField
+          type="text"
+          register={register("name", { required: true })}
+          disabled={isSubmitting}
+        />
         <InputError hasError={errors.name}>This field is required.</InputError>
       </InputLabel>
       <InputLabel>

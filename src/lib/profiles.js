@@ -1,8 +1,14 @@
-export const normalizeProfileApiData = profile => ({
-  id: profile.id,
-  name: profile.attributes.name,
-  email: profile.attributes.email,
-})
+import { normalizeLocationsApiData } from '@lib/locations'
+
+export const normalizeProfileApiData = profile => {
+  const locations = normalizeLocationsApiData(profile.attributes.locations)
+  return ({
+    id: profile.id,
+    name: profile.attributes.name,
+    email: profile.attributes.email,
+    locations,
+  })
+}
 
 export const normalizeProfilesApiData = apiData => apiData?.data
   ? apiData.data.map(normalizeProfileApiData)

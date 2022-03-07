@@ -1,26 +1,36 @@
-import { useCallback, useState } from 'react'
-import useSWR from 'swr'
+import { useState, useEffect } from 'react'
+import axios from 'axios'
 import qs from 'qs'
 
-import { normalizeLocationsApiData } from '@lib/locations'
+import useAuthContext from '@contexts/Auth'
 
-const LOCATIONS_ENDPOINT = `${process.env.NEXT_PUBLIC_API_URL}/api/locations`
+import { normalizeLocationsApiData } from '@lib/locations'
+import { ENDPOINTS } from '@lib/constants'
 
 function useLocations () {
-  const queryLocations = qs.stringify({
-    populate: {
-      profile: {
-        fields: ['id', 'name'],
-      },
-    }
-  })
-  const { data, error } = useSWR(`${LOCATIONS_ENDPOINT}?${queryLocations}`)
+  const { state: { profile } } = useAuthContext()
+  const [locations, setLocations] = useState(null)
 
-  const locations = normalizeLocationsApiData(data)
+  const loadProfileLocations = async () => {
+    const queryLocations = qs.stringify({
+      filters: {
+        profile: profile.id,
+      }
+    })
+    const { data } = await axios.get(`${ENDPOINTS.LOCATIONS}?${queryLocations}`)
+    // to do: catch errors
+    const locations = normalizeLocationsApiData(data)
+    setLocations(locations)
+  }
+
+  // useEffect(() => {
+  //   if (profile) {
+  //     loadProfileLocations()
+  //   }
+  // }, [profile])
 
   return {
     locations,
-    error,
   }
 }
 

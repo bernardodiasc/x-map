@@ -10,81 +10,80 @@ import InputLabel from '@components/InputLabel'
 import InputError from '@components/InputError'
 import Button from '@components/Button'
 
-// import { translateApiDataToLocation } from '@lib/profiles'
+import { normalizeLocationApiData } from '@lib/locations'
+import { ENDPOINTS } from '@lib/constants'
 
 import * as styles from './LocationForm.module.css'
-
-const LOCATIONS_ENDPOINT = `${process.env.NEXT_PUBLIC_API_URL}/api/locations`
 
 const LocationForm = ({ locationId, toggleLocationFormModal }) => {
   const { register, handleSubmit, formState: { errors }, isSubmitting } = useForm()
   const { state: { profile }, actions: { setProfile } } = useAuthContext()
   const [apiError, setApiError] = useState()
 
+  const getCoordinates = async ({ country, city, address }) => {
+    const { data: { results } } = await axios.get(
+      `${ENDPOINTS.GMAPS_GEOCODE}&address=${[country, city, address].join(' - ')}`,
+      {
+        transformRequest: (data, headers) => {
+          delete headers.common['Authorization']
+          return data
+        }
+      }
+    )
+    const { location } = results[0]?.geometry
+    const coordinates = [location.lng, location.lat]
+    return {
+      longitude: location.lng,
+      latitude: location.lat,
+    }
+  }
+
   const onSubmit = useCallback(async ({ country, city, address, since, until }) => {
     setApiError()
-    if (locationId === 'new') {
-      try {
-        const { data: apiData } = await axios.post(LOCATIONS_ENDPOINT, {
-          data: {
-            country,
-            city,
-            address,
-            // since,
-            // until,
-            latitude: "-45.5638792",
-            longitude: "-23.024996",
-            profile: profile.id,
-          }
-        })
-        console.log(locationId, apiData)
-        // setProfile({
-        //   id: apiData.data.id,
-        //   name: apiData.data.attributes.name,
-        //   email: apiData.data.attributes.email,
-        //   locations: {
-        //     ...profile.locations,
-        //     // ...translateApiDataToLocation(apiData),
-        //   }
-        // })
-      } catch (error) {
-        console.error(error)
-        setApiError(error?.response?.data?.error?.message)
-      }
-    } else {
-      try {
-        const { data: apiData } = await axios.put(`${LOCATIONS_ENDPOINT}/${locationId}`, {
-          data: {
-            country,
-            city,
-            address,
-            // since,
-            // until,
-            profile: profile.id,
-          }
-        })
-        console.log(locationId, apiData)
-        // setProfile({
-        //   id: apiData.data.id,
-        //   name: apiData.data.attributes.name,
-        //   email: apiData.data.attributes.email,
-        // })
-      } catch (error) {
-        console.error(error)
-        setApiError(error?.response?.data?.error?.message)
-      }
-    }
-  }, [locationId, profile.id])
 
-  // address: "Rua Abissínia, 82"
-  // city: "Taubaté"
-  // coordinates: (2) [-45.5638792, -23.024996]
-  // country: "Brazil"
-  // id: 1
-  // latitude: "-45.5638792"
-  // longitude: "-23.024996"
-  // since: "2021-03-01"
-  // until: null
+    const isNew = locationId === 'new'
+    const action = isNew ? {
+      method: axios.post,
+      endpoint: ENDPOINTS.LOCATIONS,
+    } : {
+      method: axios.put,
+      endpoint: `${ENDPOINTS.LOCATIONS}/${locationId}`,
+    }
+
+    const { latitude, longitude } = await getCoordinates({ country, city, address })
+
+    try {
+      const { data: apiData } = await action.method(action.endpoint, {
+        data: {
+          country,
+          city,
+          address,
+          since: since !== '' ? since : undefined,
+          until: until !== '' ? until : undefined,
+          latitude: String(latitude),
+          longitude: String(longitude),
+          profile: profile.id,
+        }
+      })
+      const locations = isNew
+        ? [
+          ...profile.locations,
+          normalizeLocationApiData(apiData.data),
+        ] : [
+          ...profile.locations.map(location => location.id === apiData.data.id ? normalizeLocationApiData(apiData.data) : location)
+        ]
+      const updatedProfile = {
+        ...profile,
+        locations,
+      }
+      setProfile(updatedProfile)
+      // to do: update 'profiles' collection
+      toggleLocationFormModal(false)
+    } catch (error) {
+      console.error(error)
+      setApiError(error?.response?.data?.error?.message)
+    }
+  }, [locationId, profile, setProfile, toggleLocationFormModal])
 
   const handleDiscardLocation = () => {
     toggleLocationFormModal(false)
@@ -92,7 +91,6 @@ const LocationForm = ({ locationId, toggleLocationFormModal }) => {
 
   const location = profile.locations.find(location => location.id === locationId) || {}
 
-  console.log(profile)
   return (
     <Form
       title={`Add location`}
@@ -105,6 +103,7 @@ const LocationForm = ({ locationId, toggleLocationFormModal }) => {
           type="text"
           register={register("country", { required: true })}
           defaultValue={location.country}
+          disabled={isSubmitting}
         />
         <InputError hasError={errors.country}>This field is required.</InputError>
       </InputLabel>
@@ -113,6 +112,7 @@ const LocationForm = ({ locationId, toggleLocationFormModal }) => {
           type="text"
           register={register("city")}
           defaultValue={location.city}
+          disabled={isSubmitting}
         />
       </InputLabel>
       <InputLabel title="Address:">
@@ -120,6 +120,7 @@ const LocationForm = ({ locationId, toggleLocationFormModal }) => {
           type="text"
           register={register("address")}
           defaultValue={location.address}
+          disabled={isSubmitting}
         />
       </InputLabel>
       <InputLabel title="Since:">
@@ -127,6 +128,7 @@ const LocationForm = ({ locationId, toggleLocationFormModal }) => {
           type="date"
           register={register("since")}
           defaultValue={location.since}
+          disabled={isSubmitting}
         />
       </InputLabel>
       <InputLabel title="Until:">
@@ -134,14 +136,11 @@ const LocationForm = ({ locationId, toggleLocationFormModal }) => {
           type="date"
           register={register("until")}
           defaultValue={location.until}
+          disabled={isSubmitting}
         />
       </InputLabel>
-      <InputLabel>
-        <Button type="submit" wide disabled={isSubmitting}>Save</Button>
-      <InputLabel>
-      </InputLabel>
-        <Button type="button" wide disabled={isSubmitting} onClick={handleDiscardLocation}>Discard</Button>
-      </InputLabel>
+      <Button type="submit" wide disabled={isSubmitting}>Save</Button>
+      <Button type="button" wide disabled={isSubmitting} onClick={handleDiscardLocation}>Discard</Button>
     </Form>
   )
 }

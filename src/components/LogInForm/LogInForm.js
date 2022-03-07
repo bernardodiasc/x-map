@@ -10,7 +10,7 @@ import InputLabel from '@components/InputLabel'
 import InputError from '@components/InputError'
 import Button from '@components/Button'
 
-const LOG_IN_ENDPOINT = `${process.env.NEXT_PUBLIC_API_URL}/api/auth/local`
+import { ENDPOINTS } from '@lib/constants'
 
 const LogInForm = () => {
   const { register, handleSubmit, formState: { errors }, isSubmitting } = useForm()
@@ -20,7 +20,7 @@ const LogInForm = () => {
   const onSubmit = useCallback(async ({ identifier, password }) => {
     setApiError()
     try {
-      const { data } = await axios.post(LOG_IN_ENDPOINT, {
+      const { data } = await axios.post(ENDPOINTS.LOG_IN, {
         identifier,
         password,
       })
@@ -38,11 +38,19 @@ const LogInForm = () => {
       errorMessage={apiError}
     >
       <InputLabel title="Email:">
-        <InputField type="text" register={register("identifier", { required: true })} />
+        <InputField
+          type="text"
+          register={register("identifier", { required: true })}
+          disabled={isSubmitting}
+        />
         <InputError hasError={errors.identifier}>This field is required.</InputError>
       </InputLabel>
       <InputLabel title="Password:">
-        <InputField type="password" register={register("password", { required: true })} />
+        <InputField
+          type="password"
+          register={register("password", { required: true })}
+          disabled={isSubmitting}
+        />
         <InputError hasError={errors.password}>This field is required.</InputError>
       </InputLabel>
       <InputLabel>
