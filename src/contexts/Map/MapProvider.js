@@ -5,7 +5,7 @@ import useAppContext from '@contexts/App'
 import { dataToGeoFeatureCollection } from '@lib/geo'
 
 const MapProvider = ({ children }) => {
-  const { collections } = useAppContext()
+  const { state: { collections } } = useAppContext()
 
   const featureCollection = collections.profiles
     ? dataToGeoFeatureCollection(collections.profiles)

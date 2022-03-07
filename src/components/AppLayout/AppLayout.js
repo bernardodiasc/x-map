@@ -11,7 +11,7 @@ import { MODAL_IDS } from '@lib/constants'
 import * as styles from './AppLayout.module.css'
 
 const AppLayout = ({ children }) => {
-  const { visibleModal, toggleVisibleModal } = useAppContext()
+  const { state: { visibleModal }, actions: { toggleVisibleModal } } = useAppContext()
 
   const modalContents = {
     [MODAL_IDS.JOIN_SCREEN]: <JoinScreen />,

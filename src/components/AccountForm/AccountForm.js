@@ -1,7 +1,6 @@
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
 import { useForm } from 'react-hook-form'
 import axios from 'axios'
-import qs from 'qs'
 
 import useAuthContext from '@contexts/Auth'
 
@@ -11,7 +10,7 @@ import InputLabel from '@components/InputLabel'
 import InputError from '@components/InputError'
 import Button from '@components/Button'
 
-import { translateApiDataToLocations } from '@hooks/useProfiles/utils'
+import { normalizeProfileApiData } from '@lib/profiles'
 
 import * as styles from './AccountForm.module.css'
 
@@ -19,29 +18,24 @@ const PROFILES_ENDPOINT = `${process.env.NEXT_PUBLIC_API_URL}/api/profiles`
 
 const AccountForm = () => {
   const { register, handleSubmit, formState: { errors }, isSubmitting } = useForm()
-  const { profile, setProfile } = useAuthContext()
+  const { state: { profile }, actions: { setProfile } } = useAuthContext()
   const [apiError, setApiError] = useState()
 
-  const onSubmit = async ({ name }) => {
+  const onSubmit = useCallback(async ({ name }) => {
     setApiError()
     try {
-      const query = qs.stringify({ populate: 'locations' })
-      const { data: apiData } = await axios.put(`${PROFILES_ENDPOINT}/${profile.id}?${query}`, {
+      const { data: apiData } = await axios.put(`${PROFILES_ENDPOINT}/${profile.id}`, {
         data: {
           name,
         }
       })
-      setProfile({
-        id: apiData.data.id,
-        name: apiData.data.attributes.name,
-        email: apiData.data.attributes.email,
-        locations: translateApiDataToLocations(apiData.data.attributes.locations),
-      })
+      const updatedProfile = normalizeProfileApiData(apiData.data)
+      setProfile(updatedProfile)
     } catch (error) {
       console.error(error)
       setApiError(error?.response?.data?.error?.message)
     }
-  }
+  }, [profile.id, setProfile])
 
   return (
     <Form

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 
 import useAuthContext from '@contexts/Auth'
 import useAppContext from '@contexts/App'
@@ -15,14 +15,14 @@ import { setAuthToken } from '@lib/auth'
 import * as styles from './JoinScreen.module.css'
 
 const JoinScreen = () => {
-  const { user, profile, isLoadingProfile } = useAuthContext()
-  const { toggleVisibleModal } = useAppContext()
+  const { state: { user, profile, isLoadingProfile } } = useAuthContext()
+  const { actions: { toggleVisibleModal } } = useAppContext()
   const [displaySignUpForm, setDisplaySignUpForm] = useState(false)
 
-  const toggleSignUpForm = e => {
+  const toggleSignUpForm = useCallback(e => {
     e.preventDefault()
     setDisplaySignUpForm(!displaySignUpForm)
-  }
+  }, [displaySignUpForm])
 
   useEffect(() => {
     if (profile) {

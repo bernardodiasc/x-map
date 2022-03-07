@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
 import { useForm } from 'react-hook-form'
 import axios from 'axios'
 
@@ -14,10 +14,10 @@ const SIGN_UP_ENDPOINT = `${process.env.NEXT_PUBLIC_API_URL}/api/auth/local/regi
 
 const SignUpForm = () => {
   const { register, handleSubmit, formState: { errors }, isSubmitting } = useForm()
-  const { logIn } = useAuthContext()
+  const { actions: { logIn } } = useAuthContext()
   const [apiError, setApiError] = useState()
 
-  const onSubmit = async ({ email, password }) => {
+  const onSubmit = useCallback(async ({ email, password }) => {
     setApiError()
     try {
       const { data } = await axios.post(SIGN_UP_ENDPOINT, {
@@ -30,7 +30,7 @@ const SignUpForm = () => {
       console.error(error)
       setApiError(error?.response?.data?.error?.message)
     }
-  }
+  }, [logIn])
 
   return (
     <Form

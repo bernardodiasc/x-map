@@ -14,8 +14,8 @@ import * as styles from './AppHeader.module.css'
 import logo from '@public/x-team-logo.svg'
 
 const AppHeader = () => {
-  const { token, logOut, profile } = useAuthContext()
-  const { toggleVisibleModal } = useAppContext()
+  const { state: { token, profile }, actions: { logOut } } = useAuthContext()
+  const { actions: { toggleVisibleModal } } = useAppContext()
 
   const LoggedControls = () => (
     <div className={styles.controls}>
