@@ -15,7 +15,7 @@ export const normalizeProfilesApiData = apiData => apiData?.data
   : undefined
 
 export const profilesWithCoordinatesFromLatestLocation = profiles => profiles?.reduce((acc, cur) => {
-  if (cur.locations.length === 0) {
+  if (cur?.locations?.length === 0) {
     return acc
   }
   const latestLocation = getLatestProfileLocation(cur.locations)
