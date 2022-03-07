@@ -1,4 +1,4 @@
-import { normalizeLocationsApiData } from '@lib/locations'
+import { normalizeLocationsApiData, getLatestProfileLocation } from '@lib/locations'
 
 export const normalizeProfileApiData = profile => {
   const locations = normalizeLocationsApiData(profile.attributes.locations)
@@ -14,21 +14,17 @@ export const normalizeProfilesApiData = apiData => apiData?.data
   ? apiData.data.map(normalizeProfileApiData)
   : undefined
 
-// export const translateApiDataToProfiles = apiData => apiData?.data
-//   ? apiData.data.map(profile => {
-//     // const locations = translateApiDataToLocations(profile.attributes.locations)
-//     // if (locations.length === 0) {
-//     //   return {
-//     //     id: profile.id,
-//     //     name: profile.attributes.name,
-//     //   }
-//     // }
-//     // const latestLocation = getLatestProfileLocation(locations)
-//     return {
-//       id: profile.id,
-//       name: profile.attributes.name,
-//       // location: latestLocation,
-//       // coordinates: latestLocation.coordinates,
-//     }
-//   })
-//   : undefined
+export const profilesWithCoordinatesFromLatestLocation = profiles => profiles?.reduce((acc, cur) => {
+  if (cur.locations.length === 0) {
+    return acc
+  }
+  const latestLocation = getLatestProfileLocation(cur.locations)
+  return [
+    ...acc,
+    {
+      ...cur,
+      location: latestLocation,
+      coordinates: latestLocation.coordinates,
+    }
+  ]
+}, [])

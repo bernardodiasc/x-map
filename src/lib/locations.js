@@ -13,8 +13,8 @@ export const normalizeLocationApiData = location => ({
   since: location.attributes.since,
   until: location.attributes.until,
   coordinates: [
-    Number(location.attributes.latitude),
     Number(location.attributes.longitude),
+    Number(location.attributes.latitude),
   ]
 })
 
