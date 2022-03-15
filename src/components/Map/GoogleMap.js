@@ -18,36 +18,17 @@ export default function MapContainer({ google, featureCollection }) {
   } = useMapContext()
   const [map, setMap] = useState()
 
-  useEffect(() => {
-    if (!googleMap) {
-      return null
-    }
-
-    if (selectedFeature) {
-      const lng = selectedFeature.coordinates[0]
-      const lat = selectedFeature.coordinates[1]
-      googleMap.setCenter({ lat, lng })
-      googleMap.setZoom(9)
-    } else {
-      googleMap.fitBounds(bounds)
-    }
-
-    googleMap.fitBounds(bounds)
-  }, [bounds, selectedFeature])
-
-  const bounds = useMemo(() => new google.maps.LatLngBounds(), [google])
-
   const loadGeoData = (mapProps, map) => {
     googleMap = map
 
     const markerClusterer = new MarkerClusterer(map, null, { imagePath: 'https://cdn.rawgit.com/googlemaps/js-marker-clusterer/gh-pages/images/m' })
     markerClusterer.setMap(map)
+    console.log(featureCollection)
 
     google.maps.event.addListener(map.data, 'addfeature', function (event) {
       if (event.feature.getGeometry().getType() === 'Point') {
         const marker = new google.maps.Marker({
           position: event.feature.getGeometry().get(),
-          title: event.feature.getProperty('name'),
           map: map
         })
 
@@ -59,14 +40,13 @@ export default function MapContainer({ google, featureCollection }) {
         }(marker, event))
 
         markerClusterer.addMarker(marker)
-        bounds.extend(event.feature.getGeometry().get())
-        map.fitBounds(bounds)
-        map.setCenter(event.feature.getGeometry().get())
       }
     })
 
     map.data.addGeoJson(featureCollection)
     map.data.setMap(null)
+    map.setCenter({ lat: 0, lng: 0 })
+    map.setZoom(2)
   }
 
   return (
