@@ -40,7 +40,7 @@ const LogInForm = () => {
       <InputLabel title="Email:">
         <InputField
           type="text"
-          register={register("identifier", { required: true })}
+          register={register('identifier', { required: true })}
           disabled={isSubmitting}
         />
         <InputError hasError={errors.identifier}>This field is required.</InputError>
@@ -48,7 +48,7 @@ const LogInForm = () => {
       <InputLabel title="Password:">
         <InputField
           type="password"
-          register={register("password", { required: true })}
+          register={register('password', { required: true })}
           disabled={isSubmitting}
         />
         <InputError hasError={errors.password}>This field is required.</InputError>

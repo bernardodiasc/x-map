@@ -28,7 +28,7 @@ function App({ Component, pageProps }) {
                 name="viewport"
                 content="width=device-width, initial-scale=1, shrink-to-fit=no"
               />
-              <title>X-Map | X-Team</title>
+              <title>X-World-Map | X-Team</title>
             </Head>
             <AppLayout>
               <Component {...pageProps} />

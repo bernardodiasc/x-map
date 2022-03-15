@@ -11,3 +11,8 @@ export const ENDPOINTS = {
   SIGN_UP: `${process.env.NEXT_PUBLIC_API_URL}/api/auth/local/register`,
   GMAPS_GEOCODE: `https://maps.googleapis.com/maps/api/geocode/json?key=${process.env.NEXT_PUBLIC_GMAPS_API_KEY}`,
 }
+
+export const COLLECTIONS = {
+  PROFILES: 'PROFILES',
+  EVENTS: 'EVENTS',
+}

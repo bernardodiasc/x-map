@@ -6,3 +6,8 @@
 .component > * {
   margin: 2px 0;
 }
+
+.required {
+  color: red;
+  margin-left: 4px;
+}

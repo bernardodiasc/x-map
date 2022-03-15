@@ -17,20 +17,20 @@ const ProfileCard = ({ profile, inAccordion }) => (
     {profile.timezone && (
       <p className={styles.paragraph}><strong>Timezone: </strong> {profile.timezone}</p>
     )}
-    {profile.networks?.github && (
-      <p className={styles.paragraph}><strong>GitHub: </strong> <a href={`https://github.com/${profile.networks.github}`} target="_blank" rel="noreferrer">{profile.networks.github}</a></p>
+    {profile.github && (
+      <p className={styles.paragraph}><strong>GitHub: </strong> <a href={`https://github.com/${profile.github}`} target="_blank" rel="noreferrer">{profile.github}</a></p>
     )}
-    {profile.networks?.stackoverflow && (
-      <p className={styles.paragraph}><strong>StackOverflow: </strong> <a href={`https://stackoverflow.com/users/${profile.networks.stackoverflow}`} target="_blank" rel="noreferrer">{profile.networks.stackoverflow}</a></p>
+    {profile.stackoverflow && (
+      <p className={styles.paragraph}><strong>StackOverflow: </strong> <a href={`https://stackoverflow.com/users/${profile.stackoverflow}`} target="_blank" rel="noreferrer">{profile.stackoverflow}</a></p>
     )}
-    {profile.networks?.linkedin && (
-      <p className={styles.paragraph}><strong>LinkedIn: </strong> <a href={`https://linkedin.com/in/${profile.networks.linkedin}`} target="_blank" rel="noreferrer">{profile.networks.linkedin}</a></p>
+    {profile.linkedin && (
+      <p className={styles.paragraph}><strong>LinkedIn: </strong> <a href={`https://linkedin.com/in/${profile.linkedin}`} target="_blank" rel="noreferrer">{profile.linkedin}</a></p>
     )}
-    {profile.networks?.twitter && (
-      <p className={styles.paragraph}><strong>Twitter: </strong> <a href={`https://twitter.com/${profile.networks.twitter}`} target="_blank" rel="noreferrer">{profile.networks.twitter}</a></p>
+    {profile.twitter && (
+      <p className={styles.paragraph}><strong>Twitter: </strong> <a href={`https://twitter.com/${profile.twitter}`} target="_blank" rel="noreferrer">{profile.twitter}</a></p>
     )}
-    {profile.networks?.instagram && (
-      <p className={styles.paragraph}><strong>Instagram: </strong> <a href={`https://instagram.com/${profile.networks.instagram}`} target="_blank" rel="noreferrer">{profile.networks.instagram}</a></p>
+    {profile.instagram && (
+      <p className={styles.paragraph}><strong>Instagram: </strong> <a href={`https://instagram.com/${profile.instagram}`} target="_blank" rel="noreferrer">{profile.instagram}</a></p>
     )}
   </div>
 )

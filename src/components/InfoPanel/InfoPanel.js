@@ -1,16 +1,18 @@
 import { useState, useEffect } from 'react'
 import Draggable from 'react-draggable'
 
-import EventInfo from '@components/EventInfo'
 import ProfileInfo from '@components/ProfileInfo'
+import EventInfo from '@components/EventInfo'
 
-import useAppContext from '@contexts/App'
+import useMapContext from '@contexts/Map'
+
+import { COLLECTIONS } from '@lib/constants'
 
 import * as styles from './InfoPanel.module.css'
 
 const Panel = () => {
   const [visible, setVisible] = useState(true)
-  const { selectedFeature, setSelected } = useAppContext()
+  const { state: { selectedFeature, selectedCollection }, actions: { setSelectedFeature } } = useMapContext()
 
   useEffect(() => {
     if (selectedFeature) {
@@ -20,20 +22,21 @@ const Panel = () => {
 
   const close = () => {
     setVisible(false)
-    setSelected(null)
+    setSelectedFeature(null)
   }
 
-  // TO DO: allow to display "events" type
-  const Info = {
-    profile: ProfileInfo,
-    event: EventInfo,
+  const collectionInfo = {
+    [COLLECTIONS.PROFILES]: ProfileInfo,
+    [COLLECTIONS.EVENTS]: EventInfo,
   }
+
+  const Info = collectionInfo[selectedCollection]
 
   return selectedFeature && visible ? (
     <Draggable>
       <section className={styles.info}>
         <div className={styles.close} onClick={close}>X</div>
-        <ProfileInfo />
+        <Info />
       </section>
     </Draggable>
   ) : null

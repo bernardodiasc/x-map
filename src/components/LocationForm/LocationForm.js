@@ -119,10 +119,10 @@ const LocationForm = ({ locationId, toggleLocationFormModal }) => {
       errorMessage={apiError}
       className={styles.component}
     >
-      <InputLabel title="Country:">
+      <InputLabel title="Country:" isRequired>
         <InputField
           type="text"
-          register={register("country", { required: true })}
+          register={register('country', { required: true })}
           defaultValue={location.country}
           disabled={isSubmitting}
         />
@@ -131,7 +131,7 @@ const LocationForm = ({ locationId, toggleLocationFormModal }) => {
       <InputLabel title="City:">
         <InputField
           type="text"
-          register={register("city")}
+          register={register('city')}
           defaultValue={location.city}
           disabled={isSubmitting}
         />
@@ -139,7 +139,7 @@ const LocationForm = ({ locationId, toggleLocationFormModal }) => {
       <InputLabel title="Address:">
         <InputField
           type="text"
-          register={register("address")}
+          register={register('address')}
           defaultValue={location.address}
           disabled={isSubmitting}
         />
@@ -147,7 +147,7 @@ const LocationForm = ({ locationId, toggleLocationFormModal }) => {
       <InputLabel title="Since:">
         <InputField
           type="date"
-          register={register("since")}
+          register={register('since')}
           defaultValue={location.since}
           disabled={isSubmitting}
         />
@@ -155,7 +155,7 @@ const LocationForm = ({ locationId, toggleLocationFormModal }) => {
       <InputLabel title="Until:">
         <InputField
           type="date"
-          register={register("until")}
+          register={register('until')}
           defaultValue={location.until}
           disabled={isSubmitting}
         />

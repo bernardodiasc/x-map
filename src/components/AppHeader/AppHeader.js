@@ -21,7 +21,7 @@ const AppHeader = () => {
     <div className={styles.controls}>
       {profile && (
         <Button onClick={() => toggleVisibleModal(MODAL_IDS.LOCATIONS_FORM)}>
-          Add locations
+          Add location
         </Button>
       )}
       <Button onClick={() => toggleVisibleModal(profile ? MODAL_IDS.ACCOUNT_FORM : MODAL_IDS.JOIN_SCREEN)}>

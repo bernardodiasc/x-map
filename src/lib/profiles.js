@@ -6,6 +6,12 @@ export const normalizeProfileApiData = profile => {
     id: profile.id,
     name: profile.attributes.name,
     email: profile.attributes.email,
+    about: profile.attributes.about,
+    github: profile.attributes.github,
+    stackoverflow: profile.attributes.stackoverflow,
+    linkedin: profile.attributes.linkedin,
+    twitter: profile.attributes.twitter,
+    instagram: profile.attributes.instagram,
     locations,
   })
 }

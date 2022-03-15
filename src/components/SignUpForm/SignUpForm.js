@@ -41,7 +41,7 @@ const SignUpForm = () => {
       <InputLabel title="Email:">
         <InputField
           type="text"
-          register={register("email", { required: true })}
+          register={register('email', { required: true })}
           disabled={isSubmitting}
         />
         <InputError hasError={errors.email}>This field is required.</InputError>
@@ -49,7 +49,7 @@ const SignUpForm = () => {
       <InputLabel title="Password:">
         <InputField
           type="password"
-          register={register("password", { required: true })}
+          register={register('password', { required: true })}
           disabled={isSubmitting}
         />
         <InputError hasError={errors.password}>This field is required.</InputError>

@@ -2,7 +2,7 @@ import { useEffect, useState, useMemo } from 'react'
 import { Map } from 'google-maps-react'
 import { MarkerClusterer } from "@googlemaps/markerclusterer"
 
-import useAppContext from '@contexts/App'
+import useMapContext from '@contexts/Map'
 
 const mapStyles = {
   width: '100%',
@@ -12,7 +12,7 @@ const mapStyles = {
 let googleMap
 
 export default function MapContainer({ google, featureCollection }) {
-  // const { setSelected, selectedFeature } = useAppContext()
+  const { state: { selectedFeature }, actions: { setSelectedFeature } } = useMapContext()
   const [map, setMap] = useState()
 
   useEffect(() => {
@@ -50,9 +50,8 @@ export default function MapContainer({ google, featureCollection }) {
 
         google.maps.event.addListener(marker, 'click', function (marker, event) {
           return function() {
-            // const type = event.feature.getProperty('type')
-            // const location = event.feature.getProperty('location')
-            // setSelected({ type, location })
+            const id = event.feature.getProperty('id')
+            setSelectedFeature(id)
           }
         }(marker, event))
 

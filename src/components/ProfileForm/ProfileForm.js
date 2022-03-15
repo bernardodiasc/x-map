@@ -48,7 +48,7 @@ const ProfileForm = () => {
       <InputLabel title="Full name:">
         <InputField
           type="text"
-          register={register("name", { required: true })}
+          register={register('name', { required: true })}
           disabled={isSubmitting}
         />
         <InputError hasError={errors.name}>This field is required.</InputError>

@@ -5,6 +5,7 @@ import Modal from '@components/Modal'
 import JoinScreen from '@components/JoinScreen'
 import LocationsForm from '@components/LocationsForm'
 import AccountForm from '@components/AccountForm'
+import InfoPanel from '@components/InfoPanel'
 
 import { MODAL_IDS } from '@lib/constants'
 
@@ -32,6 +33,7 @@ const AppLayout = ({ children }) => {
           {modalContents[visibleModal]}
         </Modal>
       )}
+      <InfoPanel />
     </main>
   )
 }
