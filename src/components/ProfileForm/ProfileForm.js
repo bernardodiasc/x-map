@@ -14,44 +14,108 @@ import Button from '@components/Button'
 import { normalizeProfileApiData } from '@lib/profiles'
 import { ENDPOINTS } from '@lib/constants'
 
+import * as styles from './ProfileForm.module.css'
+
 const ProfileForm = () => {
   const { register, handleSubmit, formState: { errors }, isSubmitting } = useForm()
-  const { state: { user }, actions: { setProfile } } = useAuthContext()
+  const { state: { profile }, actions: { setProfile } } = useAuthContext()
   const [apiError, setApiError] = useState()
 
-  const onSubmit = useCallback(async ({ name }) => {
+  const onSubmit = useCallback(async ({
+    name,
+    about,
+    github,
+    stackoverflow,
+    linkedin,
+    twitter,
+    instagram,
+  }) => {
     setApiError()
     try {
       const queryProfile = qs.stringify({ populate: 'locations' })
-      const { data: apiData } = await axios.post(`${ENDPOINTS.PROFILES}?${queryProfile}`, {
+      const { data: apiData } = await axios.put(`${ENDPOINTS.PROFILES}/${profile.id}?${queryProfile}`, {
         data: {
           name,
-          email: user.email,
+          about,
+          github,
+          stackoverflow,
+          linkedin,
+          twitter,
+          instagram,
         }
       })
-      const newProfile = normalizeProfileApiData(apiData.data)
-      setProfile(newProfile)
+      const updatedProfile = normalizeProfileApiData(apiData.data)
+      setProfile(updatedProfile)
       // to do: update 'profiles' collection
     } catch (error) {
       console.error(error)
       setApiError(error?.response?.data?.error?.message)
     }
-  }, [setProfile, user.email])
+  }, [profile.id, setProfile])
 
   return (
     <Form
-      title="Welcome!"
-      description="Please fill up some more info before proceed :)"
+      title={`Hello ${profile.name}`}
       onSubmit={handleSubmit(onSubmit)}
       errorMessage={apiError}
+      className={styles.component}
     >
-      <InputLabel title="Full name:">
+      <InputLabel title="Full name:" isRequired>
         <InputField
           type="text"
           register={register('name', { required: true })}
+          defaultValue={profile.name}
           disabled={isSubmitting}
         />
         <InputError hasError={errors.name}>This field is required.</InputError>
+      </InputLabel>
+      <InputLabel title="About me:">
+        <InputField
+          type="text"
+          register={register('about')}
+          defaultValue={profile.about}
+          disabled={isSubmitting}
+        />
+      </InputLabel>
+      <InputLabel title="GitHub:">
+        <InputField
+          type="text"
+          register={register('github')}
+          defaultValue={profile.github}
+          disabled={isSubmitting}
+        />
+      </InputLabel>
+      <InputLabel title="StackOverflow:">
+        <InputField
+          type="text"
+          register={register('stackoverflow')}
+          defaultValue={profile.stackoverflow}
+          disabled={isSubmitting}
+        />
+      </InputLabel>
+      <InputLabel title="LinkedIn:">
+        <InputField
+          type="text"
+          register={register('linkedin')}
+          defaultValue={profile.linkedin}
+          disabled={isSubmitting}
+        />
+      </InputLabel>
+      <InputLabel title="Twitter:">
+        <InputField
+          type="text"
+          register={register('twitter')}
+          defaultValue={profile.twitter}
+          disabled={isSubmitting}
+        />
+      </InputLabel>
+      <InputLabel title="Instagram:">
+        <InputField
+          type="text"
+          register={register('instagram')}
+          defaultValue={profile.instagram}
+          disabled={isSubmitting}
+        />
       </InputLabel>
       <InputLabel>
         <Button type="submit" wide disabled={isSubmitting}>Save</Button>

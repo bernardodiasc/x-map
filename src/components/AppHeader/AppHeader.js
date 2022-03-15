@@ -24,7 +24,7 @@ const AppHeader = () => {
           Add location
         </Button>
       )}
-      <Button onClick={() => toggleVisibleModal(profile ? MODAL_IDS.ACCOUNT_FORM : MODAL_IDS.JOIN_SCREEN)}>
+      <Button onClick={() => toggleVisibleModal(profile ? MODAL_IDS.PROFILE_FORM : MODAL_IDS.JOIN_SCREEN)}>
         Update your profile
       </Button>
       <Button onClick={logOut}>

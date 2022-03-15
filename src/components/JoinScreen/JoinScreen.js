@@ -3,7 +3,7 @@ import { useState, useEffect, useCallback } from 'react'
 import useAuthContext from '@contexts/Auth'
 import useAppContext from '@contexts/App'
 
-import ProfileForm from '@components/ProfileForm'
+import AccountForm from '@components/AccountForm'
 import LogInForm from '@components/LogInForm'
 import SignUpForm from '@components/SignUpForm'
 import InputLabel from '@components/InputLabel'
@@ -41,7 +41,7 @@ const JoinScreen = () => {
   if (user) {
     return (
       <div className={styles.component}>
-        <ProfileForm />
+        <AccountForm />
       </div>
     )
   }
