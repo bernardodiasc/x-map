@@ -2,6 +2,16 @@
   margin: 30px;
 }
 
+.title {
+  text-align: center;
+  margin: 0 0 20px;
+}
+
+.question {
+  font-size: 1.3em;
+  font-style: italic;
+}
+
 .component a {
   text-decoration: underline;
 }

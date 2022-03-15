@@ -19,9 +19,10 @@ const FrequentlyAskedQuestions = () => {
 
   return (
     <div className={styles.component}>
+      <h1 className={styles.title}>Frequently Asked Questions</h1>
       {data.map(item => (
         <div key={`faq-${item.id}`}>
-          <h1>{item.attributes.question}</h1>
+          <h2 className={styles.question}>{item.attributes.question}</h2>
           <Markdown>{item.attributes.answer}</Markdown>
         </div>
       ))}
