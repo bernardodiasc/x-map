@@ -5,6 +5,7 @@ import Modal from '@components/Modal'
 import JoinScreen from '@components/JoinScreen'
 import LocationsForm from '@components/LocationsForm'
 import ProfileForm from '@components/ProfileForm'
+import FrequentlyAskedQuestions from '@components/FrequentlyAskedQuestions'
 import InfoPanel from '@components/InfoPanel'
 
 import { MODAL_IDS } from '@lib/constants'
@@ -18,6 +19,7 @@ const AppLayout = ({ children }) => {
     [MODAL_IDS.JOIN_SCREEN]: <JoinScreen />,
     [MODAL_IDS.LOCATIONS_FORM]: <LocationsForm />,
     [MODAL_IDS.PROFILE_FORM]: <ProfileForm />,
+    [MODAL_IDS.FAQ]: <FrequentlyAskedQuestions />,
   }
 
   return (

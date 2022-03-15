@@ -1,22 +1,28 @@
-# X-Map
+# X-World-Map
 
-This is a proof of concept for X-Team's global map. Be advised that it's on very early stage but opended for contributions.
+World map to display people, events, travels and more.
 
-## Local development
-
-### Getting Started
+## Getting Started
 
 First create a `.env.local` in the root of this project and add the keys:
 
-#### Google Maps API
+### X-World-Map API
+
+```
+NEXT_PUBLIC_API_URL=http://localhost:1337
+```
+
+The URL refers to the setup https://github.com/bernardodiasc/x-world-map-api
+
+### Google Maps API
 
 ```
 NEXT_PUBLIC_GMAPS_API_KEY
 ```
 
-The Google Maps API key is required to appropriatedly load the map. In order to get the key you must create a new project at Google Cloud, then activate the Google Maps API for this new project, and also add Billing details, see more:
+The Google Maps API key is required to appropriatedly load the map. In order to get the key you must create a new project at Google Cloud, then activate the **Maps Javascript API** and **Geocoding API** for this new project. It will require to add Billing details, but no worries, for development purposes it should stay below the charged range.
 
-#### Development
+### Development
 
 Install dependencies:
 
@@ -26,34 +32,8 @@ yarn install
 
 Run the app:
 
+> Make sure you have the [x-world-map-api](https://github.com/bernardodiasc/x-world-map-api) running also
+
 ```bash
-yarn dev
+yarn develop
 ```
-
-## Adding your profile
-
-If you want to add your geographic information to the map, please submit a PR adding a new folder named with your slack handle at https://github.com/bernardodiasc/x-map/tree/master/public/data. Inside this newly created folder it's expected to have an `avatar.jpg` and a `profile.json`.
-
-At this stage the project is very simple and the shape of your profile must be like that:
-
-```json
-{
-  "uid": "bernardo",
-  "name": "Bernardo Dias da Cruz",
-  "location": {
-    "country": "Brazil",
-    "city": "Ubatuba"
-  }
-}
-```
-
-Then remember to import and export your profile in the https://github.com/bernardodiasc/x-map/tree/master/public/data/index.js.
-
-### Presentatation and features
-
-Prototype (just a draft): https://www.figma.com/file/KSnkYUzmLP06jbv0vhTMrU/X-MAP?node-id=0%3A1
-
-Contributors:
-
-- Bernardo Dias (developer)
-- Felipe Dias (designer)
