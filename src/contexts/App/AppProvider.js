@@ -5,6 +5,7 @@ import AppContext from './AppContext'
 import useAuthContext from '@contexts/Auth'
 
 import useProfiles from '@hooks/useProfiles'
+import useEvents from '@hooks/useEvents'
 import useModal from '@hooks/useModal'
 
 import { MODAL_IDS } from '@lib/constants'
@@ -12,11 +13,13 @@ import { MODAL_IDS } from '@lib/constants'
 const AppProvider = ({ children }) => {
   const { state: { token, user, profile, isLoadedProfile } } = useAuthContext()
   const { profiles } = useProfiles()
+  const { events } = useEvents()
   const { visibleModal, toggleVisibleModal } = useModal()
 
   const collections = useMemo(() => ({
     profiles,
-  }), [profiles])
+    events,
+  }), [profiles, events])
 
   useEffect(() => {
     if (token && user && !profile && isLoadedProfile) {

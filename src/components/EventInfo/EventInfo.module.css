@@ -1,1 +1,7 @@
-.component {}
+.component {
+  margin: 30px;
+}
+
+.title {
+  text-align: center;
+}

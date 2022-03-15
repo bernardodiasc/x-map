@@ -1,8 +1,8 @@
-import { normalizeLocationsApiData, getLatestProfileLocation } from '@lib/locations'
+import { normalizeLocationsApiData, getLatestLocation } from '@lib/locations'
 
 export const normalizeProfileApiData = profile => {
   const locations = normalizeLocationsApiData(profile.attributes.locations)
-  return ({
+  const normalizedProfile = {
     id: profile.id,
     name: profile.attributes.name,
     email: profile.attributes.email,
@@ -13,7 +13,8 @@ export const normalizeProfileApiData = profile => {
     twitter: profile.attributes.twitter,
     instagram: profile.attributes.instagram,
     locations,
-  })
+  }
+  return normalizedProfile
 }
 
 export const normalizeProfilesApiData = apiData => apiData?.data
@@ -24,7 +25,7 @@ export const profilesWithCoordinatesFromLatestLocation = profiles => profiles?.r
   if (cur?.locations?.length === 0) {
     return acc
   }
-  const latestLocation = getLatestProfileLocation(cur.locations)
+  const latestLocation = getLatestLocation(cur.locations)
   return [
     ...acc,
     {

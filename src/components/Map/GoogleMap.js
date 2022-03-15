@@ -12,7 +12,10 @@ const mapStyles = {
 let googleMap
 
 export default function MapContainer({ google, featureCollection }) {
-  const { state: { selectedFeature }, actions: { setSelectedFeature } } = useMapContext()
+  const {
+    state: { selectedFeature },
+    actions: { setSelectedFeature }
+  } = useMapContext()
   const [map, setMap] = useState()
 
   useEffect(() => {
@@ -20,17 +23,17 @@ export default function MapContainer({ google, featureCollection }) {
       return null
     }
 
-    // if (selectedFeature) {
-    //   const lng = selectedFeature.coordinates[0]
-    //   const lat = selectedFeature.coordinates[1]
-    //   googleMap.setCenter({ lat, lng })
-    //   googleMap.setZoom(9)
-    // } else {
-    //   googleMap.fitBounds(bounds)
-    // }
+    if (selectedFeature) {
+      const lng = selectedFeature.coordinates[0]
+      const lat = selectedFeature.coordinates[1]
+      googleMap.setCenter({ lat, lng })
+      googleMap.setZoom(9)
+    } else {
+      googleMap.fitBounds(bounds)
+    }
 
     googleMap.fitBounds(bounds)
-  }, [bounds])
+  }, [bounds, selectedFeature])
 
   const bounds = useMemo(() => new google.maps.LatLngBounds(), [google])
 

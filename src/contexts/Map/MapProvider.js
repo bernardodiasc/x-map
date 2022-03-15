@@ -6,6 +6,7 @@ import useAppContext from '@contexts/App'
 
 import { dataToGeoFeatureCollection } from '@lib/geo'
 import { profilesWithCoordinatesFromLatestLocation } from '@lib/profiles'
+import { eventsWithCoordinatesFromFutureLocations } from '@lib/events'
 import { COLLECTIONS } from '@lib/constants'
 
 const MapProvider = ({ children }) => {
@@ -15,7 +16,7 @@ const MapProvider = ({ children }) => {
 
   const collectionsGeoData = {
     [COLLECTIONS.PROFILES]: profilesWithCoordinatesFromLatestLocation(collections.profiles),
-    [COLLECTIONS.EVENTS]: [],
+    [COLLECTIONS.EVENTS]: eventsWithCoordinatesFromFutureLocations(collections.events),
   }
 
   const featureCollection = dataToGeoFeatureCollection(collectionsGeoData[selectedCollection])

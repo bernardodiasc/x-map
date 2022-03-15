@@ -8,6 +8,8 @@ export const MODAL_IDS = {
 export const ENDPOINTS = {
   PROFILES: `${process.env.NEXT_PUBLIC_API_URL}/api/profiles`,
   LOCATIONS: `${process.env.NEXT_PUBLIC_API_URL}/api/locations`,
+  EVENTS: `${process.env.NEXT_PUBLIC_API_URL}/api/events`,
+  PARTICIPANTS: `${process.env.NEXT_PUBLIC_API_URL}/api/participants`,
   FAQ: `${process.env.NEXT_PUBLIC_API_URL}/api/frequently-asked-questions`,
   LOG_IN: `${process.env.NEXT_PUBLIC_API_URL}/api/auth/local`,
   SIGN_UP: `${process.env.NEXT_PUBLIC_API_URL}/api/auth/local/register`,
