@@ -8,7 +8,6 @@ import * as styles from './FrequentlyAskedQuestions.module.css'
 
 const FrequentlyAskedQuestions = () => {
   const { data, isLoading } = useFrequentlyAskedQuestions()
-  console.log(data, isLoading)
 
   if (isLoading) {
     return (

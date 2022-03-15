@@ -42,9 +42,9 @@ const AppHeader = () => {
             Join
           </Button>
         )}
-        {/* <Button onClick={() => toggleVisibleModal(MODAL_IDS.FAQ)}>
+        <Button onClick={() => toggleVisibleModal(MODAL_IDS.FAQ)}>
           ?
-        </Button> */}
+        </Button>
       </div>
     </div>
   )

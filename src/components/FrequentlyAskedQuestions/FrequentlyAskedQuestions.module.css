@@ -1,3 +1,11 @@
 .component {
   margin: 30px;
 }
+
+.component a {
+  text-decoration: underline;
+}
+
+.component a:hover {
+  text-decoration: none;
+}
