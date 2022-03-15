@@ -11,14 +11,26 @@ import { COLLECTIONS } from '@lib/constants'
 import * as styles from './InfoPanel.module.css'
 
 const Panel = () => {
-  const [visible, setVisible] = useState(true)
-  const { state: { selectedFeature, selectedCollection }, actions: { setSelectedFeature } } = useMapContext()
+  const {
+    state: { selectedFeature, selectedCollection },
+    actions: { setSelectedFeature }
+  } = useMapContext()
+  const [visible, setVisible] = useState(false)
+  const [currentCollection, setCurrentCollection] = useState(selectedCollection)
 
   useEffect(() => {
     if (selectedFeature) {
       setVisible(true)
     }
   }, [selectedFeature])
+
+  useEffect(() => {
+    if (selectedCollection !== currentCollection) {
+      setVisible(false)
+      setSelectedFeature(null)
+      setCurrentCollection(selectedCollection)
+    }
+  }, [currentCollection, selectedCollection, setSelectedFeature])
 
   const close = () => {
     setVisible(false)
@@ -32,7 +44,9 @@ const Panel = () => {
 
   const Info = collectionInfo[selectedCollection]
 
-  return selectedFeature && visible ? (
+  const isChangingCollection = selectedCollection !== currentCollection
+
+  return selectedFeature && visible && !isChangingCollection ? (
     <Draggable>
       <section className={styles.info}>
         <div className={styles.close} onClick={close}>X</div>

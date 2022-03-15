@@ -1,23 +1,37 @@
 import Markdown from 'markdown-to-jsx'
 
+import AccordionCards from '@components/AccordionCards'
+
 import useAppContext from '@contexts/App'
 import useMapContext from '@contexts/Map'
+
+import { getSelectedEvents } from '@lib/events'
 
 import * as styles from './EventInfo.module.css'
 
 const EventInfo = () => {
   const { state: { collections } } = useAppContext()
-  const { state: { selectedFeature, selectedCollection }, actions: { setSelectedFeature } } = useMapContext()
+  const { state: { selectedCoordinates } } = useMapContext()
 
-  const selectedEvent = collections.events.find(event => event.id === selectedFeature)
+  const selectedEvents = getSelectedEvents(collections.events, selectedCoordinates)
 
-  return (
-    <div className={styles.component}>
-      <h1 className={styles.title}>{selectedEvent.title}</h1>
-      {selectedEvent.info && (
-        <Markdown>{selectedEvent.info}</Markdown>
+  const EventCard = ({ item, inAccordion }) => (
+    <div>
+      {!inAccordion && (
+        <h1 className={styles.title}>{item.title}</h1>
+      )}
+      {item.info && (
+        <Markdown>{item.info}</Markdown>
       )}
     </div>
+  )
+
+  return (
+    <AccordionCards
+      Card={EventCard}
+      data={selectedEvents}
+      label='title'
+    />
   )
 }
 

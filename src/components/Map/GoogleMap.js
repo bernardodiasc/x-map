@@ -13,17 +13,14 @@ let googleMap
 
 export default function MapContainer({ google, featureCollection }) {
   const {
-    state: { selectedFeature },
-    actions: { setSelectedFeature }
+    actions: { setSelectedFeature, setSelectedCoordinates }
   } = useMapContext()
-  const [map, setMap] = useState()
 
   const loadGeoData = (mapProps, map) => {
     googleMap = map
 
     const markerClusterer = new MarkerClusterer(map, null, { imagePath: 'https://cdn.rawgit.com/googlemaps/js-marker-clusterer/gh-pages/images/m' })
     markerClusterer.setMap(map)
-    console.log(featureCollection)
 
     google.maps.event.addListener(map.data, 'addfeature', function (event) {
       if (event.feature.getGeometry().getType() === 'Point') {
@@ -35,6 +32,8 @@ export default function MapContainer({ google, featureCollection }) {
         google.maps.event.addListener(marker, 'click', function (marker, event) {
           return function() {
             const id = event.feature.getProperty('id')
+            const coordinates = event.feature.getProperty('coordinates')
+            setSelectedCoordinates(coordinates)
             setSelectedFeature(id)
           }
         }(marker, event))
@@ -43,8 +42,8 @@ export default function MapContainer({ google, featureCollection }) {
       }
     })
 
-    map.data.addGeoJson(featureCollection)
     map.data.setMap(null)
+    map.data.addGeoJson(featureCollection)
     map.setCenter({ lat: 0, lng: 0 })
     map.setZoom(2)
   }

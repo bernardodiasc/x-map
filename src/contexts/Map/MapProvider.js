@@ -5,18 +5,19 @@ import MapContext from './MapContext'
 import useAppContext from '@contexts/App'
 
 import { dataToGeoFeatureCollection } from '@lib/geo'
-import { profilesWithCoordinatesFromLatestLocation } from '@lib/profiles'
-import { eventsWithCoordinatesFromFutureLocations } from '@lib/events'
+import { getProfilesWithCoordinatesFromLatestLocation } from '@lib/profiles'
+import { getEventsWithCoordinatesFromFutureLocations } from '@lib/events'
 import { COLLECTIONS } from '@lib/constants'
 
 const MapProvider = ({ children }) => {
   const { state: { collections } } = useAppContext()
   const [selectedCollection, setSelectedCollection] = useState(COLLECTIONS.PROFILES)
   const [selectedFeature, setSelectedFeature] = useState()
+  const [selectedCoordinates, setSelectedCoordinates] = useState()
 
   const collectionsGeoData = {
-    [COLLECTIONS.PROFILES]: profilesWithCoordinatesFromLatestLocation(collections.profiles),
-    [COLLECTIONS.EVENTS]: eventsWithCoordinatesFromFutureLocations(collections.events),
+    [COLLECTIONS.PROFILES]: getProfilesWithCoordinatesFromLatestLocation(collections.profiles),
+    [COLLECTIONS.EVENTS]: getEventsWithCoordinatesFromFutureLocations(collections.events),
   }
 
   const featureCollection = dataToGeoFeatureCollection(collectionsGeoData[selectedCollection])
@@ -28,10 +29,12 @@ const MapProvider = ({ children }) => {
           featureCollection,
           selectedCollection,
           selectedFeature,
+          selectedCoordinates,
         },
         actions: {
           setSelectedCollection,
           setSelectedFeature,
+          setSelectedCoordinates,
         },
       }}
     >

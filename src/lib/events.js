@@ -15,7 +15,7 @@ export const normalizeEventsApiData = apiData => apiData?.data
   ? apiData.data.map(normalizeEventApiData)
   : undefined
 
-export const eventsWithCoordinatesFromFutureLocations = events => events?.reduce((acc, cur) => {
+export const getEventsWithCoordinatesFromFutureLocations = events => events?.reduce((acc, cur) => {
   if (cur?.locations?.length === 0) {
     return acc
   }
@@ -29,5 +29,24 @@ export const eventsWithCoordinatesFromFutureLocations = events => events?.reduce
       location: location,
       coordinates: location.coordinates,
     }))
+  ]
+}, [])
+
+export const getSelectedEvents = (collection, selectedCoordinates) => collection.reduce((acc, cur) => {
+  const location = cur.locations.find(location => {
+    return location.coordinates[0] === selectedCoordinates[0]
+      && location.coordinates[1] === selectedCoordinates[1]
+  })
+  if (!location) {
+    return acc
+  }
+  return [
+    ...acc,
+    {
+      id: cur.id,
+      title: cur.title,
+      info: cur.info,
+      location
+    }
   ]
 }, [])
