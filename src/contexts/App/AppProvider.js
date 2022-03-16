@@ -6,6 +6,7 @@ import useAuthContext from '@contexts/Auth'
 
 import useProfiles from '@hooks/useProfiles'
 import useEvents from '@hooks/useEvents'
+import useFeatureFlags from '@hooks/useFeatureFlags'
 import useModal from '@hooks/useModal'
 
 import { MODAL_IDS } from '@lib/constants'
@@ -14,6 +15,7 @@ const AppProvider = ({ children }) => {
   const { state: { token, user, profile, isLoadedProfile } } = useAuthContext()
   const { profiles } = useProfiles()
   const { events } = useEvents()
+  const { features } = useFeatureFlags()
   const { visibleModal, toggleVisibleModal } = useModal()
 
   const collections = useMemo(() => ({
@@ -34,6 +36,7 @@ const AppProvider = ({ children }) => {
         state: {
           collections,
           visibleModal,
+          features,
         },
         actions: {
           toggleVisibleModal,

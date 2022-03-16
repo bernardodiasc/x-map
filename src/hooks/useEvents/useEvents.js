@@ -1,4 +1,3 @@
-import { useCallback, useState } from 'react'
 import useSWR from 'swr'
 import qs from 'qs'
 

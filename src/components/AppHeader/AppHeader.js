@@ -16,7 +16,7 @@ import logo from '@public/x-team-logo.svg'
 
 const AppHeader = () => {
   const { state: { token, profile }, actions: { logOut } } = useAuthContext()
-  const { actions: { toggleVisibleModal } } = useAppContext()
+  const { state: { features }, actions: { toggleVisibleModal } } = useAppContext()
   const { state: { selectedCollection }, actions: { setSelectedCollection } } = useMapContext()
 
   const collectionSelection = selectedCollection === COLLECTIONS.PROFILES ? {
@@ -33,7 +33,9 @@ const AppHeader = () => {
         <Image src={logo} width="109" alt="X-Team" />
       </div>
       <div className={styles.controls}>
-        <Button {...collectionSelection} />
+        {features?.EVENTS && (
+          <Button {...collectionSelection} />
+        )}
         {token ? (
           <Fragment>
             {profile && (
