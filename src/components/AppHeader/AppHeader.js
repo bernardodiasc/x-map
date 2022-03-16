@@ -28,16 +28,18 @@ const AppHeader = () => {
   }
 
   if (isLoadingApp) {
-    <div className={styles.component}>
-      <div className={styles.logo}>
-        <Image src={logo} width="109" alt="X-Team" />
+    return (
+      <div className={styles.component}>
+        <div className={styles.logo}>
+          <Image src={logo} width="109" alt="X-Team" />
+        </div>
+        <div className={styles.controls}>
+          <Button onClick={() => toggleVisibleModal(MODAL_IDS.FAQ)}>
+            ?
+          </Button>
+        </div>
       </div>
-      <div className={styles.controls}>
-        <Button onClick={() => toggleVisibleModal(MODAL_IDS.FAQ)}>
-          ?
-        </Button>
-      </div>
-    </div>
+    )
   }
 
   return (
