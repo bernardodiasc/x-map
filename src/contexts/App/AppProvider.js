@@ -18,6 +18,8 @@ const AppProvider = ({ children }) => {
   const { features } = useFeatureFlags()
   const { visibleModal, toggleVisibleModal } = useModal()
 
+  const isLoadingApp = (token && (!user || !isLoadedProfile)) || !profiles || !events || !features
+
   const collections = useMemo(() => ({
     profiles,
     events,
@@ -37,6 +39,7 @@ const AppProvider = ({ children }) => {
           collections,
           visibleModal,
           features,
+          isLoadingApp,
         },
         actions: {
           toggleVisibleModal,

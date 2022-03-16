@@ -16,7 +16,7 @@ import logo from '@public/x-team-logo.svg'
 
 const AppHeader = () => {
   const { state: { token, profile }, actions: { logOut } } = useAuthContext()
-  const { state: { features }, actions: { toggleVisibleModal } } = useAppContext()
+  const { state: { isLoadingApp, features }, actions: { toggleVisibleModal } } = useAppContext()
   const { state: { selectedCollection }, actions: { setSelectedCollection } } = useMapContext()
 
   const collectionSelection = selectedCollection === COLLECTIONS.PROFILES ? {
@@ -25,6 +25,19 @@ const AppHeader = () => {
   } : {
     onClick: () => setSelectedCollection(COLLECTIONS.PROFILES),
     children: 'View Profiles',
+  }
+
+  if (isLoadingApp) {
+    <div className={styles.component}>
+      <div className={styles.logo}>
+        <Image src={logo} width="109" alt="X-Team" />
+      </div>
+      <div className={styles.controls}>
+        <Button onClick={() => toggleVisibleModal(MODAL_IDS.FAQ)}>
+          ?
+        </Button>
+      </div>
+    </div>
   }
 
   return (
