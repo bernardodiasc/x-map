@@ -55,7 +55,7 @@ const AppHeader = () => {
           <Fragment>
             {profile && (
               <Button onClick={() => toggleVisibleModal(MODAL_IDS.LOCATIONS_FORM)}>
-                Add location
+                {features?.TRAVELS ? 'Update your locations' : 'Update your location'}
               </Button>
             )}
             <Button onClick={() => toggleVisibleModal(profile ? MODAL_IDS.PROFILE_FORM : MODAL_IDS.JOIN_SCREEN)}>

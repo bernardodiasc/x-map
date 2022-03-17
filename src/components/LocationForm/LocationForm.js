@@ -3,12 +3,14 @@ import axios from 'axios'
 import { useForm } from 'react-hook-form'
 
 import useAuthContext from '@contexts/Auth'
+import useAppContext from '@contexts/App'
 
 import Form from '@components/Form'
 import InputField from '@components/InputField'
 import InputLabel from '@components/InputLabel'
 import InputError from '@components/InputError'
 import Button from '@components/Button'
+import Loading from '@components/Loading'
 
 import { normalizeLocationApiData, sortBySinceDate } from '@lib/locations'
 import { ENDPOINTS } from '@lib/constants'
@@ -18,7 +20,10 @@ import * as styles from './LocationForm.module.css'
 const LocationForm = ({ locationId, toggleLocationFormModal }) => {
   const { register, handleSubmit, formState: { errors }, isSubmitting } = useForm()
   const { state: { profile }, actions: { setProfile } } = useAuthContext()
+  const { state: { features } } = useAppContext()
   const [apiError, setApiError] = useState()
+
+  const isNew = !locationId
 
   const getCoordinates = async ({ country, city, address }) => {
     const { data: { results } } = await axios.get(
@@ -41,7 +46,6 @@ const LocationForm = ({ locationId, toggleLocationFormModal }) => {
   const onSubmit = useCallback(async ({ country, city, address, since, until }) => {
     setApiError()
 
-    const isNew = locationId === 'new'
     const action = isNew ? {
       method: axios.post,
       endpoint: ENDPOINTS.LOCATIONS,
@@ -84,13 +88,12 @@ const LocationForm = ({ locationId, toggleLocationFormModal }) => {
       console.error(error)
       setApiError(error?.response?.data?.error?.message)
     }
-  }, [locationId, profile, setProfile, toggleLocationFormModal])
+  }, [isNew, locationId, profile, setProfile, toggleLocationFormModal])
 
   const handleDeleteLocation = async () => {
     setApiError()
     try {
       const { data: apiData } = await axios.delete(`${ENDPOINTS.LOCATIONS}/${locationId}`)
-      console.log(apiData)
       const updatedProfile = {
         ...profile,
         locations: [
@@ -112,9 +115,16 @@ const LocationForm = ({ locationId, toggleLocationFormModal }) => {
 
   const location = profile.locations.find(location => location.id === locationId) || {}
 
+  if (!isNew && !location?.id) {
+    return (
+      <Loading />
+    )
+  }
+
+
   return (
     <Form
-      title={`Add location`}
+      title="Update your location"
       onSubmit={handleSubmit(onSubmit)}
       errorMessage={apiError}
       className={styles.component}
@@ -144,25 +154,33 @@ const LocationForm = ({ locationId, toggleLocationFormModal }) => {
           disabled={isSubmitting}
         />
       </InputLabel>
-      <InputLabel title="Since:">
-        <InputField
-          type="date"
-          register={register('since')}
-          defaultValue={location.since}
-          disabled={isSubmitting}
-        />
-      </InputLabel>
-      <InputLabel title="Until:">
-        <InputField
-          type="date"
-          register={register('until')}
-          defaultValue={location.until}
-          disabled={isSubmitting}
-        />
-      </InputLabel>
+      {features?.TRAVELS && (
+        <>
+          <InputLabel title="Since:">
+            <InputField
+              type="date"
+              register={register('since')}
+              defaultValue={location.since}
+              disabled={isSubmitting}
+            />
+          </InputLabel>
+          <InputLabel title="Until:">
+            <InputField
+              type="date"
+              register={register('until')}
+              defaultValue={location.until}
+              disabled={isSubmitting}
+            />
+          </InputLabel>
+        </>
+      )}
       <Button type="submit" wide disabled={isSubmitting}>Save</Button>
-      <Button type="button" wide disabled={isSubmitting} onClick={handleDeleteLocation}>Delete</Button>
-      <Button type="button" wide disabled={isSubmitting} onClick={handleDiscardLocation}>Discard</Button>
+      {features?.TRAVELS && (
+        <>
+          <Button type="button" wide disabled={isSubmitting} onClick={handleDeleteLocation}>Delete</Button>
+          <Button type="button" wide disabled={isSubmitting} onClick={handleDiscardLocation}>Discard</Button>
+        </>
+      )}
     </Form>
   )
 }

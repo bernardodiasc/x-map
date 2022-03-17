@@ -1,9 +1,9 @@
 import { normalizeAttendeesApiData } from '@lib/attendees'
 
-export const getLatestLocation = locations => locations
-  .reduce((acc, cur) => (acc.since > cur.since ? acc : cur))
+export const getLatestLocation = (locations = []) => locations
+  .reduce((acc, cur) => (acc.since > cur.since ? acc : cur), {})
 
-export const getFutureLocations = locations => locations
+export const getFutureLocations = (locations = []) => locations
   .reduce((acc, cur) => {
     const isValid = !cur.until || new Date(cur.until) >= new Date()
     return isValid ? [...acc, cur] : acc
