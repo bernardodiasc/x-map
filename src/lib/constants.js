@@ -9,7 +9,7 @@ export const ENDPOINTS = {
   PROFILES: `${process.env.NEXT_PUBLIC_API_URL}/api/profiles`,
   LOCATIONS: `${process.env.NEXT_PUBLIC_API_URL}/api/locations`,
   EVENTS: `${process.env.NEXT_PUBLIC_API_URL}/api/events`,
-  PARTICIPANTS: `${process.env.NEXT_PUBLIC_API_URL}/api/participants`,
+  ATTENDEES: `${process.env.NEXT_PUBLIC_API_URL}/api/attendees`,
   FAQ: `${process.env.NEXT_PUBLIC_API_URL}/api/frequently-asked-questions`,
   FEATURE_FLAGS: `${process.env.NEXT_PUBLIC_API_URL}/api/feature-flags`,
   LOG_IN: `${process.env.NEXT_PUBLIC_API_URL}/api/auth/local`,

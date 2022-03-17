@@ -1,4 +1,4 @@
-import { normalizeLocationsApiData, getFutureLocations } from '@lib/locations'
+import { normalizeLocationsApiData, getFutureLocations, getLocationByCoordinates } from '@lib/locations'
 
 export const normalizeEventApiData = event => {
   const locations = normalizeLocationsApiData(event.attributes.locations)
@@ -29,24 +29,5 @@ export const getEventsWithCoordinatesFromFutureLocations = events => events?.red
       location: location,
       coordinates: location.coordinates,
     }))
-  ]
-}, [])
-
-export const getSelectedEvents = (collection, selectedCoordinates) => collection.reduce((acc, cur) => {
-  const location = cur.locations.find(location => {
-    return location.coordinates[0] === selectedCoordinates[0]
-      && location.coordinates[1] === selectedCoordinates[1]
-  })
-  if (!location) {
-    return acc
-  }
-  return [
-    ...acc,
-    {
-      id: cur.id,
-      title: cur.title,
-      info: cur.info,
-      location
-    }
   ]
 }, [])

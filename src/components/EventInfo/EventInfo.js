@@ -5,7 +5,7 @@ import AccordionCards from '@components/AccordionCards'
 import useAppContext from '@contexts/App'
 import useMapContext from '@contexts/Map'
 
-import { getSelectedEvents } from '@lib/events'
+import { getRecordsByCoordinates } from '@lib/locations'
 
 import * as styles from './EventInfo.module.css'
 
@@ -13,7 +13,7 @@ const EventInfo = () => {
   const { state: { collections } } = useAppContext()
   const { state: { selectedCoordinates } } = useMapContext()
 
-  const selectedEvents = getSelectedEvents(collections.events, selectedCoordinates)
+  const selectedEvents = getRecordsByCoordinates(collections.events, selectedCoordinates)
 
   const EventCard = ({ item, inAccordion }) => (
     <div>

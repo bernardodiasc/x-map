@@ -37,3 +37,24 @@ export const normalizeLocationApiData = location => {
 export const normalizeLocationsApiData = apiData => apiData?.data
   ? apiData.data.map(normalizeLocationApiData).sort(sortBySinceDate)
   : undefined
+
+export const getLocationByCoordinates = (locations, selectedCoordinates) => locations
+  .find(location => {
+    return location.coordinates[0] === selectedCoordinates[0]
+      && location.coordinates[1] === selectedCoordinates[1]
+  })
+
+export const getRecordsByCoordinates = (collection, selectedCoordinates) => collection
+  .reduce((acc, cur) => {
+    const location = getLocationByCoordinates(cur.locations, selectedCoordinates)
+    if (!location) {
+      return acc
+    }
+    return [
+      ...acc,
+      {
+        ...cur,
+        location,
+      }
+    ]
+  }, [])
