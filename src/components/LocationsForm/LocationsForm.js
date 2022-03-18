@@ -13,7 +13,7 @@ import * as styles from './LocationsForm.module.css'
 
 const LocationsForm = () => {
   const { state: { profile } } = useAuthContext()
-  const { state: { features }, actions: { toggleVisibleModal } } = useAppContext()
+  const { state: { features } } = useAppContext()
   const [editingLocationId, setEditingLocationId] = useState(getLatestLocation(profile.locations)?.id)
   const [locationFormModal, toggleLocationFormModal] = useState(false)
 
@@ -60,7 +60,6 @@ const LocationsForm = () => {
   return (
     <LocationForm
       locationId={editingLocationId}
-      toggleLocationFormModal={toggleVisibleModal}
     />
   )
 }

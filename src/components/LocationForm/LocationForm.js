@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import axios from 'axios'
 import { useForm } from 'react-hook-form'
 
@@ -10,7 +10,6 @@ import InputField from '@components/InputField'
 import InputLabel from '@components/InputLabel'
 import InputError from '@components/InputError'
 import Button from '@components/Button'
-import Loading from '@components/Loading'
 
 import { normalizeLocationApiData, sortBySinceDate } from '@lib/locations'
 import { ENDPOINTS } from '@lib/constants'
@@ -20,10 +19,10 @@ import * as styles from './LocationForm.module.css'
 const LocationForm = ({ locationId, toggleLocationFormModal }) => {
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm()
   const { state: { profile }, actions: { setProfile } } = useAuthContext()
-  const { state: { features } } = useAppContext()
+  const { state: { features }, actions: { refetchCollections } } = useAppContext()
+  const [apiSuccess, setApiSuccess] = useState()
   const [apiError, setApiError] = useState()
-
-  const isNew = !locationId
+  const [location, setLocation] = useState(profile.locations.find(location => location.id === locationId) || {})
 
   const getCoordinates = async ({ country, city, address }) => {
     const { data: { results } } = await axios.get(
@@ -35,8 +34,13 @@ const LocationForm = ({ locationId, toggleLocationFormModal }) => {
         }
       }
     )
+    if (results.length === 0) {
+      return {
+        longitude: undefined,
+        latitude: undefined,
+      }
+    }
     const { location } = results[0]?.geometry
-    const coordinates = [location.lng, location.lat]
     return {
       longitude: location.lng,
       latitude: location.lat,
@@ -44,17 +48,25 @@ const LocationForm = ({ locationId, toggleLocationFormModal }) => {
   }
 
   const onSubmit = useCallback(async ({ country, city, address, since, until }) => {
+    setApiSuccess()
     setApiError()
+
+    const isNew = !locationId && !location?.id
 
     const action = isNew ? {
       method: axios.post,
       endpoint: ENDPOINTS.LOCATIONS,
     } : {
       method: axios.put,
-      endpoint: `${ENDPOINTS.LOCATIONS}/${locationId}`,
+      endpoint: `${ENDPOINTS.LOCATIONS}/${locationId || location.id}`,
     }
 
     const { latitude, longitude } = await getCoordinates({ country, city, address })
+
+    if (!latitude && !longitude) {
+      setApiError('Invalid location.')
+      return
+    }
 
     try {
       const { data: apiData } = await action.method(action.endpoint, {
@@ -75,22 +87,28 @@ const LocationForm = ({ locationId, toggleLocationFormModal }) => {
           normalizeLocationApiData(apiData.data),
         ].sort(sortBySinceDate)
         : [
-          ...profile.locations.map(location => location.id === apiData.data.id ? normalizeLocationApiData(apiData.data) : location)
+          ...profile.locations.map(location =>
+            location.id === apiData.data.id
+              ? normalizeLocationApiData(apiData.data)
+              : location
+            )
         ].sort(sortBySinceDate)
       const updatedProfile = {
         ...profile,
         locations,
       }
       setProfile(updatedProfile)
-      // to do: update 'profiles' collection
-      toggleLocationFormModal(false)
+      setLocation(normalizeLocationApiData(apiData.data))
+      setApiSuccess('You location was updated!')
+      refetchCollections()
+      toggleLocationFormModal && toggleLocationFormModal(false)
     } catch (error) {
       console.error(error)
       setApiError(error?.response?.data?.error?.message)
     }
-  }, [isNew, locationId, profile, setProfile, toggleLocationFormModal])
+  }, [location.id, locationId, profile, refetchCollections, setProfile, toggleLocationFormModal])
 
-  const handleDeleteLocation = async () => {
+  const handleDeleteLocation = useCallback(async () => {
     setApiError()
     try {
       const { data: apiData } = await axios.delete(`${ENDPOINTS.LOCATIONS}/${locationId}`)
@@ -101,30 +119,23 @@ const LocationForm = ({ locationId, toggleLocationFormModal }) => {
         ],
       }
       setProfile(updatedProfile)
-      // to do: update 'profiles' collection
+      refetchCollections()
       toggleLocationFormModal(false)
     } catch (error) {
       console.error(error)
       setApiError(error?.response?.data?.error?.message)
     }
-  }
+  }, [locationId, profile, refetchCollections, setProfile, toggleLocationFormModal])
 
   const handleDiscardLocation = () => {
     toggleLocationFormModal(false)
-  }
-
-  const location = profile.locations.find(location => location.id === locationId) || {}
-
-  if (!isNew && !location?.id) {
-    return (
-      <Loading />
-    )
   }
 
   return (
     <Form
       title="Update your location"
       onSubmit={handleSubmit(onSubmit)}
+      successMessage={apiSuccess}
       errorMessage={apiError}
       className={styles.component}
     >
@@ -173,11 +184,17 @@ const LocationForm = ({ locationId, toggleLocationFormModal }) => {
           </InputLabel>
         </>
       )}
-      <Button type="submit" wide disabled={isSubmitting}>Save</Button>
+      <Button type="submit" wide disabled={isSubmitting}>
+        {isSubmitting ? 'Saving...' : 'Save'}
+      </Button>
       {features?.TRAVELS && (
         <>
-          <Button type="button" wide disabled={isSubmitting} onClick={handleDeleteLocation}>Delete</Button>
-          <Button type="button" wide disabled={isSubmitting} onClick={handleDiscardLocation}>Discard</Button>
+          <Button type="button" wide disabled={isSubmitting} onClick={handleDeleteLocation}>
+            Delete
+          </Button>
+          <Button type="button" wide disabled={isSubmitting} onClick={handleDiscardLocation}>
+            Discard
+          </Button>
         </>
       )}
     </Form>

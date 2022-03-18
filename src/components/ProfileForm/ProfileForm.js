@@ -4,6 +4,7 @@ import axios from 'axios'
 import qs from 'qs'
 
 import useAuthContext from '@contexts/Auth'
+import useAppContext from '@contexts/App'
 
 import Form from '@components/Form'
 import InputField from '@components/InputField'
@@ -19,6 +20,8 @@ import * as styles from './ProfileForm.module.css'
 const ProfileForm = () => {
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm()
   const { state: { profile }, actions: { setProfile } } = useAuthContext()
+  const { actions: { refetchCollections } } = useAppContext()
+  const [apiSuccess, setApiSuccess] = useState()
   const [apiError, setApiError] = useState()
 
   const onSubmit = useCallback(async ({
@@ -30,6 +33,7 @@ const ProfileForm = () => {
     twitter,
     instagram,
   }) => {
+    setApiSuccess()
     setApiError()
     try {
       const queryProfile = qs.stringify({ populate: 'locations' })
@@ -46,17 +50,19 @@ const ProfileForm = () => {
       })
       const updatedProfile = normalizeProfileApiData(apiData.data)
       setProfile(updatedProfile)
-      // to do: update 'profiles' collection
+      setApiSuccess('Your profile was updated!')
+      refetchCollections()
     } catch (error) {
       console.error(error)
       setApiError(error?.response?.data?.error?.message)
     }
-  }, [profile.id, setProfile])
+  }, [profile, refetchCollections, setProfile])
 
   return (
     <Form
       title={`Hello ${profile.name}`}
       onSubmit={handleSubmit(onSubmit)}
+      successMessage={apiSuccess}
       errorMessage={apiError}
       className={styles.component}
     >
@@ -117,9 +123,9 @@ const ProfileForm = () => {
           disabled={isSubmitting}
         />
       </InputLabel>
-      <InputLabel>
-        <Button type="submit" wide disabled={isSubmitting}>Save</Button>
-      </InputLabel>
+      <Button type="submit" wide disabled={isSubmitting}>
+        {isSubmitting ? 'Saving...' : 'Save'}
+      </Button>
     </Form>
   )
 }

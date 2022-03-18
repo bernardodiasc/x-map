@@ -1,6 +1,14 @@
 import * as styles from './Form.module.css'
 
-const Form = ({ title, description, onSubmit, errorMessage, className = '', children }) => {
+const Form = ({
+  title,
+  description,
+  onSubmit,
+  successMessage,
+  errorMessage,
+  className = '',
+  children,
+}) => {
   const classNames = [
     styles.component,
     className,
@@ -12,6 +20,11 @@ const Form = ({ title, description, onSubmit, errorMessage, className = '', chil
       )}
       {description && (
         <p>{description}</p>
+      )}
+      {successMessage && (
+        <p className={styles.success}>
+          {successMessage}
+        </p>
       )}
       {children}
       {errorMessage && (

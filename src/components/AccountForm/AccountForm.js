@@ -4,6 +4,7 @@ import axios from 'axios'
 import qs from 'qs'
 
 import useAuthContext from '@contexts/Auth'
+import useAppContext from '@contexts/App'
 
 import Form from '@components/Form'
 import InputField from '@components/InputField'
@@ -17,6 +18,7 @@ import { ENDPOINTS } from '@lib/constants'
 const AccountForm = () => {
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm()
   const { state: { user }, actions: { setProfile } } = useAuthContext()
+  const { actions: { refetchCollections } } = useAppContext()
   const [apiError, setApiError] = useState()
 
   const onSubmit = useCallback(async ({ name }) => {
@@ -31,12 +33,12 @@ const AccountForm = () => {
       })
       const newProfile = normalizeProfileApiData(apiData.data)
       setProfile(newProfile)
-      // to do: update 'profiles' collection
+      refetchCollections()
     } catch (error) {
       console.error(error)
       setApiError(error?.response?.data?.error?.message)
     }
-  }, [setProfile, user.email])
+  }, [refetchCollections, setProfile, user])
 
   return (
     <Form
@@ -53,9 +55,9 @@ const AccountForm = () => {
         />
         <InputError hasError={errors.name}>This field is required.</InputError>
       </InputLabel>
-      <InputLabel>
-        <Button type="submit" wide disabled={isSubmitting}>Save</Button>
-      </InputLabel>
+      <Button type="submit" wide disabled={isSubmitting}>
+        {isSubmitting ? 'Saving...' : 'Save'}
+      </Button>
     </Form>
   )
 }

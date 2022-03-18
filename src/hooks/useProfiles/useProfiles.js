@@ -11,7 +11,7 @@ import { ENDPOINTS } from '@lib/constants'
 
 function useProfiles () {
     const queryProfile = qs.stringify({ populate: 'locations' })
-    const { data, error } = useSWR(`${ENDPOINTS.PROFILES}?${queryProfile}`)
+    const { data, error, mutate } = useSWR(`${ENDPOINTS.PROFILES}?${queryProfile}`)
 
   const [profile, setProfile] = useState(null)
   const [isLoadingProfile, setIsLoadingProfile] = useState(false)
@@ -40,6 +40,7 @@ function useProfiles () {
     isLoadedProfile,
     profiles,
     error,
+    mutate,
   }
 }
 

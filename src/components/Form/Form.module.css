@@ -6,23 +6,37 @@
   margin-bottom: 0;
 }
 
+.component button {
+  margin-bottom: 10px;
+}
+
 .title {
   text-align: center;
   margin: 0 0 20px;
 }
 
+.success,
 .error {
   margin: 0;
-  color: hsl(0, 100%, 50%);
   font-style: italic;
   font-size: 13px;
   width: 100%;
-  background-color: hsla(0, 100%, 50%, 0.1);
-  border-color: hsl(0, 100%, 50%);
   border-radius: 4px;
   border-style: solid;
   border-width: 1px;
   box-sizing: border-box;
   padding: 10px;
   text-align: center;
+}
+
+.success {
+  color: hsl(91, 47%, 35%);
+  background-color: hsl(91, 47%, 90%);
+  border-color: hsl(91, 47%, 50%);
+}
+
+.error {
+  color: hsl(0, 100%, 40%);
+  background-color: hsla(0, 100%, 50%, 0.1);
+  border-color: hsl(0, 100%, 50%);
 }

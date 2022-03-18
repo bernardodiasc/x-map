@@ -13,7 +13,7 @@ import { MODAL_IDS } from '@lib/constants'
 
 const AppProvider = ({ children }) => {
   const { state: { token, user, profile, isLoadedProfile } } = useAuthContext()
-  const { profiles } = useProfiles()
+  const { profiles, mutate: refetchProfiles } = useProfiles()
   const { events } = useEvents()
   const { features } = useFeatureFlags()
   const { visibleModal, toggleVisibleModal } = useModal()
@@ -24,6 +24,10 @@ const AppProvider = ({ children }) => {
     profiles,
     events,
   }), [profiles, events])
+
+  const refetchCollections = () => {
+    refetchProfiles()
+  }
 
   useEffect(() => {
     if (token && user && !profile && isLoadedProfile) {
@@ -43,6 +47,7 @@ const AppProvider = ({ children }) => {
         },
         actions: {
           toggleVisibleModal,
+          refetchCollections,
         }
       }}
     >
