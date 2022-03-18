@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 
 function useModal () {
   const [visibleModal, setVisibleModal] = useState(undefined)
+  const [shouldModalBeClosable, setShouldModalBeClosable] = useState(true)
 
   useEffect(
     () => () => {
@@ -10,7 +11,7 @@ function useModal () {
     []
   )
 
-  const toggleVisibleModal = modalId =>
+  const handleSetVisibleModal = modalId =>
     setVisibleModal(visibleModal => {
       document.body.style.overflowY = !modalId ? 'hidden' : ''
       return modalId || undefined
@@ -18,7 +19,9 @@ function useModal () {
 
   return {
     visibleModal,
-    toggleVisibleModal
+    setVisibleModal: handleSetVisibleModal,
+    shouldModalBeClosable,
+    setShouldModalBeClosable,
   }
 }
 

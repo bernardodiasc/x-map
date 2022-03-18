@@ -16,7 +16,7 @@ import * as styles from './JoinScreen.module.css'
 
 const JoinScreen = () => {
   const { state: { user, profile, isLoadingProfile } } = useAuthContext()
-  const { actions: { toggleVisibleModal } } = useAppContext()
+  const { actions: { setVisibleModal } } = useAppContext()
   const [displaySignUpForm, setDisplaySignUpForm] = useState(false)
 
   const toggleSignUpForm = useCallback(e => {
@@ -26,9 +26,9 @@ const JoinScreen = () => {
 
   useEffect(() => {
     if (profile) {
-      toggleVisibleModal()
+      setVisibleModal()
     }
-  }, [profile, toggleVisibleModal])
+  }, [profile, setVisibleModal])
 
   if (isLoadingProfile) {
     return (

@@ -16,7 +16,12 @@ const AppProvider = ({ children }) => {
   const { profiles, mutate: refetchProfiles } = useProfiles()
   const { events } = useEvents()
   const { features } = useFeatureFlags()
-  const { visibleModal, toggleVisibleModal } = useModal()
+  const {
+    visibleModal,
+    setVisibleModal,
+    shouldModalBeClosable,
+    setShouldModalBeClosable,
+  } = useModal()
 
   const isLoadingApp = (token && (!user || !isLoadedProfile)) || !profiles || !events || !features
 
@@ -30,11 +35,29 @@ const AppProvider = ({ children }) => {
   }
 
   useEffect(() => {
-    if (token && user && !profile && isLoadedProfile) {
-      toggleVisibleModal(MODAL_IDS.JOIN_SCREEN)
+    if (isLoadingApp) {
       return
     }
-  }, [token, user, profile, isLoadedProfile, toggleVisibleModal])
+    if (token && user && !profile && isLoadedProfile) {
+      setShouldModalBeClosable(false)
+      setVisibleModal(MODAL_IDS.JOIN_SCREEN)
+      return
+    }
+    if (isLoadedProfile && profile?.locations?.length === 0) {
+      setShouldModalBeClosable(false)
+      setVisibleModal(MODAL_IDS.LOCATIONS_FORM)
+      return
+    }
+    setShouldModalBeClosable(true)
+  }, [
+    token,
+    user,
+    profile,
+    isLoadedProfile,
+    setVisibleModal,
+    setShouldModalBeClosable,
+    isLoadingApp,
+  ])
 
   return (
     <AppContext.Provider
@@ -42,11 +65,13 @@ const AppProvider = ({ children }) => {
         state: {
           collections,
           visibleModal,
+          shouldModalBeClosable,
           features,
           isLoadingApp,
         },
         actions: {
-          toggleVisibleModal,
+          setVisibleModal,
+          setShouldModalBeClosable,
           refetchCollections,
         }
       }}

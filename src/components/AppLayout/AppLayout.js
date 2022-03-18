@@ -13,7 +13,10 @@ import { MODAL_IDS } from '@lib/constants'
 import * as styles from './AppLayout.module.css'
 
 const AppLayout = ({ children }) => {
-  const { state: { visibleModal }, actions: { toggleVisibleModal } } = useAppContext()
+  const {
+    state: { visibleModal, shouldModalBeClosable },
+    actions: { setVisibleModal },
+  } = useAppContext()
 
   const modalContents = {
     [MODAL_IDS.JOIN_SCREEN]: <JoinScreen />,
@@ -31,7 +34,7 @@ const AppLayout = ({ children }) => {
         {children}
       </div>
       {visibleModal && (
-        <Modal onClose={toggleVisibleModal}>
+        <Modal onClose={shouldModalBeClosable && setVisibleModal}>
           {modalContents[visibleModal]}
         </Modal>
       )}
