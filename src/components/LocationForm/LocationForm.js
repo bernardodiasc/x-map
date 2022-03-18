@@ -18,7 +18,7 @@ import { ENDPOINTS } from '@lib/constants'
 import * as styles from './LocationForm.module.css'
 
 const LocationForm = ({ locationId, toggleLocationFormModal }) => {
-  const { register, handleSubmit, formState: { errors }, isSubmitting } = useForm()
+  const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm()
   const { state: { profile }, actions: { setProfile } } = useAuthContext()
   const { state: { features } } = useAppContext()
   const [apiError, setApiError] = useState()
@@ -120,7 +120,6 @@ const LocationForm = ({ locationId, toggleLocationFormModal }) => {
       <Loading />
     )
   }
-
 
   return (
     <Form

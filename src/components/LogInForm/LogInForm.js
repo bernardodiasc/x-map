@@ -13,7 +13,7 @@ import Button from '@components/Button'
 import { ENDPOINTS } from '@lib/constants'
 
 const LogInForm = () => {
-  const { register, handleSubmit, formState: { errors }, isSubmitting } = useForm()
+  const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm()
   const { actions: { logIn } } = useAuthContext()
   const [apiError, setApiError] = useState()
 

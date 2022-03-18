@@ -1,4 +1,3 @@
-import { useEffect, useState, useMemo } from 'react'
 import { Map } from 'google-maps-react'
 import { MarkerClusterer } from "@googlemaps/markerclusterer"
 

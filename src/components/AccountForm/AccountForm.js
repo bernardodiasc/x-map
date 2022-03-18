@@ -15,7 +15,7 @@ import { normalizeProfileApiData } from '@lib/profiles'
 import { ENDPOINTS } from '@lib/constants'
 
 const AccountForm = () => {
-  const { register, handleSubmit, formState: { errors }, isSubmitting } = useForm()
+  const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm()
   const { state: { user }, actions: { setProfile } } = useAuthContext()
   const [apiError, setApiError] = useState()
 

@@ -17,7 +17,7 @@ import { ENDPOINTS } from '@lib/constants'
 import * as styles from './ProfileForm.module.css'
 
 const ProfileForm = () => {
-  const { register, handleSubmit, formState: { errors }, isSubmitting } = useForm()
+  const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm()
   const { state: { profile }, actions: { setProfile } } = useAuthContext()
   const [apiError, setApiError] = useState()
 
