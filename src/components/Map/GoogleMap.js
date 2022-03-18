@@ -1,3 +1,4 @@
+import { useMemo } from 'react'
 import { Map } from 'google-maps-react'
 import { MarkerClusterer } from "@googlemaps/markerclusterer"
 
@@ -19,6 +20,8 @@ export default function MapContainer({ google, featureCollection }) {
     state: { selectedCollection },
     actions: { setSelectedFeature, setSelectedCoordinates }
   } = useMapContext()
+
+  const bounds = useMemo(() => new google.maps.LatLngBounds(), [google])
 
   const loadGeoData = (mapProps, map) => {
     googleMap = map
@@ -50,13 +53,22 @@ export default function MapContainer({ google, featureCollection }) {
         if (features?.MARKER_CLUSTERER) {
           markerClusterer.addMarker(marker)
         }
+
+        if (features?.BOUNDS) {
+          bounds.extend(event.feature.getGeometry().get())
+          map.fitBounds(bounds)
+          map.setCenter(event.feature.getGeometry().get())
+        }
       }
     })
 
     map.data.setMap(null)
     map.data.addGeoJson(featureCollection)
-    map.setCenter({ lat: 0, lng: 0 })
-    map.setZoom(2)
+
+    if (!features?.BOUNDS) {
+      map.setCenter({ lat: 0, lng: 0 })
+      map.setZoom(2)
+    }
   }
 
   return (
