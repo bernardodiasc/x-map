@@ -10,7 +10,7 @@ import {
 import { ENDPOINTS } from '@lib/constants'
 
 function useProfiles () {
-    const queryProfile = qs.stringify({ populate: 'locations' })
+    const queryProfile = qs.stringify({ populate: ['avatar', 'locations'] })
     const { data, error, mutate } = useSWR(`${ENDPOINTS.PROFILES}?${queryProfile}`)
 
   const [profile, setProfile] = useState(null)
@@ -21,7 +21,7 @@ function useProfiles () {
 
   const loadProfile = useCallback(async (email) => {
     setIsLoadingProfile(true)
-    const queryProfile = qs.stringify({ filters: { email }, populate: 'locations' })
+    const queryProfile = qs.stringify({ filters: { email }, populate: ['avatar', 'locations'] })
     const { data: profileData } = await axios.get(`${ENDPOINTS.PROFILES}?${queryProfile}`)
     // to do: catch errors
     if (profileData?.data && profileData?.data[0]) {

@@ -1,10 +1,11 @@
 import * as styles from './ProfileCard.module.css'
 
 const ProfileCard = ({ item, inAccordion }) => {
+  console.log(item.avatar)
   return (
     <div className={[styles.profile, inAccordion ? styles.accordion : ''].join(' ')}>
-      <div className={styles.avatar} style={{ backgroundImage: `url(/avatar.png)` }}>
-        <div className={styles.avatar} style={{ backgroundImage: `url(/profiles/${item.id}/avatar.jpg)` }} />
+      <div className={styles.avatar} style={{ backgroundImage: item.avatar ? 'none' : 'url(/avatar.png)' }}>
+        <div className={styles.avatar} style={{ backgroundImage: item.avatar ? `url(${item.avatar.url})` : 'none' }} />
       </div>
       {!inAccordion && (
         <h3 className={styles.name}>{item.name}</h3>
@@ -12,8 +13,8 @@ const ProfileCard = ({ item, inAccordion }) => {
       {item.about && (
         <p className={styles.paragraph}><strong>About: </strong> {item.about}</p>
       )}
-      {item.location && false && (
-        <p className={styles.paragraph}><strong>Location: </strong> {item.location}</p>
+      {item.website && (
+        <p className={styles.paragraph}><strong>Website: </strong> <a href={item.website} target="_blank" rel="noreferrer">{item.website}</a></p>
       )}
       {item.github && (
         <p className={styles.paragraph}><strong>GitHub: </strong> <a href={`https://github.com/${item.github}`} target="_blank" rel="noreferrer">{item.github}</a></p>

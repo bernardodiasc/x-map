@@ -24,7 +24,7 @@ const AccountForm = () => {
   const onSubmit = useCallback(async ({ name }) => {
     setApiError()
     try {
-      const queryProfile = qs.stringify({ populate: 'locations' })
+      const queryProfile = qs.stringify({ populate: ['avatar', 'locations'] })
       const { data: apiData } = await axios.post(`${ENDPOINTS.PROFILES}?${queryProfile}`, {
         data: {
           name,

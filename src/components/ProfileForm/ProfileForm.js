@@ -1,4 +1,5 @@
 import { useState, useCallback } from 'react'
+import Image from 'next/image'
 import { useForm } from 'react-hook-form'
 import axios from 'axios'
 import qs from 'qs'
@@ -23,6 +24,7 @@ const ProfileForm = () => {
   const { actions: { refetchCollections } } = useAppContext()
   const [apiSuccess, setApiSuccess] = useState()
   const [apiError, setApiError] = useState()
+  console.log(profile)
 
   const onSubmit = useCallback(async ({
     name,
@@ -36,11 +38,12 @@ const ProfileForm = () => {
     setApiSuccess()
     setApiError()
     try {
-      const queryProfile = qs.stringify({ populate: 'locations' })
+      const queryProfile = qs.stringify({ populate: ['avatar', 'locations'] })
       const { data: apiData } = await axios.put(`${ENDPOINTS.PROFILES}/${profile.id}?${queryProfile}`, {
         data: {
           name,
           about,
+          website,
           github,
           stackoverflow,
           linkedin,
@@ -75,11 +78,27 @@ const ProfileForm = () => {
         />
         <InputError hasError={errors.name}>This field is required.</InputError>
       </InputLabel>
+      {profile.avatar && (
+        <Image
+          src={profile.avatar.url}
+          alt={`${profile.name}'s avatar`}
+          width={profile.avatar.width}
+          height={profile.avatar.height}
+        />
+      )}
       <InputLabel title="About me:">
         <InputField
           type="text"
           register={register('about')}
           defaultValue={profile.about}
+          disabled={isSubmitting}
+        />
+      </InputLabel>
+      <InputLabel title="Website:">
+        <InputField
+          type="text"
+          register={register('website')}
+          defaultValue={profile.website}
           disabled={isSubmitting}
         />
       </InputLabel>

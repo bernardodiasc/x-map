@@ -2,6 +2,9 @@ const path = require('path')
 
 module.exports = {
   reactStrictMode: true,
+  images: {
+    domains: ['res.cloudinary.com'],
+  },
   webpack: (config, options) => {
     config.resolve.alias = {
       ...config.resolve.alias,
