@@ -38,20 +38,41 @@ const ProfileForm = () => {
   }) => {
     setApiSuccess()
     setApiError()
+
+    const formData = new FormData()
+
+    const dataObj = {
+      name,
+      about,
+      website,
+      github,
+      stackoverflow,
+      linkedin,
+      twitter,
+      instagram,
+    }
+
+    formData.append('data', JSON.stringify(dataObj))
+
+    if (avatar) {
+      formData.append('files.avatar', avatar, avatar.name)
+    }
+
+    const config = {
+      headers: { 'content-type': 'multipart/form-data' },
+      onUploadProgress: event => {
+        const percent = Math.floor((event.loaded / event.total) * 100)
+        // onProgress && onProgress(percent)
+      }
+    }
+
     try {
       const queryProfile = qs.stringify({ populate: ['avatar', 'locations'] })
-      const { data: apiData } = await axios.put(`${ENDPOINTS.PROFILES}/${profile.id}?${queryProfile}`, {
-        data: {
-          name,
-          about,
-          website,
-          github,
-          stackoverflow,
-          linkedin,
-          twitter,
-          instagram,
-        }
-      })
+      const { data: apiData } = await axios.put(
+        `${ENDPOINTS.PROFILES}/${profile.id}?${queryProfile}`,
+        formData,
+        config
+      )
       const updatedProfile = normalizeProfileApiData(apiData.data)
       setProfile(updatedProfile)
       setApiSuccess('Your profile was updated!')
@@ -60,12 +81,9 @@ const ProfileForm = () => {
       console.error(error)
       setApiError(error?.response?.data?.error?.message)
     }
-  }, [profile, refetchCollections, setProfile])
+  }, [avatar, profile, refetchCollections, setProfile])
 
   const handleSetAvatarFile = files => {
-    // TO DO: add image uploading to the profile entry
-    // https://docs.strapi.io/developer-docs/latest/plugins/upload.html
-    console.log(files)
     if (files.length > 0) {
       setAvatar(files[0])
     }
@@ -93,6 +111,7 @@ const ProfileForm = () => {
           title="Profile picture:"
           images={[profile.avatar]}
           selectFiles={handleSetAvatarFile}
+          disabled={isSubmitting}
         />
       )}
       <InputLabel title="About me:">

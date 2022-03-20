@@ -10,7 +10,7 @@ import Button from '@components/Button'
 
 import * as styles from './ImagesSelector.module.css'
 
-const ImagesSelector = ({ title, images = [], maxFiles = 1, selectFiles }) => {
+const ImagesSelector = ({ title, images = [], maxFiles = 1, selectFiles, disabled }) => {
   const [selectedFiles, setSelectedFiles] = useState([])
 
   // TO DO: Allow user to remove individual images from the list
@@ -50,7 +50,8 @@ const ImagesSelector = ({ title, images = [], maxFiles = 1, selectFiles }) => {
     onDrop,
     accept: 'image/*',
     maxFiles,
-    maxSize: 4000000 // 4Mb
+    maxSize: 4000000, // 4Mb
+    disabled,
   })
 
   const dropzoneClassNames = useMemo(() => ([
