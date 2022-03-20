@@ -6,6 +6,7 @@ export const normalizeProfileApiData = profile => {
     url: profile.attributes.avatar.data?.attributes?.url,
     width: profile.attributes.avatar.data?.attributes?.width,
     height: profile.attributes.avatar.data?.attributes?.height,
+    alt: `${profile.attributes.name}'s avatar`
   } : null
   const normalizedProfile = {
     id: profile.id,

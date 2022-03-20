@@ -1,5 +1,4 @@
 import { useState, useCallback } from 'react'
-import Image from 'next/image'
 import { useForm } from 'react-hook-form'
 import axios from 'axios'
 import qs from 'qs'
@@ -12,6 +11,7 @@ import InputField from '@components/InputField'
 import InputLabel from '@components/InputLabel'
 import InputError from '@components/InputError'
 import Button from '@components/Button'
+import ImagesSelector from '@components/ImagesSelector'
 
 import { normalizeProfileApiData } from '@lib/profiles'
 import { ENDPOINTS } from '@lib/constants'
@@ -21,14 +21,15 @@ import * as styles from './ProfileForm.module.css'
 const ProfileForm = () => {
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm()
   const { state: { profile }, actions: { setProfile } } = useAuthContext()
-  const { actions: { refetchCollections } } = useAppContext()
+  const { state: { features }, actions: { refetchCollections } } = useAppContext()
   const [apiSuccess, setApiSuccess] = useState()
   const [apiError, setApiError] = useState()
-  console.log(profile)
+  const [avatar, setAvatar] = useState()
 
   const onSubmit = useCallback(async ({
     name,
     about,
+    website,
     github,
     stackoverflow,
     linkedin,
@@ -61,6 +62,15 @@ const ProfileForm = () => {
     }
   }, [profile, refetchCollections, setProfile])
 
+  const handleSetAvatarFile = files => {
+    // TO DO: add image uploading to the profile entry
+    // https://docs.strapi.io/developer-docs/latest/plugins/upload.html
+    console.log(files)
+    if (files.length > 0) {
+      setAvatar(files[0])
+    }
+  }
+
   return (
     <Form
       title={`Hello ${profile.name}`}
@@ -78,12 +88,11 @@ const ProfileForm = () => {
         />
         <InputError hasError={errors.name}>This field is required.</InputError>
       </InputLabel>
-      {profile.avatar && (
-        <Image
-          src={profile.avatar.url}
-          alt={`${profile.name}'s avatar`}
-          width={profile.avatar.width}
-          height={profile.avatar.height}
+      {features?.AVATAR_UPLOAD && (
+        <ImagesSelector
+          title="Profile picture:"
+          images={[profile.avatar]}
+          selectFiles={handleSetAvatarFile}
         />
       )}
       <InputLabel title="About me:">

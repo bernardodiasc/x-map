@@ -2,7 +2,7 @@
   margin: 0;
 }
 
-.component :last-child {
+.component > :last-child {
   margin-bottom: 0;
 }
 

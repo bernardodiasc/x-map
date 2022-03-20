@@ -3,8 +3,9 @@
   margin: 20px 0;
 }
 
-.component > * {
-  margin: 2px 0;
+.title {
+  font-weight: bold;
+  margin: 0 0 2px;
 }
 
 .required {
