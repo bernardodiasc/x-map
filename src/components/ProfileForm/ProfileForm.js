@@ -133,6 +133,7 @@ const ProfileForm = () => {
           register={register('website')}
           defaultValue={profile.website}
           disabled={isSubmitting}
+          prefix="http://"
         />
       </InputLabel>
       <InputLabel title="GitHub:">
@@ -141,6 +142,7 @@ const ProfileForm = () => {
           register={register('github')}
           defaultValue={profile.github}
           disabled={isSubmitting}
+          prefix="https://github.com/"
         />
       </InputLabel>
       <InputLabel title="StackOverflow:">
@@ -149,6 +151,7 @@ const ProfileForm = () => {
           register={register('stackoverflow')}
           defaultValue={profile.stackoverflow}
           disabled={isSubmitting}
+          prefix="https://stackoverflow.com/users/"
         />
       </InputLabel>
       <InputLabel title="LinkedIn:">
@@ -157,6 +160,7 @@ const ProfileForm = () => {
           register={register('linkedin')}
           defaultValue={profile.linkedin}
           disabled={isSubmitting}
+          prefix="https://linkedin.com/in/"
         />
       </InputLabel>
       <InputLabel title="Twitter:">
@@ -165,6 +169,7 @@ const ProfileForm = () => {
           register={register('twitter')}
           defaultValue={profile.twitter}
           disabled={isSubmitting}
+          prefix="https://twitter.com/"
         />
       </InputLabel>
       <InputLabel title="Instagram:">
@@ -173,6 +178,7 @@ const ProfileForm = () => {
           register={register('instagram')}
           defaultValue={profile.instagram}
           disabled={isSubmitting}
+          prefix="https://instagram.com/"
         />
       </InputLabel>
       <Button type="submit" wide disabled={isSubmitting}>

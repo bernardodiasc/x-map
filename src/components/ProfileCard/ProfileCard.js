@@ -13,7 +13,7 @@ const ProfileCard = ({ item, inAccordion }) => {
         <p className={styles.paragraph}><strong>About: </strong> {item.about}</p>
       )}
       {item.website && (
-        <p className={styles.paragraph}><strong>Website: </strong> <a href={item.website} target="_blank" rel="noreferrer">{item.website}</a></p>
+        <p className={styles.paragraph}><strong>Website: </strong> <a href={`http://${item.website}`} target="_blank" rel="noreferrer">{item.website}</a></p>
       )}
       {item.github && (
         <p className={styles.paragraph}><strong>GitHub: </strong> <a href={`https://github.com/${item.github}`} target="_blank" rel="noreferrer">{item.github}</a></p>

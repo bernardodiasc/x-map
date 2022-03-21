@@ -1,8 +1,17 @@
 import * as styles from './InputField.module.css'
 
-const InputField = ({ register, ...props }) => {
+const InputField = ({ register, prefix, ...props }) => {
   return (
-    <input className={styles.component} {...props} {...register} />
+    <div className={styles.component}>
+      {prefix && (
+        <span className={styles.prefix}>{prefix}</span>
+      )}
+      <input
+        className={[styles.input, prefix ? styles.withPrefix : ''].join(' ')}
+        {...props}
+        {...register}
+      />
+    </div>
   )
 }
 
