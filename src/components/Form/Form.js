@@ -21,12 +21,12 @@ const Form = ({
       {description && (
         <p>{description}</p>
       )}
+      {children}
       {successMessage && (
         <p className={styles.success}>
           {successMessage}
         </p>
       )}
-      {children}
       {errorMessage && (
         <p className={styles.error}>
           {errorMessage}

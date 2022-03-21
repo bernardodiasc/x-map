@@ -1,7 +1,6 @@
 import * as styles from './ProfileCard.module.css'
 
 const ProfileCard = ({ item, inAccordion }) => {
-  console.log(item.avatar)
   return (
     <div className={[styles.profile, inAccordion ? styles.accordion : ''].join(' ')}>
       <div className={styles.avatar} style={{ backgroundImage: item.avatar ? 'none' : 'url(/avatar.png)' }}>

@@ -3,6 +3,7 @@ import { normalizeLocationsApiData, getLatestLocation, getLocationByCoordinates 
 export const normalizeProfileApiData = profile => {
   const locations = normalizeLocationsApiData(profile.attributes.locations)
   const avatar = profile.attributes.avatar.data ? {
+    id: profile.attributes.avatar.data?.id,
     url: profile.attributes.avatar.data?.attributes?.url,
     width: profile.attributes.avatar.data?.attributes?.width,
     height: profile.attributes.avatar.data?.attributes?.height,

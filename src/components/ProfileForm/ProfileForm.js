@@ -25,6 +25,7 @@ const ProfileForm = () => {
   const [apiSuccess, setApiSuccess] = useState()
   const [apiError, setApiError] = useState()
   const [avatar, setAvatar] = useState()
+  const [uploadProgress, setUploadProgress] = useState(0)
 
   const onSubmit = useCallback(async ({
     name,
@@ -38,6 +39,7 @@ const ProfileForm = () => {
   }) => {
     setApiSuccess()
     setApiError()
+    setUploadProgress(0)
 
     const formData = new FormData()
 
@@ -55,6 +57,9 @@ const ProfileForm = () => {
     formData.append('data', JSON.stringify(dataObj))
 
     if (avatar) {
+      if (profile.avatar) {
+        await axios.delete(`${ENDPOINTS.UPLOAD}/files/${profile.avatar.id}`)
+      }
       formData.append('files.avatar', avatar, avatar.name)
     }
 
@@ -62,7 +67,7 @@ const ProfileForm = () => {
       headers: { 'content-type': 'multipart/form-data' },
       onUploadProgress: event => {
         const percent = Math.floor((event.loaded / event.total) * 100)
-        // onProgress && onProgress(percent)
+        setUploadProgress(percent)
       }
     }
 
@@ -171,7 +176,7 @@ const ProfileForm = () => {
         />
       </InputLabel>
       <Button type="submit" wide disabled={isSubmitting}>
-        {isSubmitting ? 'Saving...' : 'Save'}
+        {isSubmitting ? `Saving... ${uploadProgress}%` : 'Save'}
       </Button>
     </Form>
   )
