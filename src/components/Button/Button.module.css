@@ -37,13 +37,16 @@
   height: auto;
   text-decoration: underline;
   cursor: pointer;
+  box-shadow: none;
 }
 
 .link:hover {
   text-decoration: none;
   background: none;
+  box-shadow: none;
 }
 
 .link:focus {
-  outline: none;
+  background: none;
+  box-shadow: none;
 }

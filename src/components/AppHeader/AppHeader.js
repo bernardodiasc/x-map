@@ -36,7 +36,7 @@ const AppHeader = () => {
     return (
       <MainHeader>
         <Button onClick={handleToggleVisibleModal(MODAL_IDS.JOIN_SCREEN)}>
-          Join
+          Join the Map
         </Button>
         <Button onClick={handleToggleVisibleModal(MODAL_IDS.FAQ)}>
           ?

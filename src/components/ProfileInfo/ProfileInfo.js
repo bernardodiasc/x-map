@@ -6,8 +6,6 @@ import useMapContext from '@contexts/Map'
 
 import { getRecordsByCoordinates } from '@lib/locations'
 
-import * as styles from './ProfileInfo.module.css'
-
 const ProfileInfo = ({ children }) => {
   const { state: { collections } } = useAppContext()
   const { state: { selectedCoordinates } } = useMapContext()
