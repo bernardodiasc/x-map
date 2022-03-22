@@ -31,6 +31,10 @@ export const normalizeLocationApiData = location => {
     normalizedLocation.attendees = normalizeAttendeesApiData(location.attributes.attendees)
   }
 
+  if (location.attributes.profile) {
+    normalizedLocation.profile = location.attributes.profile?.data?.id
+  }
+
   return normalizedLocation
 }
 

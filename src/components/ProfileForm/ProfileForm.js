@@ -104,7 +104,6 @@ const ProfileForm = () => {
     >
       <InputLabel title="Full name:" isRequired>
         <InputField
-          type="text"
           register={register('name', { required: true })}
           defaultValue={profile.name}
           disabled={isSubmitting}
@@ -121,7 +120,6 @@ const ProfileForm = () => {
       )}
       <InputLabel title="About me:">
         <InputField
-          type="text"
           register={register('about')}
           defaultValue={profile.about}
           disabled={isSubmitting}
@@ -129,7 +127,6 @@ const ProfileForm = () => {
       </InputLabel>
       <InputLabel title="Website:">
         <InputField
-          type="text"
           register={register('website')}
           defaultValue={profile.website}
           disabled={isSubmitting}
@@ -138,7 +135,6 @@ const ProfileForm = () => {
       </InputLabel>
       <InputLabel title="GitHub:">
         <InputField
-          type="text"
           register={register('github')}
           defaultValue={profile.github}
           disabled={isSubmitting}
@@ -147,7 +143,6 @@ const ProfileForm = () => {
       </InputLabel>
       <InputLabel title="StackOverflow:">
         <InputField
-          type="text"
           register={register('stackoverflow')}
           defaultValue={profile.stackoverflow}
           disabled={isSubmitting}
@@ -156,7 +151,6 @@ const ProfileForm = () => {
       </InputLabel>
       <InputLabel title="LinkedIn:">
         <InputField
-          type="text"
           register={register('linkedin')}
           defaultValue={profile.linkedin}
           disabled={isSubmitting}
@@ -165,7 +159,6 @@ const ProfileForm = () => {
       </InputLabel>
       <InputLabel title="Twitter:">
         <InputField
-          type="text"
           register={register('twitter')}
           defaultValue={profile.twitter}
           disabled={isSubmitting}
@@ -174,7 +167,6 @@ const ProfileForm = () => {
       </InputLabel>
       <InputLabel title="Instagram:">
         <InputField
-          type="text"
           register={register('instagram')}
           defaultValue={profile.instagram}
           disabled={isSubmitting}

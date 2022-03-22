@@ -3,8 +3,9 @@ import useAppContext from '@contexts/App'
 import AppHeader from '@components/AppHeader'
 import Modal from '@components/Modal'
 import JoinScreen from '@components/JoinScreen'
-import LocationsForm from '@components/LocationsForm'
 import ProfileForm from '@components/ProfileForm'
+import LocationsManager from '@components/LocationsManager'
+import EventsManager from '@components/EventsManager'
 import FrequentlyAskedQuestions from '@components/FrequentlyAskedQuestions'
 import InfoPanel from '@components/InfoPanel'
 
@@ -20,8 +21,9 @@ const AppLayout = ({ children }) => {
 
   const modalContents = {
     [MODAL_IDS.JOIN_SCREEN]: <JoinScreen />,
-    [MODAL_IDS.LOCATIONS_FORM]: <LocationsForm />,
     [MODAL_IDS.PROFILE_FORM]: <ProfileForm />,
+    [MODAL_IDS.LOCATIONS_MANAGER]: <LocationsManager />,
+    [MODAL_IDS.EVENTS_MANAGER]: <EventsManager />,
     [MODAL_IDS.FAQ]: <FrequentlyAskedQuestions />,
   }
 

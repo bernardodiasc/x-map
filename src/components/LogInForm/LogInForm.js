@@ -39,7 +39,6 @@ const LogInForm = () => {
     >
       <InputLabel title="Email:">
         <InputField
-          type="text"
           register={register('identifier', { required: true })}
           disabled={isSubmitting}
         />

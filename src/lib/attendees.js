@@ -1,5 +1,5 @@
 export const normalizeAttendeeApiData = attendee => {
-  const profileId = attendee.attributes.profile.data.id
+  const profileId = attendee.attributes.profile?.data?.id
   return profileId
 }
 

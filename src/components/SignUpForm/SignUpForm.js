@@ -40,7 +40,6 @@ const SignUpForm = () => {
     >
       <InputLabel title="Email:">
         <InputField
-          type="text"
           register={register('email', { required: true })}
           disabled={isSubmitting}
         />

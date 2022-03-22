@@ -11,8 +11,6 @@ import { MODAL_IDS, COLLECTIONS } from '@lib/constants'
 
 import * as styles from './AppHeader.module.css'
 
-import logo from '@public/x-team-logo.svg'
-
 const AppHeader = () => {
   const { state: { token } } = useAuthContext()
   const {

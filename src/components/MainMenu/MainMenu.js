@@ -46,7 +46,12 @@ const MainMenu = () => {
         <Button {...collectionSelection} />
       )}
       {profile && (
-        <Button onClick={handleToggleVisibleModal(MODAL_IDS.LOCATIONS_FORM)}>
+        <Button onClick={handleToggleVisibleModal(MODAL_IDS.EVENTS_MANAGER)}>
+          Update events
+        </Button>
+      )}
+      {profile && (
+        <Button onClick={handleToggleVisibleModal(MODAL_IDS.LOCATIONS_MANAGER)}>
           {locationButtonLabel}
         </Button>
       )}

@@ -9,6 +9,9 @@ function useProfiles () {
     populate: {
       locations: {
         populate: {
+          profile: {
+            fields: ['id']
+          },
           attendees: {
             populate: {
               profile: {
@@ -20,13 +23,14 @@ function useProfiles () {
       }
     }
   })
-  const { data, error } = useSWR(`${ENDPOINTS.EVENTS}?${queryProfile}`)
+  const { data, error, mutate } = useSWR(`${ENDPOINTS.EVENTS}?${queryProfile}`)
 
   const events = normalizeEventsApiData(data)
 
   return {
     events,
     error,
+    mutate,
   }
 }
 

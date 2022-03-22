@@ -40,7 +40,7 @@ export default function MapContainer({ google, featureCollection }) {
         const marker = new google.maps.Marker({
           position: event.feature.getGeometry().get(),
           label: String(records.length),
-          map: map
+          map: map,
         })
 
         google.maps.event.addListener(marker, 'click', function (marker, event) {

@@ -14,7 +14,7 @@ import { MODAL_IDS } from '@lib/constants'
 const AppProvider = ({ children }) => {
   const { state: { token, user, profile, isLoadedProfile } } = useAuthContext()
   const { profiles, mutate: refetchProfiles } = useProfiles()
-  const { events } = useEvents()
+  const { events, mutate: refetchEvents } = useEvents()
   const { features } = useFeatureFlags()
   const {
     visibleModal,
@@ -32,6 +32,7 @@ const AppProvider = ({ children }) => {
 
   const refetchCollections = () => {
     refetchProfiles()
+    refetchEvents()
   }
 
   useEffect(() => {
@@ -45,7 +46,7 @@ const AppProvider = ({ children }) => {
     }
     if (isLoadedProfile && profile?.locations?.length === 0) {
       setShouldModalBeClosable(false)
-      setVisibleModal(MODAL_IDS.LOCATIONS_FORM)
+      setVisibleModal(MODAL_IDS.LOCATIONS_MANAGER)
       return
     }
     setShouldModalBeClosable(true)

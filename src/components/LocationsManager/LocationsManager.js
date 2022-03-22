@@ -9,9 +9,9 @@ import Button from '@components/Button'
 
 import { sortBySinceDate, getLatestLocation } from '@lib/locations'
 
-import * as styles from './LocationsForm.module.css'
+import * as styles from './LocationsManager.module.css'
 
-const LocationsForm = () => {
+const LocationsManager = () => {
   const { state: { profile } } = useAuthContext()
   const { state: { features } } = useAppContext()
   const [editingLocationId, setEditingLocationId] = useState(getLatestLocation(profile.locations)?.id)
@@ -24,7 +24,11 @@ const LocationsForm = () => {
 
   if (features?.TRAVELS) {
     const RenderLocationRow = location => (
-      <div key={`location-${location.id}`} className={styles.row} onClick={handleEditLocation(location.id)}>
+      <div
+        key={`location-${location.id}`}
+        className={styles.row}
+        onClick={handleEditLocation(location.id)}
+      >
         <div className={styles.info}>
           <div className={styles.address}>
             {location.city} - {location.country}
@@ -64,4 +68,4 @@ const LocationsForm = () => {
   )
 }
 
-export default LocationsForm
+export default LocationsManager

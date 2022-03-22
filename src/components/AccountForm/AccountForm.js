@@ -49,7 +49,6 @@ const AccountForm = () => {
     >
       <InputLabel title="Full name:">
         <InputField
-          type="text"
           register={register('name', { required: true })}
           disabled={isSubmitting}
         />
