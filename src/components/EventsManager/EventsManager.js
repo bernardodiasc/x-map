@@ -4,11 +4,12 @@ import useAuthContext from '@contexts/Auth'
 import useAppContext from '@contexts/App'
 
 import EventForm from '@components/EventForm'
-import LocationForm from '@components/LocationForm'
+import EventLocationForm from '@components/EventLocationForm'
 import Modal from '@components/Modal'
 import Button from '@components/Button'
 
 import { getEventsByProfileId } from '@lib/events'
+import { getLocationById } from '@lib/locations'
 
 import * as styles from './EventsManager.module.css'
 
@@ -16,34 +17,34 @@ const EventsManager = () => {
   const { state: { profile } } = useAuthContext()
   const { state: { collections } } = useAppContext()
   const [editingEventId, setEditingEventId] = useState()
+  const [editingEvent, setEditingEvent] = useState()
   const [eventFormModal, toggleEventFormModal] = useState(false)
-  const [editingLocationId, setEditingLocationId] = useState()
+  const [editingLocation, setEditingLocation] = useState()
   const [locationFormModal, toggleLocationFormModal] = useState(false)
 
-  const handleEditEvent = useCallback(eventId => () => {
-    setEditingEventId(eventId)
+  const handleEditEvent = useCallback(event => () => {
+    setEditingEvent(event)
     toggleEventFormModal(true)
   }, [])
 
-  const handleEditLocation = useCallback(locationId => () => {
-    setEditingLocationId(locationId)
+  const handleEditLocation = useCallback((event, location) => () => {
+    setEditingEvent(event)
+    setEditingLocation(location)
     toggleLocationFormModal(true)
   }, [])
 
   const events = getEventsByProfileId(collections.events, profile.id)
 
-  const RenderLocationRow = location => {
+  const RenderLocationRow = ({ event, location }) => {
     const title = [location.country]
     if (location.city) {
       title.push(location.city)
     }
-
     return (
       <div
-        key={`event-location-${location.id}`}
         className={styles.row}
       >
-        <h4 onClick={handleEditLocation(location.id)}>
+        <h4 onClick={handleEditLocation(event, location)}>
           {title.join(' - ')}
         </h4>
         {location.address && (
@@ -58,10 +59,16 @@ const EventsManager = () => {
       key={`event-${event.id}`}
       className={styles.row}
     >
-      <h2 onClick={handleEditEvent(event.id)}>
+      <h2 onClick={handleEditEvent(event)}>
         {event.title}
       </h2>
-      {event.locations.map(RenderLocationRow)}
+      {event.locations.map(location => (
+        <RenderLocationRow
+          key={`event-${event.id}-location-${location.id}`}
+          event={event}
+          location={location}
+        />
+      ))}
     </div>
   )
 
@@ -71,22 +78,23 @@ const EventsManager = () => {
 
   return (
     <div className={styles.component}>
-      <Button wide onClick={handleEditEvent()}>Add new event</Button>
-      <br />
+      <Button wide onClick={handleEditEvent()}>Create or edit events</Button>
       {events.map(RenderEventRow)}
       {eventFormModal && (
         <Modal onClose={handleCloseEventFormModal}>
           <EventForm
-            eventId={editingEventId}
-            toggleEventFormModal={toggleEventFormModal}
+            event={editingEvent}
+            toggleModal={toggleEventFormModal}
+            addLocation={handleEditLocation}
           />
         </Modal>
       )}
       {locationFormModal && (
         <Modal onClose={handleCloseLocationFormModal}>
-          <LocationForm
-            locationId={editingLocationId}
-            toggleLocationFormModal={toggleLocationFormModal}
+          <EventLocationForm
+            event={editingEvent}
+            location={editingLocation}
+            toggleModal={toggleLocationFormModal}
           />
         </Modal>
       )}

@@ -43,11 +43,11 @@ const AccountForm = () => {
   return (
     <Form
       title="Welcome!"
-      description="Please fill up some more info before proceed :)"
+      description="Please fill up required info before proceed :)"
       onSubmit={handleSubmit(onSubmit)}
       errorMessage={apiError}
     >
-      <InputLabel title="Full name:">
+      <InputLabel title="Full name:" isRequired>
         <InputField
           register={register('name', { required: true })}
           disabled={isSubmitting}

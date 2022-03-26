@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react'
 import axios from 'axios'
 import { useForm, Controller } from 'react-hook-form'
-import CreatableSelect from 'react-select/creatable'
+import Select from 'react-select'
 
 import useAuthContext from '@contexts/Auth'
 import useAppContext from '@contexts/App'
@@ -12,7 +12,7 @@ import InputField from '@components/InputField'
 import InputError from '@components/InputError'
 import Button from '@components/Button'
 
-import { getCoordinates } from '@lib/geocode'
+import { normalizeEventApiData } from '@lib/events'
 import { ENDPOINTS } from '@lib/constants'
 
 import * as styles from './EventForm.module.css'
@@ -22,14 +22,14 @@ const createEventOption = event => ({
   label: event.title,
 })
 
-const EventForm = ({ eventId, toggleEventFormModal }) => {
+const EventForm = ({ event = {}, toggleModal, addLocation }) => {
   const { register, handleSubmit, formState: { errors, isSubmitting }, control, setValue } = useForm()
   const { state: { profile }, actions: { setProfile } } = useAuthContext()
   const { state: { collections: { events } }, actions: { refetchCollections } } = useAppContext()
   const [apiSuccess, setApiSuccess] = useState()
   const [apiError, setApiError] = useState()
-  const [event, setEvent] = useState(events.find(event => event.id === eventId) || {})
-  const [isNew, setIsNew] = useState(!eventId && !event?.id)
+  const [editingEvent, setEditingEvent] = useState(event)
+  const [isNew, setIsNew] = useState(!event?.id)
   const [eventOptions, setEventOptions] = useState(events.map(createEventOption))
 
   const onSubmit = useCallback(async ({
@@ -49,23 +49,10 @@ const EventForm = ({ eventId, toggleEventFormModal }) => {
       endpoint: ENDPOINTS.EVENTS,
     } : {
       method: axios.put,
-      endpoint: `${ENDPOINTS.EVENTS}/${eventId || event.id}`,
+      endpoint: `${ENDPOINTS.EVENTS}/${editingEvent.id}`,
     }
 
-    let latitude
-    let longitude
-
     try {
-      if (isNew) {
-        const coordinates = await getCoordinates({ country, city, address })
-        latitude = coordinates.latitude
-        longitude = coordinates.longitude
-        if (!latitude || !longitude) {
-          setApiError('Invalid location.')
-          return
-        }
-      }
-
       const { data: eventsApiData } = await action.method(action.endpoint, {
         data: {
           title,
@@ -73,86 +60,76 @@ const EventForm = ({ eventId, toggleEventFormModal }) => {
         }
       })
 
+      const updatedEvent = normalizeEventApiData(eventsApiData.data)
+      const updatedEventOption = createEventOption(updatedEvent)
       if (isNew) {
-        const { data: locationsApiData } = await axios.post(ENDPOINTS.LOCATIONS, {
-          data: {
-            country,
-            city,
-            address,
-            since: since !== '' ? since : undefined,
-            until: until !== '' ? until : undefined,
-            latitude: String(latitude),
-            longitude: String(longitude),
-            profile: profile.id,
-            event: eventsApiData.data.id,
-          }
-        })
+        setEventOptions([...events, updatedEvent].map(createEventOption))
+      } else {
+        setEventOptions(events
+          .reduce((acc, cur) => cur.id === updatedEvent.id
+            ? [...acc, updatedEventOption]
+            : [...acc, createEventOption(cur)]
+          , [])
+        )
       }
-
-      setApiSuccess('Your event was updated!')
+      setEditingEvent(updatedEvent)
+      setApiSuccess(`The event was ${isNew ? 'created' : 'updated'}!`)
+      setIsNew(false)
       refetchCollections()
-      toggleEventFormModal(false)
     } catch (error) {
       console.error(error)
       setApiError(error?.response?.data?.error?.message)
     }
-  }, [event, eventId, isNew, profile, refetchCollections, toggleEventFormModal])
+  }, [editingEvent, events, isNew, refetchCollections])
 
   const handleDeleteEvent = useCallback(async () => {
     setApiError()
     try {
-      const locations = event.locations.filter(location => location.profile === profile.id)
+      const locations = editingEvent.locations.filter(location => location.profile === profile.id)
       Promise.all(locations.map(async location => {
         await axios.delete(`${ENDPOINTS.LOCATIONS}/${location.id}`)
       }))
       refetchCollections()
-      toggleEventFormModal(false)
+      toggleModal(false)
     } catch (error) {
       console.error(error)
       setApiError(error?.response?.data?.error?.message)
     }
-  }, [event, profile, refetchCollections, toggleEventFormModal])
+  }, [editingEvent, profile, refetchCollections, toggleModal])
 
   const handleEventSelectorChange = option => {
+    setApiSuccess()
+    setApiError()
     if (option) {
       const event = events.find(event => event.id === option?.value)
-      setEvent(event)
+      setEditingEvent(event)
       setIsNew(false)
+      setValue('title', event.title)
       setValue('info', event.info)
     } else {
-      setEvent({})
+      setEditingEvent({})
       setIsNew(true)
+      setValue('title', '')
       setValue('info', '')
     }
     setEventOptions(events.map(createEventOption))
   }
 
-  const handleEventSelectorCreate = value => {
-    setEvent({})
-    setIsNew(true)
-    setValue('info', '')
-    setEventOptions([
-      ...events.map(createEventOption),
-      { value, label: value }
-    ])
-  }
-
   return (
     <Form
-      title={isNew ? 'Create new event' : 'Update event'}
+      title={isNew ? 'Create new event' : 'Edit event'}
       onSubmit={handleSubmit(onSubmit)}
       successMessage={apiSuccess}
       errorMessage={apiError}
       className={styles.component}
     >
-      <InputLabel title="Title:" isRequired>
+      <InputLabel title="Select an event to edit:">
         <Controller
           control={control}
-          name="title"
-          rules={{ required: true }}
+          name="edit"
           render={({ field: { onChange, value, name, ref } }) => (
-            <CreatableSelect
-              placeholder="Type to create a new event or select an existing one..."
+            <Select
+              placeholder="Or leave blank to create new event."
               inputRef={ref}
               isClearable
               options={eventOptions}
@@ -160,56 +137,59 @@ const EventForm = ({ eventId, toggleEventFormModal }) => {
                 onChange(option)
                 handleEventSelectorChange(option)
               }}
-              onCreateOption={value => {
-                onChange(value)
-                handleEventSelectorCreate(value)
-              }}
               disabled={isSubmitting}
-              value={eventOptions.find(option => option.value === (value || value?.value || event?.id))}
+              value={eventOptions.find(option => option.value === value?.value)}
+              maxMenuHeight={210}
             />
           )}
+        />
+      </InputLabel>
+      <hr/>
+      <InputLabel title="Title:" isRequired>
+        <InputField
+          register={register('title', { required: true })}
+          defaultValue={editingEvent.title}
+          disabled={isSubmitting}
         />
         <InputError hasError={errors.title}>This field is required.</InputError>
       </InputLabel>
       <InputLabel title="Informations:">
         <InputField
           register={register('info')}
-          defaultValue={event.info}
+          defaultValue={editingEvent.info}
           disabled={isSubmitting}
         />
       </InputLabel>
-
-      {isNew && (
-        <>
-          <InputLabel title="Country:" isRequired>
-            <InputField
-              register={register('country', { required: true })}
-              disabled={isSubmitting}
-            />
-            <InputError hasError={errors.country}>This field is required.</InputError>
-          </InputLabel>
-          <InputLabel title="City:" isRequired>
-            <InputField
-              register={register('city', { required: true })}
-              disabled={isSubmitting}
-            />
-            <InputError hasError={errors.country}>This field is required.</InputError>
-          </InputLabel>
-          <InputLabel title="Address:">
-            <InputField
-              register={register('address')}
-              disabled={isSubmitting}
-            />
-          </InputLabel>
-        </>
-      )}
-
+{/*
+      <hr />
+      <h2>Location and date:</h2>
+      <InputLabel title="Country:" isRequired>
+        <InputField
+          register={register('country', { required: true })}
+          disabled={isSubmitting}
+        />
+        <InputError hasError={errors.country}>This field is required.</InputError>
+      </InputLabel>
+      <InputLabel title="City:" isRequired>
+        <InputField
+          register={register('city', { required: true })}
+          disabled={isSubmitting}
+        />
+        <InputError hasError={errors.country}>This field is required.</InputError>
+      </InputLabel>
+      <InputLabel title="Address:">
+        <InputField
+          register={register('address')}
+          disabled={isSubmitting}
+        />
+      </InputLabel>
+*/}
       <Button type="submit" wide disabled={isSubmitting}>
         {isSubmitting ? 'Saving...' : 'Save'}
       </Button>
       {!isNew && (
-        <Button wide disabled={isSubmitting} onClick={handleDeleteEvent}>
-          Delete
+        <Button wide disabled={isSubmitting} onClick={addLocation(editingEvent)}>
+          Add new location and date for this event
         </Button>
       )}
     </Form>

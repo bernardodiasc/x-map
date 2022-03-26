@@ -11,7 +11,7 @@ import InputLabel from '@components/InputLabel'
 import InputError from '@components/InputError'
 import Button from '@components/Button'
 
-import { normalizeLocationApiData, sortBySinceDate } from '@lib/locations'
+import { normalizeLocationApiData, sortBySinceDate, getLocationById } from '@lib/locations'
 import { getCoordinates } from '@lib/geocode'
 import { ENDPOINTS } from '@lib/constants'
 
@@ -23,9 +23,7 @@ const LocationForm = ({ locationId, toggleLocationFormModal }) => {
   const { state: { features }, actions: { refetchCollections } } = useAppContext()
   const [apiSuccess, setApiSuccess] = useState()
   const [apiError, setApiError] = useState()
-  const [location, setLocation] = useState(profile.locations.find(location => location.id === locationId) || {})
-
-  console.log(locationId, location)
+  const [location, setLocation] = useState(getLocationById(profile.locations, locationId))
 
   const isNew = !locationId && !location?.id
 

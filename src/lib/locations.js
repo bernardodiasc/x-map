@@ -62,3 +62,6 @@ export const getRecordsByCoordinates = (collection, selectedCoordinates) => coll
       }
     ]
   }, [])
+
+export const getLocationById = (locations, locationId) =>
+  locations.find(location => location.id === locationId) || {}
