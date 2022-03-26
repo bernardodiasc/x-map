@@ -10,7 +10,7 @@ export function getAuthToken () {
   return localStorage[AUTH_TOKEN]
 }
 
-export function initAuthHeader (token) {
+export function initAuthHeader (token: string) {
   if (token) {
     axios.defaults.headers.common.Authorization = `Bearer ${token}`
   } else {
@@ -18,7 +18,7 @@ export function initAuthHeader (token) {
   }
 }
 
-export function setAuthToken (token) {
+export function setAuthToken (token: string) {
   if (token) {
     localStorage.setItem(AUTH_TOKEN, token)
   } else {

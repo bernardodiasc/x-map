@@ -8,9 +8,11 @@ import { MapProvider } from '@contexts/Map'
 
 import AppLayout from '@components/AppLayout'
 
+import type { AppProps } from 'next/app'
+
 import '../styles/globals.css'
 
-function App({ Component, pageProps }) {
+function App({ Component, pageProps }: AppProps) {
   return (
     <SWRConfig
       value={{

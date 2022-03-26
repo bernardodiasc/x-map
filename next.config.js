@@ -5,7 +5,7 @@ module.exports = {
   images: {
     domains: ['res.cloudinary.com'],
   },
-  webpack: (config, options) => {
+  webpack: (config) => {
     config.resolve.alias = {
       ...config.resolve.alias,
       '@dev': path.resolve(__dirname, './dev'),

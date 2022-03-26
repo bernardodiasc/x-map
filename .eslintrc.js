@@ -2,29 +2,36 @@
 const OFF = 0
 const ERROR = 2
 module.exports = {
-  'env': {
-    'browser': true,
-    'es2021': true
+  root: true,
+  env: {
+    browser: true,
+    es2021: true
   },
-  'extends': [
+  extends: [
     'eslint:recommended',
     'plugin:react/recommended',
     'plugin:react/jsx-runtime',
-    'next/core-web-vitals'
+    'next/core-web-vitals',
+    'plugin:@typescript-eslint/recommended'
   ],
-  'parserOptions': {
-    'ecmaFeatures': {
-      'jsx': true
+  parser: '@typescript-eslint/parser',
+  parserOptions: {
+    ecmaFeatures: {
+      jsx: true
     },
-    'ecmaVersion': 12,
-    'sourceType': 'module'
+    ecmaVersion: 12,
+    sourceType: 'module'
   },
-  'plugins': ['react'],
-  'rules': {
+  plugins: [
+    'react',
+    '@typescript-eslint'
+  ],
+  rules: {
     'indent': [ERROR, 2],
     'linebreak-style': [ERROR, 'unix'],
     'quotes': [ERROR, 'single'],
     'semi': [ERROR, 'never'],
-    'react/prop-types': [OFF]
+    'react/prop-types': [OFF],
+    '@typescript-eslint/no-empty-function': [OFF]
   }
 }
