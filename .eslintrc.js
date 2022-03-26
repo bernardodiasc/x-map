@@ -5,14 +5,17 @@ module.exports = {
   root: true,
   env: {
     browser: true,
-    es2021: true
+    es2021: true,
+    'jest/globals': true
   },
   extends: [
     'eslint:recommended',
     'plugin:react/recommended',
     'plugin:react/jsx-runtime',
     'next/core-web-vitals',
-    'plugin:@typescript-eslint/recommended'
+    'plugin:@typescript-eslint/recommended',
+    'plugin:jest/recommended',
+    'plugin:jest/style'
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
@@ -24,7 +27,8 @@ module.exports = {
   },
   plugins: [
     'react',
-    '@typescript-eslint'
+    '@typescript-eslint',
+    'jest'
   ],
   rules: {
     'indent': [ERROR, 2],
