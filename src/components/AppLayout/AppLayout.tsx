@@ -11,9 +11,13 @@ import InfoPanel from '@components/InfoPanel'
 
 import { MODAL_IDS } from '@lib/constants'
 
-import * as styles from './AppLayout.module.css'
+import styles from './AppLayout.module.css'
 
-const AppLayout = ({ children }) => {
+type Props = {
+  children?: React.ReactNode
+}
+
+const AppLayout = ({ children }: Props): JSX.Element => {
   const {
     state: { visibleModal, shouldModalBeClosable },
     actions: { setVisibleModal },
