@@ -47,7 +47,7 @@ const MainMenu = () => {
       )}
       {profile && (
         <Button onClick={handleToggleVisibleModal(MODAL_IDS.EVENTS_MANAGER)}>
-          Update events
+          Manage your events
         </Button>
       )}
       {profile && (

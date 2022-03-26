@@ -1,0 +1,16 @@
+.component:hover {
+  background: hsl(0, 0%, 99%);
+  border-radius: 5px;
+}
+
+.title {
+  cursor: pointer;
+  margin: 20px 0 0;
+  font-size: 1.4em;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.title:hover {
+  text-decoration: underline;
+}
