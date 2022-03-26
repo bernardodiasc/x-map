@@ -7,7 +7,7 @@ import LocationForm from '@components/LocationForm'
 import Modal from '@components/Modal'
 import Button from '@components/Button'
 
-import { sortBySinceDate, getLatestLocation } from '@lib/locations'
+import { getLatestLocation } from '@lib/locations'
 
 import * as styles from './LocationsManager.module.css'
 

@@ -1,5 +1,3 @@
-import * as styles from './RejectedFiles.module.css'
-
 const RejectedFiles = ({ files }) => files.length > 0 ? (
   <div>
     <h4>Rejected files</h4>

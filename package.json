@@ -8,6 +8,11 @@
     "lint": "next lint",
     "gen": "node dev/generator/generator.js"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn lint"
+    }
+  },
   "dependencies": {
     "@googlemaps/markerclusterer": "^1.0.15",
     "axios": "^0.24.0",
@@ -32,8 +37,10 @@
   },
   "devDependencies": {
     "ejs": "^3.1.6",
-    "eslint": "7",
+    "eslint": "<8.0.0",
     "eslint-config-next": "12.0.4",
+    "eslint-plugin-react": "^7.29.4",
+    "husky": "^7.0.4",
     "inquirer": "^8.2.0"
   }
 }

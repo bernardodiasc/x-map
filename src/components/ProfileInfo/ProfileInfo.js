@@ -6,7 +6,7 @@ import useMapContext from '@contexts/Map'
 
 import { getRecordsByCoordinates } from '@lib/locations'
 
-const ProfileInfo = ({ children }) => {
+const ProfileInfo = () => {
   const { state: { collections } } = useAppContext()
   const { state: { selectedCoordinates } } = useMapContext()
 

@@ -1,4 +1,4 @@
-import { normalizeLocationsApiData, getFutureLocations, getLocationByCoordinates, sortBySinceDate } from '@lib/locations'
+import { normalizeLocationsApiData, getFutureLocations, sortBySinceDate } from '@lib/locations'
 
 export const normalizeEventApiData = event => {
   const locations = normalizeLocationsApiData(event.attributes.locations)

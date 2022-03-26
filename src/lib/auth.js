@@ -28,6 +28,6 @@ export function setAuthToken (token) {
   initAuthHeader(token)
 }
 
-export function checkAuth (token) {
+export function checkAuth () {
   return axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/users/me`)
 }

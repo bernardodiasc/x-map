@@ -1,4 +1,4 @@
-import { normalizeLocationsApiData, getLatestLocation, getLocationByCoordinates } from '@lib/locations'
+import { normalizeLocationsApiData, getLatestLocation } from '@lib/locations'
 
 export const normalizeProfileApiData = profile => {
   const locations = normalizeLocationsApiData(profile.attributes.locations)

@@ -75,7 +75,7 @@ const LocationForm = ({ locationId, toggleLocationFormModal }) => {
             location.id === apiData.data.id
               ? normalizeLocationApiData(apiData.data)
               : location
-            )
+          )
         ].sort(sortBySinceDate)
       const updatedProfile = {
         ...profile,
@@ -95,7 +95,7 @@ const LocationForm = ({ locationId, toggleLocationFormModal }) => {
   const handleDeleteLocation = useCallback(async () => {
     setApiError()
     try {
-      const { data: apiData } = await axios.delete(`${ENDPOINTS.LOCATIONS}/${locationId}`)
+      await axios.delete(`${ENDPOINTS.LOCATIONS}/${locationId}`)
       const updatedProfile = {
         ...profile,
         locations: [

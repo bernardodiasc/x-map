@@ -1,12 +1,9 @@
 import { useState, useCallback, useMemo } from 'react'
-import Image from 'next/image'
 import { useDropzone } from 'react-dropzone'
 
 import ShowThumbnails from './ShowThumbnails'
-import AcceptedFiles from './AcceptedFiles'
-import RejectedFiles from './RejectedFiles'
-
-import Button from '@components/Button'
+// import AcceptedFiles from './AcceptedFiles'
+// import RejectedFiles from './RejectedFiles'
 
 import * as styles from './ImagesSelector.module.css'
 
@@ -16,7 +13,7 @@ const ImagesSelector = ({ title, images = [], maxFiles = 1, selectFiles, disable
   // TO DO: Allow user to remove individual images from the list
 
   const onDrop = useCallback(acceptedFiles => {
-    const selectingFilesStatuses = acceptedFiles.reduce((acc, cur, i) => ({ ...acc, [i]: undefined }), {})
+    let selectingFilesStatuses = acceptedFiles.reduce((acc, cur, i) => ({ ...acc, [i]: undefined }), {})
     setSelectedFiles(selectingFilesStatuses)
     acceptedFiles.forEach((file, i) => {
       const reader = new FileReader()
@@ -38,8 +35,8 @@ const ImagesSelector = ({ title, images = [], maxFiles = 1, selectFiles, disable
   }, [selectFiles])
 
   const {
-    acceptedFiles,
-    fileRejections,
+    // acceptedFiles,
+    // fileRejections,
     getRootProps,
     getInputProps,
     isDragActive,
@@ -65,14 +62,14 @@ const ImagesSelector = ({ title, images = [], maxFiles = 1, selectFiles, disable
     ...Object.keys(selectedFiles).map(key => selectedFiles[key]),
     ...images,
   ].reduce((acc, cur, i) => {
-      if (i < maxFiles) {
-        return {
-          ...acc,
-          [i]: cur
-        }
+    if (i < maxFiles) {
+      return {
+        ...acc,
+        [i]: cur
       }
-      return acc
-    }, {})
+    }
+    return acc
+  }, {})
 
   return (
     <div className={styles.component}>

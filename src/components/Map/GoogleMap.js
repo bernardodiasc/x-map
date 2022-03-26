@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import { Map } from 'google-maps-react'
-import { MarkerClusterer } from "@googlemaps/markerclusterer"
+import { MarkerClusterer } from '@googlemaps/markerclusterer'
 
 import useAppContext from '@contexts/App'
 import useMapContext from '@contexts/Map'
@@ -12,8 +12,6 @@ const mapStyles = {
   height: 'calc(100vh - 80px)',
 }
 
-let googleMap
-
 export default function MapContainer({ google, featureCollection }) {
   const { state: { collections, features } } = useAppContext()
   const {
@@ -24,10 +22,9 @@ export default function MapContainer({ google, featureCollection }) {
   const bounds = useMemo(() => new google.maps.LatLngBounds(), [google])
 
   const loadGeoData = (mapProps, map) => {
-    googleMap = map
-
+    let markerClusterer
     if (features?.MARKER_CLUSTERER) {
-      const markerClusterer = new MarkerClusterer(map, null, { imagePath: 'https://cdn.rawgit.com/googlemaps/js-marker-clusterer/gh-pages/images/m' })
+      markerClusterer = new MarkerClusterer(map, null, { imagePath: 'https://cdn.rawgit.com/googlemaps/js-marker-clusterer/gh-pages/images/m' })
       markerClusterer.setMap(map)
     }
 
@@ -43,12 +40,12 @@ export default function MapContainer({ google, featureCollection }) {
           map: map,
         })
 
-        google.maps.event.addListener(marker, 'click', function (marker, event) {
+        google.maps.event.addListener(marker, 'click', function () {
           return function() {
             setSelectedCoordinates(coordinates)
             setSelectedFeature(id)
           }
-        }(marker, event))
+        }())
 
         if (features?.MARKER_CLUSTERER) {
           markerClusterer.addMarker(marker)

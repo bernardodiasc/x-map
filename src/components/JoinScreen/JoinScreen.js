@@ -6,11 +6,8 @@ import useAppContext from '@contexts/App'
 import AccountForm from '@components/AccountForm'
 import LogInForm from '@components/LogInForm'
 import SignUpForm from '@components/SignUpForm'
-import InputLabel from '@components/InputLabel'
 import Button from '@components/Button'
 import Loading from '@components/Loading'
-
-import { setAuthToken } from '@lib/auth'
 
 import * as styles from './JoinScreen.module.css'
 

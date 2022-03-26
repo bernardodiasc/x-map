@@ -12,14 +12,12 @@ import Modal from '@components/Modal'
 import Button from '@components/Button'
 
 import { getEventsByProfileId } from '@lib/events'
-import { getLocationById } from '@lib/locations'
 
 import * as styles from './EventsManager.module.css'
 
 const EventsManager = () => {
   const { state: { profile } } = useAuthContext()
   const { state: { collections } } = useAppContext()
-  const [editingEventId, setEditingEventId] = useState()
   const [editingEvent, setEditingEvent] = useState()
   const [eventFormModal, toggleEventFormModal] = useState(false)
   const [editingLocation, setEditingLocation] = useState()

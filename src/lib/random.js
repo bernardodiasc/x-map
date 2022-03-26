@@ -1,7 +1,7 @@
 import jsf from 'json-schema-faker'
 
 export const getSamples = (schema, amount = 1, fixture = false) => {
-  const samples = new Array(amount);
+  const samples = new Array(amount)
 
   for (let i = 0; i < samples.length; i++){
     if (fixture) {
@@ -60,7 +60,7 @@ export const randomLongitude = (options) => {
   var MAX = 180
   var MIN = -180
 
-  options = assign({
+  options = Object.assign({
     fixed: 5,
     min: MIN,
     max: MAX
@@ -79,7 +79,7 @@ export const randomAltitude = (options) => {
   var MAX = 8488
   var MIN = 0
 
-  options = assign({
+  options = Object.assign({
     fixed: 5,
     min: MIN,
     max: MAX
@@ -105,14 +105,3 @@ export const randomGeoCoordinates = (options) => {
 
 // https://github.com/mock-end/random-country/
 // ...
-
-export default {
-  getSamples,
-  clamp,
-  randomFloat,
-  randomLatitude,
-  randomLongitude,
-  randomAltitude,
-  randomCoordinates,
-  randomGeoCoordinates,
-}

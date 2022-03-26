@@ -1,5 +1,3 @@
-import LocationRow from '@components/EventsManager/LocationRow'
-
 import * as styles from './EventRow.module.css'
 
 const EventRow = ({ children, event, handleEditEvent }) => {

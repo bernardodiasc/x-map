@@ -9,14 +9,14 @@ export default NextAuth({
     }),
   ],
   callbacks: {
-    session: async ({ session, user, token }) => {
+    session: async ({ session, user }) => {
       if (user) {
         session.jwt = user.jwt
         session.id = user.id
       }
       return session
     },
-    jwt: async ({ token, user, account, profile, isNewUser }) => {
+    jwt: async ({ token, user, account }) => {
       const isSignIn = user ? true : false
       if (isSignIn) {
         const response = await fetch(

@@ -1,4 +1,3 @@
-import dynamic from 'next/dynamic'
 import { MapContainer, Marker, Popup } from 'react-leaflet'
 
 import 'leaflet/dist/leaflet.css'

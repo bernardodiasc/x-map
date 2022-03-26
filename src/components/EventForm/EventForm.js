@@ -3,7 +3,6 @@ import axios from 'axios'
 import { useForm, Controller } from 'react-hook-form'
 import Select from 'react-select'
 
-import useAuthContext from '@contexts/Auth'
 import useAppContext from '@contexts/App'
 
 import Form from '@components/Form'
@@ -22,9 +21,8 @@ const createEventOption = event => ({
   label: event.title,
 })
 
-const EventForm = ({ event = {}, toggleModal, addLocation }) => {
+const EventForm = ({ event = {}, addLocation }) => {
   const { register, handleSubmit, formState: { errors, isSubmitting }, control, setValue } = useForm()
-  const { state: { profile }, actions: { setProfile } } = useAuthContext()
   const { state: { collections: { events } }, actions: { refetchCollections } } = useAppContext()
   const [apiSuccess, setApiSuccess] = useState()
   const [apiError, setApiError] = useState()
@@ -32,15 +30,7 @@ const EventForm = ({ event = {}, toggleModal, addLocation }) => {
   const [isNew, setIsNew] = useState(!event?.id)
   const [eventOptions, setEventOptions] = useState(events.map(createEventOption))
 
-  const onSubmit = useCallback(async ({
-    title,
-    info,
-    country,
-    city,
-    address,
-    since,
-    until,
-  }) => {
+  const onSubmit = useCallback(async ({ title, info }) => {
     setApiSuccess()
     setApiError()
 
@@ -82,21 +72,6 @@ const EventForm = ({ event = {}, toggleModal, addLocation }) => {
     }
   }, [editingEvent, events, isNew, refetchCollections])
 
-  const handleDeleteEvent = useCallback(async () => {
-    setApiError()
-    try {
-      const locations = editingEvent.locations.filter(location => location.profile === profile.id)
-      Promise.all(locations.map(async location => {
-        await axios.delete(`${ENDPOINTS.LOCATIONS}/${location.id}`)
-      }))
-      refetchCollections()
-      toggleModal(false)
-    } catch (error) {
-      console.error(error)
-      setApiError(error?.response?.data?.error?.message)
-    }
-  }, [editingEvent, profile, refetchCollections, toggleModal])
-
   const handleEventSelectorChange = option => {
     setApiSuccess()
     setApiError()
@@ -127,7 +102,7 @@ const EventForm = ({ event = {}, toggleModal, addLocation }) => {
         <Controller
           control={control}
           name="edit"
-          render={({ field: { onChange, value, name, ref } }) => (
+          render={({ field: { onChange, value, ref } }) => (
             <Select
               placeholder="Or leave blank to create new event."
               inputRef={ref}
@@ -160,30 +135,6 @@ const EventForm = ({ event = {}, toggleModal, addLocation }) => {
           disabled={isSubmitting}
         />
       </InputLabel>
-{/*
-      <hr />
-      <h2>Location and date:</h2>
-      <InputLabel title="Country:" isRequired>
-        <InputField
-          register={register('country', { required: true })}
-          disabled={isSubmitting}
-        />
-        <InputError hasError={errors.country}>This field is required.</InputError>
-      </InputLabel>
-      <InputLabel title="City:" isRequired>
-        <InputField
-          register={register('city', { required: true })}
-          disabled={isSubmitting}
-        />
-        <InputError hasError={errors.country}>This field is required.</InputError>
-      </InputLabel>
-      <InputLabel title="Address:">
-        <InputField
-          register={register('address')}
-          disabled={isSubmitting}
-        />
-      </InputLabel>
-*/}
       <Button type="submit" wide disabled={isSubmitting}>
         {isSubmitting ? 'Saving...' : 'Save'}
       </Button>
