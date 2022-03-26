@@ -6,12 +6,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "gen": "node dev/generator/generator.js"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "yarn lint"
-    }
+    "gen": "node dev/generator/generator.js",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@googlemaps/markerclusterer": "^1.0.15",
