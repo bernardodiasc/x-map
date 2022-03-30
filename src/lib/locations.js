@@ -65,3 +65,8 @@ export const getRecordsByCoordinates = (collection, selectedCoordinates) => coll
 
 export const getLocationById = (locations, locationId) =>
   locations.find(location => location.id === locationId) || {}
+
+export const getFormattedLocationTitle = (location = {}) =>
+  [location.country, location.city]
+    .reduce((acc, cur) => cur ? [...acc, cur] : acc, [])
+    .join(' - ')

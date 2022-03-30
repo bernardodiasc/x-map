@@ -54,7 +54,9 @@ const SignUpForm = () => {
         <InputError hasError={errors.password}>This field is required.</InputError>
       </InputLabel>
       <InputLabel>
-        <Button type="submit" wide disabled={isSubmitting}>Sign Up</Button>
+        <Button type="submit" wide disabled={isSubmitting}>
+          {isSubmitting ? 'Signing up...' : 'Sign Up'}
+        </Button>
       </InputLabel>
     </Form>
   )

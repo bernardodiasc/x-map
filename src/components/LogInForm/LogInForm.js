@@ -53,7 +53,9 @@ const LogInForm = () => {
         <InputError hasError={errors.password}>This field is required.</InputError>
       </InputLabel>
       <InputLabel>
-        <Button type="submit" wide disabled={isSubmitting}>Log In</Button>
+        <Button type="submit" wide disabled={isSubmitting}>
+          {isSubmitting ? 'Logging in...' : 'Log In'}
+        </Button>
       </InputLabel>
     </Form>
   )

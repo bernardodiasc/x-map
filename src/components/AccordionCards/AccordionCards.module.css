@@ -12,14 +12,17 @@
   margin: 0;
   padding: 20px 10px;
   cursor: pointer;
+  background: linear-gradient(0deg, rgb(240, 240, 240) 0%, rgba(255, 255, 255) 100%);
 }
 
 .button:hover {
-  background: rgba(0, 0, 0, 0.02);
+  background-color: hsl(0, 0%, 95%);
+  background: linear-gradient(180deg, rgba(240, 240, 240) 0%, rgba(255, 255, 255) 100%);
 }
 
+
 .expandedItem > .button {
-  background: rgba(0, 0, 0, 0.04);
+  display: none;
 }
 
 .button:before {
@@ -47,7 +50,9 @@
 
 .expandedItem > .content {
   display: block;
-  margin: 0 0 30px;
+  margin: 10px;
+  border: 1px dashed rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
 }
 
 .item:only-of-type > .content{
