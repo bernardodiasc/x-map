@@ -3,14 +3,21 @@
 .title {
   display: flex;
   justify-content: center;
+  align-items: center;
   margin: 0;
   padding: 20px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
+.title > svg {
+  margin-right: 5px;
+}
+
 .button {
+  display: flex;
+  align-items: center;
   margin: 0;
-  padding: 20px 10px;
+  padding: 20px;
   cursor: pointer;
   background: linear-gradient(0deg, rgb(240, 240, 240) 0%, rgba(255, 255, 255) 100%);
 }
@@ -20,24 +27,35 @@
   background: linear-gradient(180deg, rgba(240, 240, 240) 0%, rgba(255, 255, 255) 100%);
 }
 
+.image {
+  display: inline-flex;
+  margin-right: 5px;
+  flex-shrink: 0;
+}
+
+.image img {
+  border-radius: 50%;
+}
+
+.label {
+  width: 100%;
+  margin-right: 5px;
+}
+
+.arrow {
+  flex-shrink: 0;
+}
+
+.button:hover .arrow svg {
+  opacity: 1;
+}
+
+.button .arrow svg {
+  opacity: .6;
+}
 
 .expandedItem > .button {
   display: none;
-}
-
-.button:before {
-  display: inline-block;
-  content: '';
-  height: 6px;
-  width: 6px;
-  margin-right: 12px;
-  border-bottom: 2px solid currentColor;
-  border-right: 2px solid currentColor;
-  transform: rotate(-45deg) translate(4px, 0px);
-}
-
-.expandedItem > .button::before {
-  transform: rotate(45deg) translate(0px, -6px);
 }
 
 .content {

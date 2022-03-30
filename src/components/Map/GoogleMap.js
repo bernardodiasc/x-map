@@ -73,6 +73,9 @@ export default function MapContainer({ google, featureCollection }) {
       google={google}
       style={mapStyles}
       onReady={loadGeoData}
+      scaleControl
+      fullscreenControl={false}
+      keyboardShortcuts={false}
     />
   )
 }
