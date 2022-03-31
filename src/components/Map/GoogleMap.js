@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useMemo, useCallback } from 'react'
 import { Map } from 'google-maps-react'
 import { MarkerClusterer } from '@googlemaps/markerclusterer'
 
@@ -16,21 +16,40 @@ export default function MapContainer({ google, featureCollection }) {
   const { state: { collections, features } } = useAppContext()
   const {
     state: { selectedCollection },
-    actions: { setSelectedFeature, setSelectedCoordinates }
+    actions: { setSelectedCoordinates }
   } = useMapContext()
 
   const bounds = useMemo(() => new google.maps.LatLngBounds(), [google])
 
+  const onClusterClickHandler = useCallback((event, cluster, map) => {
+    const allMarkersPositions = cluster.markers.reduce((acc, cur, key) => {
+      const position = cur.getPosition()
+      return [...acc, { key, lat: position.lat(), lng: position.lng() }]
+    }, [])
+    const isAllMarkersOnSamePosition = allMarkersPositions.reduce((acc, cur, key) => {
+      return Boolean(allMarkersPositions
+        .find(marker => marker.key !== key && marker.lat === cur.lat && marker.lng === cur.lng)
+      )
+    }, true)
+    if (isAllMarkersOnSamePosition) {
+      const position = cluster.markers[0].position
+      setSelectedCoordinates([position.lng(), position.lat()])
+      map.setCenter(position)
+      map.setZoom(10)
+    } else {
+      map.fitBounds(cluster.bounds)
+    }
+  }, [setSelectedCoordinates])
+
   const loadGeoData = (mapProps, map) => {
     let markerClusterer
     if (features?.MARKER_CLUSTERER) {
-      markerClusterer = new MarkerClusterer(map, null, { imagePath: 'https://cdn.rawgit.com/googlemaps/js-marker-clusterer/gh-pages/images/m' })
+      markerClusterer = new MarkerClusterer({ map, onClusterClick: onClusterClickHandler })
       markerClusterer.setMap(map)
     }
 
     google.maps.event.addListener(map.data, 'addfeature', function (event) {
       if (event.feature.getGeometry().getType() === 'Point') {
-        const id = event.feature.getProperty('id')
         const coordinates = event.feature.getProperty('coordinates')
         const records = getRecordsByCoordinates(collections[selectedCollection.toLowerCase()], coordinates)
 
@@ -43,7 +62,6 @@ export default function MapContainer({ google, featureCollection }) {
         google.maps.event.addListener(marker, 'click', function () {
           return function() {
             setSelectedCoordinates(coordinates)
-            setSelectedFeature(id)
           }
         }())
 

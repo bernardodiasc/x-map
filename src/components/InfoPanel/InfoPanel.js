@@ -11,29 +11,29 @@ import * as styles from './InfoPanel.module.css'
 
 const Panel = () => {
   const {
-    state: { selectedFeature, selectedCollection },
-    actions: { setSelectedFeature }
+    state: { selectedCoordinates, selectedCollection },
+    actions: { setSelectedCoordinates }
   } = useMapContext()
   const [visible, setVisible] = useState(false)
   const [currentCollection, setCurrentCollection] = useState(selectedCollection)
 
   useEffect(() => {
-    if (selectedFeature) {
+    if (selectedCoordinates) {
       setVisible(true)
     }
-  }, [selectedFeature])
+  }, [selectedCoordinates])
 
   useEffect(() => {
     if (selectedCollection !== currentCollection) {
       setVisible(false)
-      setSelectedFeature(null)
+      setSelectedCoordinates(null)
       setCurrentCollection(selectedCollection)
     }
-  }, [currentCollection, selectedCollection, setSelectedFeature])
+  }, [currentCollection, selectedCollection, setSelectedCoordinates])
 
   const close = () => {
     setVisible(false)
-    setSelectedFeature(null)
+    setSelectedCoordinates(null)
   }
 
   const collectionInfo = {
@@ -45,7 +45,7 @@ const Panel = () => {
 
   const isChangingCollection = selectedCollection !== currentCollection
 
-  return selectedFeature && visible && !isChangingCollection ? (
+  return selectedCollection && visible && !isChangingCollection ? (
     <section className={styles.info}>
       <div className={styles.close} onClick={close}>
         <svg viewBox="0 0 100 100" width="24px" height="24px">

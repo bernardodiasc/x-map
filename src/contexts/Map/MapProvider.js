@@ -12,7 +12,6 @@ import { COLLECTIONS } from '@lib/constants'
 const MapProvider = ({ children }) => {
   const { state: { collections } } = useAppContext()
   const [selectedCollection, setSelectedCollection] = useState(COLLECTIONS.PROFILES)
-  const [selectedFeature, setSelectedFeature] = useState()
   const [selectedCoordinates, setSelectedCoordinates] = useState()
 
   const collectionsGeoData = {
@@ -28,12 +27,10 @@ const MapProvider = ({ children }) => {
         state: {
           featureCollection,
           selectedCollection,
-          selectedFeature,
           selectedCoordinates,
         },
         actions: {
           setSelectedCollection,
-          setSelectedFeature,
           setSelectedCoordinates,
         },
       }}
