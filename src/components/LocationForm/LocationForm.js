@@ -45,7 +45,12 @@ const LocationForm = ({ locationId, toggleLocationFormModal }) => {
       endpoint: `${ENDPOINTS.LOCATIONS}/${locationId || location.id}`,
     }
 
-    const { latitude, longitude } = await getCoordinates({ country, city, address })
+    const {
+      latitude,
+      longitude,
+      country: geocodeCountry,
+      city: geocodeCity,
+    } = await getCoordinates({ country, city, address })
 
     if (!latitude || !longitude) {
       setApiError('Invalid location.')
@@ -55,8 +60,8 @@ const LocationForm = ({ locationId, toggleLocationFormModal }) => {
     try {
       const { data: apiData } = await action.method(action.endpoint, {
         data: {
-          country,
-          city,
+          country: geocodeCountry || country,
+          city: geocodeCity || city,
           address,
           since: since !== '' ? since : undefined,
           until: until !== '' ? until : undefined,

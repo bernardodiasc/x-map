@@ -18,9 +18,20 @@ export const getCoordinates = async ({ country, city, address }) => {
       latitude: undefined,
     }
   }
-  const { location } = results[0]?.geometry
+  const { address_components = [], geometry = {} } = results[0] || {}
+  const { location } = geometry
+  const geocodeCountry = address_components
+    .find(address => address.types.includes('country') && address.types.includes('political'))
+  const geocodeCity = address_components
+    .find(address => address.types.includes('locality') && address.types.includes('political'))
+  console.log(results, geocodeCountry, geocodeCity)
+  // TO DO:
+  // - return official values for country, city and address
+  // - replace user-input with the official values
   return {
     longitude: location.lng,
     latitude: location.lat,
+    country: geocodeCountry?.long_name,
+    city: geocodeCity?.long_name,
   }
 }
