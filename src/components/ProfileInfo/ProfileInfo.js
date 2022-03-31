@@ -10,6 +10,10 @@ const ProfileInfo = () => {
   const { state: { collections } } = useAppContext()
   const { state: { selectedCoordinates } } = useMapContext()
 
+  if (!selectedCoordinates) {
+    return null
+  }
+
   const selectedProfiles = getRecordsByCoordinates(collections.profiles, selectedCoordinates)
 
   return (

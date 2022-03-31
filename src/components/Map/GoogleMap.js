@@ -34,9 +34,8 @@ export default function MapContainer({ google, featureCollection }) {
     if (isAllMarkersOnSamePosition) {
       const position = cluster.markers[0].position
       setSelectedCoordinates([position.lng(), position.lat()])
-      map.setCenter(position)
-      map.setZoom(10)
     } else {
+      setSelectedCoordinates(null)
       map.fitBounds(cluster.bounds)
     }
   }, [setSelectedCoordinates])

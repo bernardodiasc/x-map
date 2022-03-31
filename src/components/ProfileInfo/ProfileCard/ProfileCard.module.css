@@ -29,15 +29,15 @@
 }
 
 .name {
-  margin: 0 0 10px;
-  font-size: 26px;
+  margin: 0 0 5px;
+  font-size: 28px;
 }
 
 .location {
   display: flex;
   align-items: center;
-  margin: 0 0 15px;
-  font-size: 18px;
+  margin: 0 0 10px;
+  font-size: 20px;
 }
 
 .location > svg {
@@ -45,7 +45,7 @@
 }
 
 .about {
-  font-size: 18px;
+  font-size: 20px;
   margin: 0 0 10px;
   color: hsl(0, 0%, 40%);
 }

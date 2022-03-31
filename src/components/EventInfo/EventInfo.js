@@ -10,6 +10,10 @@ const EventInfo = () => {
   const { state: { collections } } = useAppContext()
   const { state: { selectedCoordinates } } = useMapContext()
 
+  if (!selectedCoordinates) {
+    return null
+  }
+
   const selectedEvents = getRecordsByCoordinates(collections.events, selectedCoordinates)
 
   return (
