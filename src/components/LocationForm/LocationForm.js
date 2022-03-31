@@ -11,7 +11,7 @@ import InputLabel from '@components/InputLabel'
 import InputError from '@components/InputError'
 import Button from '@components/Button'
 
-import { normalizeLocationApiData, sortBySinceDate, getLocationById } from '@lib/locations'
+import { normalizeLocationApiData, sortByStartDate, getLocationById } from '@lib/locations'
 import { getCoordinates } from '@lib/geocode'
 import { ENDPOINTS } from '@lib/constants'
 
@@ -31,8 +31,8 @@ const LocationForm = ({ locationId, toggleLocationFormModal }) => {
     country,
     city,
     address,
-    since,
-    until,
+    start,
+    end,
   }) => {
     setApiSuccess()
     setApiError()
@@ -58,8 +58,8 @@ const LocationForm = ({ locationId, toggleLocationFormModal }) => {
           country,
           city,
           address,
-          since: since !== '' ? since : undefined,
-          until: until !== '' ? until : undefined,
+          start: start !== '' ? start : undefined,
+          end: end !== '' ? end : undefined,
           latitude: String(latitude),
           longitude: String(longitude),
           profile: profile.id,
@@ -69,14 +69,14 @@ const LocationForm = ({ locationId, toggleLocationFormModal }) => {
         ? [
           ...profile.locations,
           normalizeLocationApiData(apiData.data),
-        ].sort(sortBySinceDate)
+        ].sort(sortByStartDate)
         : [
           ...profile.locations.map(location =>
             location.id === apiData.data.id
               ? normalizeLocationApiData(apiData.data)
               : location
           )
-        ].sort(sortBySinceDate)
+        ].sort(sortByStartDate)
       const updatedProfile = {
         ...profile,
         locations,
@@ -147,19 +147,19 @@ const LocationForm = ({ locationId, toggleLocationFormModal }) => {
       </InputLabel>
       {features?.TRAVELS && (
         <>
-          <InputLabel title="Since:">
+          <InputLabel title="Start:">
             <InputField
               type="date"
-              register={register('since')}
-              defaultValue={location.since}
+              register={register('start')}
+              defaultValue={location.start}
               disabled={isSubmitting}
             />
           </InputLabel>
-          <InputLabel title="Until:">
+          <InputLabel title="End:">
             <InputField
               type="date"
-              register={register('until')}
-              defaultValue={location.until}
+              register={register('end')}
+              defaultValue={location.end}
               disabled={isSubmitting}
             />
           </InputLabel>

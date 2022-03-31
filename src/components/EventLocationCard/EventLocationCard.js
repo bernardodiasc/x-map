@@ -8,8 +8,8 @@ const EventLocationCard = ({ location, onClick }) => {
     onClick && onClick()
   }
 
-  const since = new Date(location.since)
-  const until = new Date(location.until)
+  const start = new Date(location.start)
+  const end = new Date(location.end)
 
   return (
     <div
@@ -39,22 +39,22 @@ const EventLocationCard = ({ location, onClick }) => {
           </div>
         )}
       </div>
-      {(location.since || location.until) && (
+      {(location.start || location.end) && (
         <div className={styles.dates}>
-          {location.since && (
+          {location.start && (
             <div className={styles.date}>
               <div className={styles.dateLabel}>Start:</div>
-              <div className={styles.day}>{format(since, 'dd')}</div>
-              <div className={styles.month}>{format(since, 'MMMM')}</div>
-              <div className={styles.year}>{format(since, 'yyyy')}</div>
+              <div className={styles.day}>{format(start, 'dd')}</div>
+              <div className={styles.month}>{format(start, 'MMMM')}</div>
+              <div className={styles.year}>{format(start, 'yyyy')}</div>
             </div>
           )}
-          {location.until && (
+          {location.end && (
             <div className={styles.date}>
               <div className={styles.dateLabel}>End:</div>
-              <div className={styles.day}>{format(until, 'dd')}</div>
-              <div className={styles.month}>{format(until, 'MMMM')}</div>
-              <div className={styles.year}>{format(until, 'yyyy')}</div>
+              <div className={styles.day}>{format(end, 'dd')}</div>
+              <div className={styles.month}>{format(end, 'MMMM')}</div>
+              <div className={styles.year}>{format(end, 'yyyy')}</div>
             </div>
           )}
         </div>

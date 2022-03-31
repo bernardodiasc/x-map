@@ -1,4 +1,4 @@
-import { normalizeLocationsApiData, getFutureLocations, sortBySinceDate } from '@lib/locations'
+import { normalizeLocationsApiData, getFutureLocations, sortByStartDate } from '@lib/locations'
 
 export const normalizeEventApiData = event => {
   const locations = normalizeLocationsApiData(event.attributes.locations)
@@ -33,6 +33,6 @@ export const getEventsWithCoordinatesFromFutureLocations = events =>
 
 export const getEventsByProfileId = (events, profileId) =>
   events.reduce((acc, cur) => {
-    const locations = cur.locations.filter(location => location.profile === profileId).sort(sortBySinceDate)
+    const locations = cur.locations.filter(location => location.profile === profileId).sort(sortByStartDate)
     return locations.length > 0 ? [...acc, { ...cur, locations }] : acc
   }, [])

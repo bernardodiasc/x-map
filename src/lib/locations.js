@@ -1,15 +1,15 @@
 import { normalizeAttendeesApiData } from '@lib/attendees'
 
 export const getLatestLocation = (locations = []) => locations
-  .reduce((acc, cur) => (acc.since > cur.since ? acc : cur), {})
+  .reduce((acc, cur) => (acc.start > cur.start ? acc : cur), {})
 
 export const getFutureLocations = (locations = []) => locations
   .reduce((acc, cur) => {
-    const isValid = !cur.until || new Date(cur.until) >= new Date()
+    const isValid = !cur.end || new Date(cur.end) >= new Date()
     return isValid ? [...acc, cur] : acc
   }, [])
 
-export const sortBySinceDate = (a, b) => new Date(b.since) - new Date(a.since)
+export const sortByStartDate = (a, b) => new Date(b.start) - new Date(a.start)
 
 export const normalizeLocationApiData = location => {
   const normalizedLocation = {
@@ -19,8 +19,8 @@ export const normalizeLocationApiData = location => {
     country: location.attributes.country,
     latitude: location.attributes.latitude,
     longitude: location.attributes.longitude,
-    since: location.attributes.since,
-    until: location.attributes.until,
+    start: location.attributes.start,
+    end: location.attributes.end,
     coordinates: [
       Number(location.attributes.longitude),
       Number(location.attributes.latitude),
@@ -42,7 +42,7 @@ export const normalizeLocationApiData = location => {
 }
 
 export const normalizeLocationsApiData = apiData => apiData?.data
-  ? apiData.data.map(normalizeLocationApiData).sort(sortBySinceDate)
+  ? apiData.data.map(normalizeLocationApiData).sort(sortByStartDate)
   : undefined
 
 export const getLocationByCoordinates = (locations, selectedCoordinates) => locations

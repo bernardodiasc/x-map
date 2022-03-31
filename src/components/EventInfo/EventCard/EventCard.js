@@ -1,11 +1,10 @@
 import Markdown from 'markdown-to-jsx'
-import { format } from 'date-fns'
 
 import EventLocationCard from '@components/EventLocationCard'
 
 import * as styles from './EventCard.module.css'
 
-const EventCard = ({ item, inAccordion }) => {
+const EventCard = ({ item }) => {
   const renderEventLocationCard = (location) => (
     <EventLocationCard
       key={`event-${item.id}-location-${location.id}`}

@@ -36,9 +36,9 @@ const LocationsManager = () => {
             {location.address}
           </div>
           <div className={styles.date}>
-            Since: {location.since}
+            Start: {location.start}
             <br/>
-            {location.until && `Until: ${location.until}`}
+            {location.end && `End: ${location.end}`}
           </div>
         </div>
       </div>
