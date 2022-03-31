@@ -1,28 +1,42 @@
+import Markdown from 'markdown-to-jsx'
 import { format } from 'date-fns'
 
-import * as styles from './LocationRow.module.css'
+import * as styles from './EventLocationCard.module.css'
 
-const LocationRow = ({ event, location, handleEditLocation }) => {
-  const title = [location.country]
-  if (location.city) {
-    title.push(location.city)
+const EventLocationCard = ({ location, onClick }) => {
+  const handleOnClick = () => {
+    onClick && onClick()
   }
+
   const since = new Date(location.since)
   const until = new Date(location.until)
+
   return (
     <div
       className={styles.component}
-      onClick={handleEditLocation(event, location)}
+      onClick={handleOnClick}
     >
       <div className={styles.info}>
+        <div className={styles.title}>
+          {location.title}
+        </div>
+        {location.info && (
+          <Markdown>{location.info}</Markdown>
+        )}
         {location.country && (
-          <div className={styles.infoRow}><b>Country:</b> {location.country}</div>
+          <div className={styles.infoRow}>
+            <b>Country:</b> {location.country}
+          </div>
         )}
         {location.city && (
-          <div className={styles.infoRow}><b>City:</b> {location.city}</div>
+          <div className={styles.infoRow}>
+            <b>City:</b> {location.city}
+          </div>
         )}
         {location.address && (
-          <div className={styles.infoRow}><b>Address:</b> {location.address}</div>
+          <div className={styles.infoRow}>
+            <b>Address:</b> {location.address}
+          </div>
         )}
       </div>
       {(location.since || location.until) && (
@@ -49,4 +63,4 @@ const LocationRow = ({ event, location, handleEditLocation }) => {
   )
 }
 
-export default LocationRow
+export default EventLocationCard

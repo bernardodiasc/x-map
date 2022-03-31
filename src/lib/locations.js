@@ -24,7 +24,10 @@ export const normalizeLocationApiData = location => {
     coordinates: [
       Number(location.attributes.longitude),
       Number(location.attributes.latitude),
-    ]
+    ],
+    event: location.attributes.event,
+    title: location.attributes.title,
+    description: location.attributes.description,
   }
 
   if (location.attributes.attendees) {

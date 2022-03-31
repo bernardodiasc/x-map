@@ -1,9 +1,18 @@
 import Markdown from 'markdown-to-jsx'
 import { format } from 'date-fns'
 
+import EventLocationCard from '@components/EventLocationCard'
+
 import * as styles from './EventCard.module.css'
 
 const EventCard = ({ item, inAccordion }) => {
+  const renderEventLocationCard = (location) => (
+    <EventLocationCard
+      key={`event-${item.id}-location-${location.id}`}
+      location={location}
+    />
+  )
+
   return (
     <div className={styles.component}>
       <h2 className={styles.title}>
@@ -56,54 +65,7 @@ const EventCard = ({ item, inAccordion }) => {
         </svg>
         Schedule:
       </h3>
-      {item.locations.map(location => {
-        const since = new Date(location.since)
-        const until = new Date(location.until)
-        return (
-          <div
-            key={`event-location-${location.id}`}
-            className={styles.location}
-          >
-            <div className={item.location.id === location.id ? styles.selected : ''}>
-              <div className={styles.dates}>
-                {location.since && (
-                  <div className={styles.date}>
-                    <div className={styles.dateLabel}>Start:</div>
-                    <div className={styles.day}>{format(since, 'dd')}</div>
-                    <div className={styles.month}>{format(since, 'MMMM')}</div>
-                    <div className={styles.year}>{format(since, 'yyyy')}</div>
-                  </div>
-                )}
-                {location.until && (
-                  <div className={styles.date}>
-                    <div className={styles.dateLabel}>End:</div>
-                    <div className={styles.day}>{format(until, 'dd')}</div>
-                    <div className={styles.month}>{format(until, 'MMMM')}</div>
-                    <div className={styles.year}>{format(until, 'yyyy')}</div>
-                  </div>
-                )}
-              </div>
-              <div className={styles.details}>
-                {location.country && (
-                  <div className={styles.detailsRow}>
-                    <b>Country:</b> {location.country}
-                  </div>
-                )}
-                {location.city && (
-                  <div className={styles.detailsRow}>
-                    <b>City:</b> {location.city}
-                  </div>
-                )}
-                {location.address && (
-                  <div className={styles.detailsRow}>
-                    <b>Address:</b> {location.address}
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-        )
-      })}
+      {item.locations.map(renderEventLocationCard)}
     </div>
   )
 }

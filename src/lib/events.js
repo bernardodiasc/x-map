@@ -5,7 +5,6 @@ export const normalizeEventApiData = event => {
   const normalizedEvent = {
     id: event.id,
     title: event.attributes.title,
-    info: event.attributes.info,
     locations,
   }
   return normalizedEvent
@@ -26,7 +25,6 @@ export const getEventsWithCoordinatesFromFutureLocations = events =>
       ...futureLocations.map(location => ({
         id: cur.id,
         title: cur.title,
-        info: cur.info,
         location: location,
         coordinates: location.coordinates,
       }))

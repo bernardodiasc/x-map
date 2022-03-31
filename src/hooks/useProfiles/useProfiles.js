@@ -14,7 +14,7 @@ const queryProfilePopulate = {
   locations: {
     fields: '*',
     filters: {
-      event: {
+      category: {
         id: {
           $null: true
         }
