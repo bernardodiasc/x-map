@@ -9,7 +9,9 @@ const EventLocationCard = ({ location, onClick }) => {
   }
 
   const start = new Date(location.start)
+  const startDateOnly = new Date(start.valueOf() + start.getTimezoneOffset() * 60 * 1000)
   const end = new Date(location.end)
+  const endDateOnly = new Date(end.valueOf() + end.getTimezoneOffset() * 60 * 1000)
 
   return (
     <div
@@ -20,9 +22,6 @@ const EventLocationCard = ({ location, onClick }) => {
         <div className={styles.title}>
           {location.title}
         </div>
-        {location.info && (
-          <Markdown>{location.info}</Markdown>
-        )}
         {location.country && (
           <div className={styles.infoRow}>
             <b>Country:</b> {location.country}
@@ -38,23 +37,28 @@ const EventLocationCard = ({ location, onClick }) => {
             <b>Address:</b> {location.address}
           </div>
         )}
+        {location.description && (
+          <div className={styles.description}>
+            <Markdown>{location.description}</Markdown>
+          </div>
+        )}
       </div>
       {(location.start || location.end) && (
         <div className={styles.dates}>
           {location.start && (
             <div className={styles.date}>
               <div className={styles.dateLabel}>Start:</div>
-              <div className={styles.day}>{format(start, 'dd')}</div>
-              <div className={styles.month}>{format(start, 'MMMM')}</div>
-              <div className={styles.year}>{format(start, 'yyyy')}</div>
+              <div className={styles.day}>{format(startDateOnly, 'dd')}</div>
+              <div className={styles.month}>{format(startDateOnly, 'MMMM')}</div>
+              <div className={styles.year}>{format(startDateOnly, 'yyyy')}</div>
             </div>
           )}
           {location.end && (
             <div className={styles.date}>
               <div className={styles.dateLabel}>End:</div>
-              <div className={styles.day}>{format(end, 'dd')}</div>
-              <div className={styles.month}>{format(end, 'MMMM')}</div>
-              <div className={styles.year}>{format(end, 'yyyy')}</div>
+              <div className={styles.day}>{format(endDateOnly, 'dd')}</div>
+              <div className={styles.month}>{format(endDateOnly, 'MMMM')}</div>
+              <div className={styles.year}>{format(endDateOnly, 'yyyy')}</div>
             </div>
           )}
         </div>

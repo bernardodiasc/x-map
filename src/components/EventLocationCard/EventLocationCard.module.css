@@ -10,6 +10,12 @@
   background: hsl(0, 0%, 96%);
 }
 
+.title {
+  font-size: 18px;
+  margin: 0 0 10px;
+  font-weight: 500;
+}
+
 .infoRow {
   margin: 0 0 4px;
   display: flex;
@@ -18,10 +24,11 @@
 
 .infoRow b {
   font-size: 12px;
-  width: 60px;
-  display: inline-block;
-  text-align: right;
   margin: 0 5px 0 0;
+}
+
+.description {
+  margin: 10px 0 0;
 }
 
 .dates {

@@ -1,5 +1,3 @@
-import Markdown from 'markdown-to-jsx'
-
 import EventLocationCard from '@components/EventLocationCard'
 
 import * as styles from './EventCard.module.css'
@@ -29,11 +27,6 @@ const EventCard = ({ item }) => {
         </svg>
         {item.title}
       </h2>
-      {item.info && (
-        <div className={styles.info}>
-          <Markdown>{item.info}</Markdown>
-        </div>
-      )}
       <h3 className={styles.schedule}>
         <svg viewBox="0 0 100 100" width="24px" height="24px">
           <path d="M21.5,93C15.71,93,11,88.29,11,82.5v-61C11,15.71,15.71,11,21.5,11h1.682C24.125,5.886,28.617,2,34,2	c0.474,0,0.954,0.031,1.427,0.092C40.154,2.699,40.089,6.366,41,11h18.182C60.125,5.886,64.617,2,70,2	c0.474,0,0.954,0.031,1.427,0.092C76.154,2.699,76.089,6.366,77,11h5.5C88.29,11,93,15.71,93,21.5v61C93,88.29,88.29,93,82.5,93	H21.5z" opacity=".35" />

@@ -159,7 +159,7 @@ const EventLocationForm = ({ event = {}, location = {}, toggleModal }) => {
         <Controller
           control={control}
           name="category"
-          render={({ field: { onChange, value, ref } }) => (
+          render={({ field: { onChange, ref } }) => (
             <Creatable
               placeholder="Type to create new or select from the list..."
               inputRef={ref}
