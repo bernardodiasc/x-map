@@ -11,6 +11,14 @@
 .avatar {
   flex-shrink: 0;
   margin-right: 10px;
+  width: 200px;
+  max-width: 40%;
+  height: 200px;
+  position: relative;
+}
+
+.avatar > svg {
+  max-width: 100%;
 }
 
 .info {
@@ -21,15 +29,15 @@
 }
 
 .name {
-  margin: 0 0 5px;
-  font-size: 20px;
+  margin: 0 0 10px;
+  font-size: 26px;
 }
 
 .location {
   display: flex;
   align-items: center;
-  margin: 0 0 5px;
-  font-size: 16px;
+  margin: 0 0 15px;
+  font-size: 18px;
 }
 
 .location > svg {
@@ -37,7 +45,7 @@
 }
 
 .about {
-  font-size: 16px;
+  font-size: 18px;
   margin: 0 0 10px;
   color: hsl(0, 0%, 40%);
 }

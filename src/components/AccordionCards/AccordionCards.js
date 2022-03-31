@@ -48,6 +48,8 @@ const AccordionCards = ({ Card, data = [], label }) => {
                   alt={item.name}
                   width="32"
                   height="32"
+                  layout="fill"
+                  objectFit="cover"
                 />
               </div>
             )}
