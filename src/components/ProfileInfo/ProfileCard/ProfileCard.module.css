@@ -66,7 +66,3 @@
 .links > a:hover {
   opacity: 1;
 }
-
-.links > a > svg {
-  display: block;
-}

@@ -40,25 +40,11 @@
   background: none;
   border: none;
   padding: 0;
-  width: 20px;
-  height: 20px;
+  opacity: .8;
 }
 
-.close > svg {
-  width: 40px;
-  height: 40px;
-  transform: scale(0.5) translate(-20px, -20px);
-}
-
-.close > svg > path {
-  stroke: rgb(0 0 0 / 50%);
-  fill: transparent;
-  stroke-linecap: round;
-  stroke-width: 5;
-}
-
-.close:hover > svg > path {
-  stroke: rgb(0 0 0 / 100%);
+.close:hover {
+  opacity: 1;
 }
 
 .content {

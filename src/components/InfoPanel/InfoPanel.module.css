@@ -28,7 +28,3 @@
 .close:hover {
   opacity: 1;
 }
-
-.close svg {
-  display: block;
-}

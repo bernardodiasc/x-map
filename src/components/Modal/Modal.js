@@ -1,5 +1,7 @@
 import { createPortal } from 'react-dom'
 
+import Svg from '@components/Svg'
+
 import * as styles from './Modal.module.css'
 
 const Modal = ({ children, onClose }) => {
@@ -32,9 +34,7 @@ const Modal = ({ children, onClose }) => {
           <section className={styles.frame} onClick={noClick}>
             {onClose && (
               <button className={styles.close} onClick={handleClose}>
-                <svg viewBox="0 0 40 40">
-                  <path className={styles.path} d="M 10,10 L 30,30 M 30,10 L 10,30" />
-                </svg>
+                <Svg name="x" width="24" height="24" />
               </button>
             )}
             <div
