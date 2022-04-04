@@ -5,8 +5,8 @@
   "description": "A World Map visualization of remote workers, events and more...",
   "author": {
     "name": "Bernardo Dias",
-    "email" : "bernardodiasdacruz@gmail.com",
-    "url" : "http://bernardodiasdacruz.com/"
+    "email": "bernardodiasdacruz@gmail.com",
+    "url": "http://bernardodiasdacruz.com/"
   },
   "license": "MIT",
   "homepage": "https://github.com/bernardodiasc/x-world-map#readme",
@@ -25,6 +25,7 @@
   "dependencies": {
     "@googlemaps/markerclusterer": "^1.0.15",
     "axios": "^0.24.0",
+    "countries-and-timezones": "^3.3.0",
     "date-fns": "^2.28.0",
     "google-maps-react": "^2.0.6",
     "json-loader": "^0.5.7",

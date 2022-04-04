@@ -17,6 +17,7 @@ export const normalizeLocationApiData = location => {
     address: location.attributes.address,
     city: location.attributes.city,
     country: location.attributes.country,
+    timezone: location.attributes.timezone,
     latitude: location.attributes.latitude,
     longitude: location.attributes.longitude,
     start: location.attributes.start,

@@ -13,7 +13,7 @@ import InputError from '@components/InputError'
 import Button from '@components/Button'
 
 import { normalizeLocationApiData } from '@lib/locations'
-import { getCoordinates } from '@lib/geocode'
+import { getGeocode } from '@lib/gmaps'
 import { ENDPOINTS } from '@lib/constants'
 
 import * as styles from './EventLocationForm.module.css'
@@ -54,7 +54,7 @@ const EventLocationForm = ({ event = {}, location = {}, toggleModal }) => {
       endpoint: `${ENDPOINTS.LOCATIONS}/${editingLocation.id}`,
     }
 
-    const { latitude, longitude } = await getCoordinates({ country, city, address })
+    const { latitude, longitude } = await getGeocode({ country, city, address })
 
     if (!latitude || !longitude) {
       setApiError('Invalid location.')

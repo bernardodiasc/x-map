@@ -16,7 +16,8 @@ export const ENDPOINTS = {
   UPLOAD: `${process.env.NEXT_PUBLIC_API_URL}/api/upload`,
   LOG_IN: `${process.env.NEXT_PUBLIC_API_URL}/api/auth/local`,
   SIGN_UP: `${process.env.NEXT_PUBLIC_API_URL}/api/auth/local/register`,
-  GMAPS_GEOCODE: `https://maps.googleapis.com/maps/api/geocode/json?key=${process.env.NEXT_PUBLIC_GMAPS_API_KEY}`,
+  GMAPS_GEOCODE: 'https://maps.googleapis.com/maps/api/geocode/json',
+  GMAPS_TIMEZONE: 'https://maps.googleapis.com/maps/api/timezone/json',
 }
 
 export const COLLECTIONS = {

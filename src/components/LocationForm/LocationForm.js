@@ -12,7 +12,7 @@ import InputError from '@components/InputError'
 import Button from '@components/Button'
 
 import { normalizeLocationApiData, sortByStartDate, getLocationById } from '@lib/locations'
-import { getCoordinates } from '@lib/geocode'
+import { getGeocode, getTimezone } from '@lib/gmaps'
 import { ENDPOINTS } from '@lib/constants'
 
 import * as styles from './LocationForm.module.css'
@@ -45,12 +45,14 @@ const LocationForm = ({ locationId, toggleLocationFormModal }) => {
       endpoint: `${ENDPOINTS.LOCATIONS}/${locationId || location.id}`,
     }
 
-    const { latitude, longitude } = await getCoordinates({ country, city, address })
+    const { latitude, longitude } = await getGeocode({ country, city, address })
 
     if (!latitude || !longitude) {
       setApiError('Invalid location.')
       return
     }
+
+    const timezone = await getTimezone({ latitude, longitude })
 
     try {
       const { data: apiData } = await action.method(action.endpoint, {
@@ -58,6 +60,7 @@ const LocationForm = ({ locationId, toggleLocationFormModal }) => {
           country,
           city,
           address,
+          timezone,
           start: start !== '' ? start : undefined,
           end: end !== '' ? end : undefined,
           latitude: String(latitude),

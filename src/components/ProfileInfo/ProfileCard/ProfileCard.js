@@ -8,6 +8,7 @@ import * as styles from './ProfileCard.module.css'
 
 const ProfileCard = ({ item, inAccordion }) => {
   const formattedLocationTitle = getFormattedLocationTitle(item.location)
+  console.log(item)
   return (
     <div className={[styles.profile, inAccordion ? styles.accordion : ''].join(' ')}>
       <div className={styles.avatar}>
@@ -28,10 +29,16 @@ const ProfileCard = ({ item, inAccordion }) => {
       <div className={styles.info}>
         <h2 className={styles.name}>{item.name}</h2>
         {!inAccordion && (
-          <h3 className={styles.location}>
-            <Svg name="marker" width="16" height="16" />
+          <div className={styles.location}>
+            <Svg name="marker" width="18" height="18" />
             {formattedLocationTitle}
-          </h3>
+          </div>
+        )}
+        {item.location.timezone && (
+          <div className={styles.timezone}>
+            <Svg name="clock" width="16" height="16" />
+            {item.location.timezone}
+          </div>
         )}
         {item.about && (
           <p className={styles.about}>{item.about}</p>

@@ -239,6 +239,23 @@ const Svg = ({ name, width, height }) => {
         <path fill="#40396e" d="M50.001,74.315c-0.403,0-0.789-0.162-1.07-0.449l-37-37.695c-0.279-0.284-0.433-0.667-0.43-1.065 c0.004-0.397,0.166-0.778,0.449-1.056l8.085-7.936c0.591-0.581,1.541-0.572,2.121,0.02l27.845,28.368l27.844-28.368 c0.579-0.592,1.529-0.6,2.121-0.02l8.085,7.936c0.284,0.278,0.445,0.659,0.449,1.056c0.003,0.398-0.151,0.781-0.43,1.065 l-37,37.695C50.79,74.153,50.404,74.315,50.001,74.315z M15.122,35.14l34.879,35.535L84.88,35.14l-5.944-5.834L51.071,57.693 c-0.563,0.574-1.577,0.574-2.141,0L21.066,29.306L15.122,35.14z" />
       </BaseSvg>
     ),
+
+    clock: (
+      <BaseSvg>
+        <circle cx="52" cy="52" r="44" opacity=".35" />
+        <circle cx="50" cy="50" r="44" fill="#f2f2f2" />
+        <path fill="#f2f2f2" d="M50,91C27.393,91,9,72.607,9,50S27.393,9,50,9s41,18.393,41,41S72.607,91,50,91z" />
+        <circle cx="50" cy="50" r="38.026" fill="#70bfff" />
+        <circle cx="50" cy="50" r="30.026" fill="#d9eeff" />
+        <circle cx="50" cy="50" r="37.5" fill="none" stroke="#40396e" strokeMiterlimit="10" strokeWidth="3" />
+        <circle cx="26" cy="50" r="2" fill="#707cc0" />
+        <circle cx="74" cy="50" r="2" fill="#707cc0" />
+        <circle cx="50" cy="26" r="2" fill="#707cc0" />
+        <circle cx="50" cy="74" r="2" fill="#707cc0" />
+        <polyline fill="none" stroke="#40396e" strokeLinecap="round" strokeLinejoin="round" strokeMiterlimit="10" strokeWidth="3" points="64.5,30.5 49.5,50 62,63" />
+        <circle cx="50" cy="50" r="4" fill="#40396e" />
+      </BaseSvg>
+    ),
   }
 
   return Images[name]
