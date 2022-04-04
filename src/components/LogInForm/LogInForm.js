@@ -1,6 +1,7 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import axios from 'axios'
+import size from 'lodash.size'
 
 import useAuthContext from '@contexts/Auth'
 
@@ -10,15 +11,15 @@ import InputLabel from '@components/InputLabel'
 import InputError from '@components/InputError'
 import Button from '@components/Button'
 
-import { ENDPOINTS, EMAIL_REGEX } from '@lib/constants'
+import { ENDPOINTS, EMAIL_REGEX, FORM_VALIDATION_ERROR_MESSAGE } from '@lib/constants'
 
 const LogInForm = () => {
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm()
   const { actions: { logIn } } = useAuthContext()
-  const [apiError, setApiError] = useState()
+  const [formError, setFormError] = useState()
 
   const onSubmit = useCallback(async ({ identifier, password }) => {
-    setApiError()
+    setFormError()
     try {
       const { data } = await axios.post(ENDPOINTS.LOG_IN, {
         identifier,
@@ -27,15 +28,29 @@ const LogInForm = () => {
       logIn(data)
     } catch (error) {
       console.error(error)
-      setApiError(error?.response?.data?.error?.message)
+      setFormError(error?.response?.data?.error?.message)
     }
   }, [logIn])
+
+  const hasValidationErrors = Boolean(size(errors))
+  useEffect(() => {
+    if (hasValidationErrors) {
+      setFormError(FORM_VALIDATION_ERROR_MESSAGE)
+    } else {
+      setFormError()
+    }
+  }, [hasValidationErrors])
 
   return (
     <Form
       title="Log In"
       onSubmit={handleSubmit(onSubmit)}
-      errorMessage={apiError}
+      errorMessage={formError}
+      control={(
+        <Button type="submit" wide disabled={isSubmitting}>
+          {isSubmitting ? 'Logging in...' : 'Log In'}
+        </Button>
+      )}
     >
       <InputLabel title="Email:">
         <InputField
@@ -47,6 +62,7 @@ const LogInForm = () => {
             }
           })}
           disabled={isSubmitting}
+          invalid={errors.identifier}
         />
         <InputError hasError={errors.identifier}>{errors.identifier?.message}</InputError>
       </InputLabel>
@@ -61,13 +77,9 @@ const LogInForm = () => {
             }
           })}
           disabled={isSubmitting}
+          invalid={errors.password}
         />
         <InputError hasError={errors.password}>{errors.password?.message}</InputError>
-      </InputLabel>
-      <InputLabel>
-        <Button type="submit" wide disabled={isSubmitting}>
-          {isSubmitting ? 'Logging in...' : 'Log In'}
-        </Button>
       </InputLabel>
     </Form>
   )

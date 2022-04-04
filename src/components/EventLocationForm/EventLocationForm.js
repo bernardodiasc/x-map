@@ -1,6 +1,7 @@
-import { useState, useCallback } from 'react'
-import axios from 'axios'
+import { useState, useCallback, useEffect } from 'react'
 import { useForm, Controller } from 'react-hook-form'
+import axios from 'axios'
+import size from 'lodash.size'
 import Creatable from 'react-select/creatable'
 
 import useAuthContext from '@contexts/Auth'
@@ -14,7 +15,7 @@ import Button from '@components/Button'
 
 import { normalizeLocationApiData } from '@lib/locations'
 import { getGeocode } from '@lib/gmaps'
-import { ENDPOINTS } from '@lib/constants'
+import { ENDPOINTS, FORM_VALIDATION_ERROR_MESSAGE } from '@lib/constants'
 
 import * as styles from './EventLocationForm.module.css'
 
@@ -27,8 +28,8 @@ const EventLocationForm = ({ event = {}, location = {}, toggleModal }) => {
   const { register, handleSubmit, formState: { errors, isSubmitting }, control } = useForm()
   const { state: { profile } } = useAuthContext()
   const { state: { collections: { events } }, actions: { refetchCollections } } = useAppContext()
-  const [apiSuccess, setApiSuccess] = useState()
-  const [apiError, setApiError] = useState()
+  const [formSuccess, setFormSuccess] = useState()
+  const [formError, setFormError] = useState()
   const [editingLocation, setEditingLocation] = useState(location)
   const [isNew, setIsNew] = useState(!location?.id)
   const [eventId, setEventId] = useState(event?.id)
@@ -43,8 +44,8 @@ const EventLocationForm = ({ event = {}, location = {}, toggleModal }) => {
     start,
     end,
   }) => {
-    setApiSuccess()
-    setApiError()
+    setFormSuccess()
+    setFormError()
 
     const action = isNew ? {
       method: axios.post,
@@ -57,7 +58,7 @@ const EventLocationForm = ({ event = {}, location = {}, toggleModal }) => {
     const { latitude, longitude } = await getGeocode({ country, city, address })
 
     if (!latitude || !longitude) {
-      setApiError('Invalid location.')
+      setFormError('Invalid location.')
       return
     }
 
@@ -81,36 +82,36 @@ const EventLocationForm = ({ event = {}, location = {}, toggleModal }) => {
 
       const updatedLocation = normalizeLocationApiData(locationsApiData.data)
       setEditingLocation(updatedLocation)
-      setApiSuccess(`The event was ${isNew ? 'created' : 'updated'}!`)
+      setFormSuccess(`The event was ${isNew ? 'created' : 'updated'}!`)
       setIsNew(false)
       refetchCollections()
     } catch (error) {
       console.error(error)
-      setApiError(error?.response?.data?.error?.message)
+      setFormError(error?.response?.data?.error?.message)
     }
   }, [eventId, isNew, editingLocation, profile, refetchCollections])
 
   const handleDeleteLocation = useCallback(async () => {
-    setApiError()
+    setFormError()
     try {
       await axios.delete(`${ENDPOINTS.LOCATIONS}/${editingLocation.id}`)
       refetchCollections()
       toggleModal && toggleModal(false)
     } catch (error) {
       console.error(error)
-      setApiError(error?.response?.data?.error?.message)
+      setFormError(error?.response?.data?.error?.message)
     }
   }, [editingLocation, refetchCollections, toggleModal])
 
   const handleCategorySelectorChange = option => {
-    setApiSuccess()
-    setApiError()
+    setFormSuccess()
+    setFormError()
     setEventId(option?.value)
   }
 
   const handleCategorySelectorCreate = async value => {
-    setApiSuccess()
-    setApiError()
+    setFormSuccess()
+    setFormError()
 
     try {
       const { data: eventsApiData } = await axios.post(ENDPOINTS.EVENTS, {
@@ -127,23 +128,46 @@ const EventLocationForm = ({ event = {}, location = {}, toggleModal }) => {
       setEventId(newEvent.id)
     } catch (error) {
       console.error(error)
-      setApiError(error?.response?.data?.error?.message)
+      setFormError(error?.response?.data?.error?.message)
     }
   }
+
+  const hasValidationErrors = Boolean(size(errors))
+  useEffect(() => {
+    if (hasValidationErrors) {
+      setFormSuccess()
+      setFormError(FORM_VALIDATION_ERROR_MESSAGE)
+    } else {
+      setFormError()
+    }
+  }, [hasValidationErrors])
 
   return (
     <Form
       title={isNew ? 'Create new event' : 'Update the event'}
       onSubmit={handleSubmit(onSubmit)}
-      successMessage={apiSuccess}
-      errorMessage={apiError}
+      successMessage={formSuccess}
+      errorMessage={formError}
       className={styles.component}
+      control={(
+        <>
+          <Button type="submit" wide disabled={isSubmitting}>
+            {isSubmitting ? 'Saving...' : 'Save'}
+          </Button>
+          {!isNew && (
+            <Button wide disabled={isSubmitting} onClick={handleDeleteLocation}>
+              Delete
+            </Button>
+          )}
+        </>
+      )}
     >
       <InputLabel title="Title:" isRequired>
         <InputField
           register={register('title', { required: true })}
           defaultValue={editingLocation.title}
           disabled={isSubmitting}
+          invalid={errors.title}
         />
         <InputError hasError={errors.title}>This field is required.</InputError>
       </InputLabel>
@@ -187,6 +211,7 @@ const EventLocationForm = ({ event = {}, location = {}, toggleModal }) => {
           register={register('country', { required: true })}
           defaultValue={editingLocation.country}
           disabled={isSubmitting}
+          invalid={errors.country}
         />
         <InputError hasError={errors.country}>This field is required.</InputError>
       </InputLabel>
@@ -195,6 +220,7 @@ const EventLocationForm = ({ event = {}, location = {}, toggleModal }) => {
           register={register('city', { required: true })}
           defaultValue={editingLocation.city}
           disabled={isSubmitting}
+          invalid={errors.city}
         />
         <InputError hasError={errors.city}>This field is required.</InputError>
       </InputLabel>
@@ -211,6 +237,7 @@ const EventLocationForm = ({ event = {}, location = {}, toggleModal }) => {
           register={register('start', { required: true })}
           defaultValue={editingLocation.start}
           disabled={isSubmitting}
+          invalid={errors.start}
         />
         <InputError hasError={errors.start}>This field is required.</InputError>
       </InputLabel>
@@ -222,14 +249,6 @@ const EventLocationForm = ({ event = {}, location = {}, toggleModal }) => {
           disabled={isSubmitting}
         />
       </InputLabel>
-      <Button type="submit" wide disabled={isSubmitting}>
-        {isSubmitting ? 'Saving...' : 'Save'}
-      </Button>
-      {!isNew && (
-        <Button wide disabled={isSubmitting} onClick={handleDeleteLocation}>
-          Delete
-        </Button>
-      )}
     </Form>
   )
 }

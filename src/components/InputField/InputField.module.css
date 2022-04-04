@@ -44,3 +44,14 @@
   border-width: 1px 1px 1px 0;
   border-radius: 0 4px 4px 0;
 }
+
+.invalid {
+  border-color: red;
+  color: red;
+}
+
+.disabled {
+  border-color: hsl(0, 0%, 80%);
+  color: hsl(0, 0%, 20%);
+  background: hsl(0, 0%, 98%);
+}

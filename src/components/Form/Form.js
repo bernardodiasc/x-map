@@ -8,6 +8,7 @@ const Form = ({
   errorMessage,
   className = '',
   children,
+  control,
 }) => {
   const classNames = [
     styles.component,
@@ -18,19 +19,32 @@ const Form = ({
       {title && (
         <h1 className={styles.title}>{title}</h1>
       )}
+
       {description && (
         <p>{description}</p>
       )}
+
       {children}
-      {successMessage && (
-        <p className={styles.success}>
-          {successMessage}
-        </p>
+
+      {(successMessage || errorMessage) && (
+        <div className={styles.messages}>
+          {successMessage && (
+            <p className={styles.success}>
+              {successMessage}
+            </p>
+          )}
+          {errorMessage && (
+            <p className={styles.error}>
+              {errorMessage}
+            </p>
+          )}
+        </div>
       )}
-      {errorMessage && (
-        <p className={styles.error}>
-          {errorMessage}
-        </p>
+
+      {control && (
+        <div className={styles.control}>
+          {control}
+        </div>
       )}
     </form>
   )

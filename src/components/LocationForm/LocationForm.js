@@ -1,6 +1,7 @@
-import { useState, useCallback } from 'react'
-import axios from 'axios'
+import { useState, useCallback, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
+import axios from 'axios'
+import size from 'lodash.size'
 
 import useAuthContext from '@contexts/Auth'
 import useAppContext from '@contexts/App'
@@ -13,7 +14,7 @@ import Button from '@components/Button'
 
 import { normalizeLocationApiData, sortByStartDate, getLocationById } from '@lib/locations'
 import { getGeocode, getTimezone } from '@lib/gmaps'
-import { ENDPOINTS } from '@lib/constants'
+import { ENDPOINTS, FORM_VALIDATION_ERROR_MESSAGE } from '@lib/constants'
 
 import * as styles from './LocationForm.module.css'
 
@@ -21,8 +22,8 @@ const LocationForm = ({ locationId, toggleLocationFormModal }) => {
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm()
   const { state: { profile }, actions: { setProfile } } = useAuthContext()
   const { state: { features }, actions: { refetchCollections } } = useAppContext()
-  const [apiSuccess, setApiSuccess] = useState()
-  const [apiError, setApiError] = useState()
+  const [formSuccess, setFormSuccess] = useState()
+  const [formError, setFormError] = useState()
   const [location, setLocation] = useState(getLocationById(profile.locations, locationId))
 
   const isNew = !locationId && !location?.id
@@ -34,8 +35,8 @@ const LocationForm = ({ locationId, toggleLocationFormModal }) => {
     start,
     end,
   }) => {
-    setApiSuccess()
-    setApiError()
+    setFormSuccess()
+    setFormError()
 
     const action = isNew ? {
       method: axios.post,
@@ -48,7 +49,7 @@ const LocationForm = ({ locationId, toggleLocationFormModal }) => {
     const { latitude, longitude } = await getGeocode({ country, city, address })
 
     if (!latitude || !longitude) {
-      setApiError('Invalid location.')
+      setFormError('Invalid location.')
       return
     }
 
@@ -86,17 +87,17 @@ const LocationForm = ({ locationId, toggleLocationFormModal }) => {
       }
       setProfile(updatedProfile)
       setLocation(normalizeLocationApiData(apiData.data))
-      setApiSuccess('Your location was updated!')
+      setFormSuccess('Your location was updated!')
       refetchCollections()
       toggleLocationFormModal && toggleLocationFormModal(false)
     } catch (error) {
       console.error(error)
-      setApiError(error?.response?.data?.error?.message)
+      setFormError(error?.response?.data?.error?.message)
     }
   }, [isNew, location.id, locationId, profile, refetchCollections, setProfile, toggleLocationFormModal])
 
   const handleDeleteLocation = useCallback(async () => {
-    setApiError()
+    setFormError()
     try {
       await axios.delete(`${ENDPOINTS.LOCATIONS}/${locationId}`)
       const updatedProfile = {
@@ -110,7 +111,7 @@ const LocationForm = ({ locationId, toggleLocationFormModal }) => {
       toggleLocationFormModal(false)
     } catch (error) {
       console.error(error)
-      setApiError(error?.response?.data?.error?.message)
+      setFormError(error?.response?.data?.error?.message)
     }
   }, [locationId, profile, refetchCollections, setProfile, toggleLocationFormModal])
 
@@ -118,19 +119,49 @@ const LocationForm = ({ locationId, toggleLocationFormModal }) => {
     toggleLocationFormModal(false)
   }
 
+  const hasValidationErrors = Boolean(size(errors))
+  useEffect(() => {
+    if (hasValidationErrors) {
+      setFormSuccess()
+      setFormError(FORM_VALIDATION_ERROR_MESSAGE)
+    } else {
+      setFormError()
+    }
+  }, [hasValidationErrors])
+
   return (
     <Form
       title="Update your location"
       onSubmit={handleSubmit(onSubmit)}
-      successMessage={apiSuccess}
-      errorMessage={apiError}
+      successMessage={formSuccess}
+      errorMessage={formError}
       className={styles.component}
+      control={(
+        <>
+          <Button type="submit" wide disabled={isSubmitting}>
+            {isSubmitting ? 'Saving...' : 'Save'}
+          </Button>
+          {features?.TRAVELS && (
+            <>
+              {!isNew && (
+                <Button wide disabled={isSubmitting} onClick={handleDeleteLocation}>
+                  Delete
+                </Button>
+              )}
+              <Button wide disabled={isSubmitting} onClick={handleDiscardLocation}>
+                Discard
+              </Button>
+            </>
+          )}
+        </>
+      )}
     >
       <InputLabel title="Country:" isRequired>
         <InputField
           register={register('country', { required: true })}
           defaultValue={location.country}
           disabled={isSubmitting}
+          invalid={errors.country}
         />
         <InputError hasError={errors.country}>This field is required.</InputError>
       </InputLabel>
@@ -166,21 +197,6 @@ const LocationForm = ({ locationId, toggleLocationFormModal }) => {
               disabled={isSubmitting}
             />
           </InputLabel>
-        </>
-      )}
-      <Button type="submit" wide disabled={isSubmitting}>
-        {isSubmitting ? 'Saving...' : 'Save'}
-      </Button>
-      {features?.TRAVELS && (
-        <>
-          {!isNew && (
-            <Button wide disabled={isSubmitting} onClick={handleDeleteLocation}>
-              Delete
-            </Button>
-          )}
-          <Button wide disabled={isSubmitting} onClick={handleDiscardLocation}>
-            Discard
-          </Button>
         </>
       )}
     </Form>

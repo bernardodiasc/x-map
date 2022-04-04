@@ -31,6 +31,7 @@
     "json-loader": "^0.5.7",
     "json-schema-faker": "^0.5.0-rcv.40",
     "leaflet": "^1.7.1",
+    "lodash.size": "^4.2.0",
     "markdown-to-jsx": "^7.1.7",
     "next": "12.0.4",
     "next-auth": "^4.2.1",

@@ -2,12 +2,14 @@
   margin: 0;
 }
 
-.component > :last-child {
-  margin-bottom: 0;
+.control > * {
+  margin: 0 0 10px;
 }
 
-.component button {
-  margin-bottom: 10px;
+.component > :last-child,
+.control > :last-child,
+.messages > :last-child {
+  margin: 0;
 }
 
 .title {
@@ -15,9 +17,16 @@
   margin: 0 0 20px;
 }
 
+.messages {
+  margin: 0 0 10px;
+}
+
+.messages > * {
+  margin: 0 0 5px;
+}
+
 .success,
 .error {
-  margin: 0;
   font-style: italic;
   font-size: 13px;
   width: 100%;

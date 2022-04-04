@@ -1,7 +1,8 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import axios from 'axios'
 import qs from 'qs'
+import size from 'lodash.size'
 
 import useAuthContext from '@contexts/Auth'
 import useAppContext from '@contexts/App'
@@ -14,7 +15,7 @@ import Button from '@components/Button'
 import ImagesSelector from '@components/ImagesSelector'
 
 import { normalizeProfileApiData } from '@lib/profiles'
-import { ENDPOINTS } from '@lib/constants'
+import { ENDPOINTS, FORM_VALIDATION_ERROR_MESSAGE } from '@lib/constants'
 
 import * as styles from './ProfileForm.module.css'
 
@@ -22,8 +23,8 @@ const ProfileForm = () => {
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm()
   const { state: { profile }, actions: { setProfile } } = useAuthContext()
   const { state: { features }, actions: { refetchCollections } } = useAppContext()
-  const [apiSuccess, setApiSuccess] = useState()
-  const [apiError, setApiError] = useState()
+  const [formSuccess, setFormSuccess] = useState()
+  const [formError, setFormError] = useState()
   const [avatar, setAvatar] = useState()
   const [uploadProgress, setUploadProgress] = useState(0)
 
@@ -37,8 +38,8 @@ const ProfileForm = () => {
     twitter,
     instagram,
   }) => {
-    setApiSuccess()
-    setApiError()
+    setFormSuccess()
+    setFormError()
     setUploadProgress(0)
 
     const formData = new FormData()
@@ -80,11 +81,11 @@ const ProfileForm = () => {
       )
       const updatedProfile = normalizeProfileApiData(apiData.data)
       setProfile(updatedProfile)
-      setApiSuccess('Your profile was updated!')
+      setFormSuccess('Your profile was updated!')
       refetchCollections()
     } catch (error) {
       console.error(error)
-      setApiError(error?.response?.data?.error?.message)
+      setFormError(error?.response?.data?.error?.message)
     }
   }, [avatar, profile, refetchCollections, setProfile])
 
@@ -94,19 +95,36 @@ const ProfileForm = () => {
     }
   }
 
+  const hasValidationErrors = Boolean(size(errors))
+  useEffect(() => {
+    if (hasValidationErrors) {
+      setFormSuccess()
+      setFormError(FORM_VALIDATION_ERROR_MESSAGE)
+      setUploadProgress(0)
+    } else {
+      setFormError()
+    }
+  }, [hasValidationErrors])
+
   return (
     <Form
       title={`Hello ${profile.name}`}
       onSubmit={handleSubmit(onSubmit)}
-      successMessage={apiSuccess}
-      errorMessage={apiError}
+      successMessage={formSuccess}
+      errorMessage={formError}
       className={styles.component}
+      control={(
+        <Button type="submit" wide disabled={isSubmitting}>
+          {isSubmitting ? `Saving... ${uploadProgress}%` : 'Save'}
+        </Button>
+      )}
     >
       <InputLabel title="Full name:" isRequired>
         <InputField
           register={register('name', { required: true })}
           defaultValue={profile.name}
           disabled={isSubmitting}
+          invalid={errors.name}
         />
         <InputError hasError={errors.name}>This field is required.</InputError>
       </InputLabel>
@@ -173,9 +191,6 @@ const ProfileForm = () => {
           prefix="https://instagram.com/"
         />
       </InputLabel>
-      <Button type="submit" wide disabled={isSubmitting}>
-        {isSubmitting ? `Saving... ${uploadProgress}%` : 'Save'}
-      </Button>
     </Form>
   )
 }
