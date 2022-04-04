@@ -11,14 +11,12 @@ const FrequentlyAskedQuestions = () => {
 
   if (isLoading) {
     return (
-      <div className={styles.component}>
-        <Loading />
-      </div>
+      <Loading inModal />
     )
   }
 
   return (
-    <div className={styles.component}>
+    <div>
       <h1 className={styles.title}>Frequently Asked Questions</h1>
       {data.map(item => (
         <div key={`faq-${item.id}`}>

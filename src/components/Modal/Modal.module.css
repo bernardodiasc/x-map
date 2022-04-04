@@ -50,3 +50,12 @@
 .content {
   overflow-x: auto;
 }
+
+.defaultPadding {
+  padding: 30px;
+}
+
+.defaultWitdh {
+  width: 500px;
+  max-width: calc(80vw - 60px);
+}

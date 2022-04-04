@@ -40,7 +40,10 @@ const AppLayout = ({ children }: Props): JSX.Element => {
         {children}
       </div>
       {visibleModal && (
-        <Modal onClose={shouldModalBeClosable && setVisibleModal}>
+        <Modal
+          defaultWitdh
+          onClose={shouldModalBeClosable && setVisibleModal}
+        >
           {modalContents[visibleModal]}
         </Modal>
       )}

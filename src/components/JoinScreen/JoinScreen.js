@@ -29,22 +29,18 @@ const JoinScreen = () => {
 
   if (isLoadingProfile) {
     return (
-      <div className={styles.component}>
-        <Loading />
-      </div>
+      <Loading inModal />
     )
   }
 
   if (user) {
     return (
-      <div className={styles.component}>
-        <AccountForm />
-      </div>
+      <AccountForm />
     )
   }
 
   return (
-    <div className={styles.component}>
+    <div>
       {displaySignUpForm ? (
         <SignUpForm />
       ) : (

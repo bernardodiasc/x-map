@@ -4,7 +4,12 @@ import Svg from '@components/Svg'
 
 import * as styles from './Modal.module.css'
 
-const Modal = ({ children, onClose }) => {
+const Modal = ({
+  children,
+  onClose,
+  defaultPadding = true,
+  defaultWitdh = true,
+}) => {
   const noClick = event => {
     event.stopPropagation()
   }
@@ -38,7 +43,11 @@ const Modal = ({ children, onClose }) => {
               </button>
             )}
             <div
-              className={styles.content}
+              className={[
+                styles.content,
+                defaultPadding ? styles.defaultPadding : '',
+                defaultWitdh ? styles.defaultWitdh : '',
+              ].join(' ')}
             >
               {children}
             </div>

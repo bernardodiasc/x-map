@@ -12,7 +12,7 @@ import useModal from '@hooks/useModal'
 import { MODAL_IDS } from '@lib/constants'
 
 const AppProvider = ({ children }) => {
-  const { state: { token, user, profile, isLoadedProfile } } = useAuthContext()
+  const { state: { token, user, profile, isLoadingProfile, isLoadedProfile } } = useAuthContext()
   const { profiles, mutate: refetchProfiles } = useProfiles()
   const { events, mutate: refetchEvents } = useEvents()
   const { features } = useFeatureFlags()
@@ -39,6 +39,10 @@ const AppProvider = ({ children }) => {
     if (isLoadingApp) {
       return
     }
+    if (token && user && !profile && isLoadingProfile) {
+      setShouldModalBeClosable(false)
+      return
+    }
     if (token && user && !profile && isLoadedProfile) {
       setShouldModalBeClosable(false)
       setVisibleModal(MODAL_IDS.JOIN_SCREEN)
@@ -51,13 +55,14 @@ const AppProvider = ({ children }) => {
     }
     setShouldModalBeClosable(true)
   }, [
+    isLoadingApp,
     token,
     user,
     profile,
+    isLoadingProfile,
     isLoadedProfile,
     setVisibleModal,
     setShouldModalBeClosable,
-    isLoadingApp,
   ])
 
   return (

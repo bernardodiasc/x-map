@@ -4,10 +4,20 @@ import loader from '@public/x-loader.gif'
 
 import * as styles from './Loading.module.css'
 
-function Loading() {
+const Loading = ({ inModal }) => {
   return (
-    <div className={styles.wrapper}>
-      <Image src={loader} alt="Loading..." width="100" height="100" />
+    <div
+      className={[
+        styles.component,
+        inModal ? styles.modal : ''
+      ].join(' ')}
+    >
+      <Image
+        src={loader}
+        alt="Loading..."
+        width="100"
+        height="100"
+      />
     </div>
   )
 }
