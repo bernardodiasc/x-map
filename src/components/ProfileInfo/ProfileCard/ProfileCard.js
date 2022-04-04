@@ -8,7 +8,6 @@ import * as styles from './ProfileCard.module.css'
 
 const ProfileCard = ({ item, inAccordion }) => {
   const formattedLocationTitle = getFormattedLocationTitle(item.location)
-  console.log(item)
   return (
     <div className={[styles.profile, inAccordion ? styles.accordion : ''].join(' ')}>
       <div className={styles.avatar}>

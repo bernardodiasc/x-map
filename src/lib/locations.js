@@ -72,5 +72,5 @@ export const getLocationById = (locations, locationId) =>
 
 export const getFormattedLocationTitle = (location = {}) =>
   [location.country, location.city]
-    .reduce((acc, cur) => cur ? [...acc, cur] : acc, [])
+    .filter(Boolean)
     .join(' - ')
