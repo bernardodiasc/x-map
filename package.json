@@ -1,6 +1,16 @@
 {
-  "name": "x-map",
+  "name": "x-world-map",
   "private": true,
+  "version": "0.1.0",
+  "description": "A World Map visualization of remote workers, events and more...",
+  "author": {
+    "name": "Bernardo Dias",
+    "email" : "bernardodiasdacruz@gmail.com",
+    "url" : "http://bernardodiasdacruz.com/"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/bernardodiasc/x-world-map#readme",
+  "repository": "github:bernardodiasc/x-world-map",
   "scripts": {
     "develop": "next dev",
     "build": "next build",
