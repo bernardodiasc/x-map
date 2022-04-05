@@ -31,7 +31,7 @@ export const getEventsWithCoordinatesFromAllLocations = (events = []) => events
   }, [])
   .sort((a, b) => sortByStartDate(a.location, b.location))
 
-export const getCategoryEvents = (events = []) => events
+export const getEventsGroupedByCategory = (events = []) => events
   .reduce((acc, cur) => {
     const existingCategory = acc.find(category => category.id === cur.id)
     if (existingCategory) {
@@ -56,7 +56,7 @@ export const getEventsByCoordinates = (events, coordinates) => {
       }
       return [...acc, cur]
     }, [])
-  return getCategoryEvents(eventsByCoordinates)
+  return getEventsGroupedByCategory(eventsByCoordinates)
 }
 
 export const getEventsByProfileId = (events, profileId) => events.reduce((acc, cur) => {

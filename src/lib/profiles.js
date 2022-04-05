@@ -30,8 +30,8 @@ export const normalizeProfilesApiData = apiData => apiData?.data
   ? apiData.data.map(normalizeProfileApiData)
   : undefined
 
-export const getProfilesWithCoordinatesFromLatestLocation = profiles =>
-  profiles?.reduce((acc, cur) => {
+export const getProfilesWithCoordinatesFromLatestLocation = (profiles = []) => profiles
+  .reduce((acc, cur) => {
     if (cur?.locations?.length === 0) {
       return acc
     }
@@ -45,6 +45,7 @@ export const getProfilesWithCoordinatesFromLatestLocation = profiles =>
       }
     ]
   }, [])
+  .sort((a, b) => a.name.localeCompare(b.name))
 
 export const getProfilesByCoordinates = (profiles, coordinates) => {
   const profilesWithLatestLocation = getProfilesWithCoordinatesFromLatestLocation(profiles)
