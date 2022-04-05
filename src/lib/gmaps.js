@@ -1,6 +1,5 @@
 import axios from 'axios'
 import qs from 'qs'
-import ct from 'countries-and-timezones'
 
 import { ENDPOINTS } from '@lib/constants'
 
@@ -50,8 +49,7 @@ export const getTimezone = async ({ latitude, longitude }) => {
       timestamp: Date.now() / 1000,
     }
     const { data: { timeZoneId } } = await gmapsGet(ENDPOINTS.GMAPS_TIMEZONE, params)
-    const { utcOffsetStr } = ct.getTimezone(timeZoneId)
-    return `UTC ${utcOffsetStr}`
+    return timeZoneId
   } catch (error) {
     console.error(error)
     return ''

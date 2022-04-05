@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import ct from 'countries-and-timezones'
 
 import Svg from '@components/Svg'
 
@@ -10,7 +11,15 @@ const ProfileCard = ({ item, inAccordion }) => {
   if (!item) {
     return null
   }
+
   const formattedLocationTitle = getFormattedLocationTitle(item.location)
+
+  let timezone
+  if (item.location?.timezone) {
+    const { utcOffsetStr } = ct.getTimezone(item.location.timezone)
+    timezone = `UTC ${utcOffsetStr}`
+  }
+
   return (
     <div className={[styles.profile, inAccordion ? styles.accordion : ''].join(' ')}>
       <div className={styles.avatar}>
@@ -36,10 +45,10 @@ const ProfileCard = ({ item, inAccordion }) => {
             {formattedLocationTitle}
           </div>
         )}
-        {item.location.timezone && (
+        {timezone && (
           <div className={styles.timezone}>
             <Svg name="clock" width="16" height="16" />
-            {item.location.timezone}
+            {timezone}
           </div>
         )}
         {item.about && (
