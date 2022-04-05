@@ -20,7 +20,7 @@ const AppProvider = ({ children }) => {
     visibleModal,
     setVisibleModal,
     shouldModalBeClosable,
-    setShouldModalBeClosable,
+    toggleShouldModalBeClosable,
   } = useModal()
 
   const isLoadingApp = (token && (!user || !isLoadedProfile)) || !profiles || !events || !features
@@ -40,20 +40,20 @@ const AppProvider = ({ children }) => {
       return
     }
     if (token && user && !profile && isLoadingProfile) {
-      setShouldModalBeClosable(false)
+      toggleShouldModalBeClosable(false)
       return
     }
     if (token && user && !profile && isLoadedProfile) {
-      setShouldModalBeClosable(false)
+      toggleShouldModalBeClosable(false)
       setVisibleModal(MODAL_IDS.JOIN_SCREEN)
       return
     }
     if (isLoadedProfile && profile?.locations?.length === 0) {
-      setShouldModalBeClosable(false)
+      toggleShouldModalBeClosable(false)
       setVisibleModal(MODAL_IDS.LOCATIONS_MANAGER)
       return
     }
-    setShouldModalBeClosable(true)
+    toggleShouldModalBeClosable(true)
   }, [
     isLoadingApp,
     token,
@@ -62,7 +62,7 @@ const AppProvider = ({ children }) => {
     isLoadingProfile,
     isLoadedProfile,
     setVisibleModal,
-    setShouldModalBeClosable,
+    toggleShouldModalBeClosable,
   ])
 
   return (
@@ -77,7 +77,7 @@ const AppProvider = ({ children }) => {
         },
         actions: {
           setVisibleModal,
-          setShouldModalBeClosable,
+          toggleShouldModalBeClosable,
           refetchCollections,
         }
       }}

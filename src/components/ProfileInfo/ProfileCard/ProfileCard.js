@@ -7,6 +7,9 @@ import { getFormattedLocationTitle } from '@lib/locations'
 import * as styles from './ProfileCard.module.css'
 
 const ProfileCard = ({ item, inAccordion }) => {
+  if (!item) {
+    return null
+  }
   const formattedLocationTitle = getFormattedLocationTitle(item.location)
   return (
     <div className={[styles.profile, inAccordion ? styles.accordion : ''].join(' ')}>

@@ -1,6 +1,5 @@
 import {
   normalizeAttendeeApiData,
-  normalizeAttendeesApiData,
 } from './attendees'
 
 const attendee = {

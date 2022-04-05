@@ -12,22 +12,24 @@ import { getEventsByProfileId } from '@lib/events'
 
 import * as styles from './EventsManager.module.css'
 
-const EventsManager = () => {
+const EventsManager = ({
+  handleCloseModal,
+  anotherModalVisibility,
+  toggleAnotherModalVisibility,
+  toggleHasUnsavedChanges,
+}) => {
   const { state: { profile } } = useAuthContext()
   const { state: { collections } } = useAppContext()
   const [editingEvent, setEditingEvent] = useState()
   const [editingLocation, setEditingLocation] = useState()
-  const [locationFormModal, toggleLocationFormModal] = useState(false)
 
   const events = getEventsByProfileId(collections.events, profile.id)
 
   const handleEditLocation = useCallback((event, location) => () => {
     setEditingEvent(event)
     setEditingLocation(location)
-    toggleLocationFormModal(true)
-  }, [])
-
-  const handleCloseLocationFormModal = () => toggleLocationFormModal(false)
+    toggleAnotherModalVisibility(true)
+  }, [toggleAnotherModalVisibility])
 
   const renderEventLocationCard = (event, location) => (
     <EventLocationCard
@@ -51,12 +53,13 @@ const EventsManager = () => {
     <div className={styles.component}>
       <Button wide onClick={handleEditLocation()}>Create new event</Button>
       {events.map(renderEventRow)}
-      {locationFormModal && (
-        <Modal onClose={handleCloseLocationFormModal}>
+      {anotherModalVisibility && (
+        <Modal onClose={handleCloseModal}>
           <EventLocationForm
             event={editingEvent}
             location={editingLocation}
-            toggleModal={toggleLocationFormModal}
+            toggleModal={toggleAnotherModalVisibility}
+            toggleHasUnsavedChanges={toggleHasUnsavedChanges}
           />
         </Modal>
       )}

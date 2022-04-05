@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 
 function useModal () {
   const [visibleModal, setVisibleModal] = useState(undefined)
-  const [shouldModalBeClosable, setShouldModalBeClosable] = useState(true)
+  const [shouldModalBeClosable, toggleShouldModalBeClosable] = useState(true)
 
   useEffect(
     () => () => {
@@ -21,7 +21,7 @@ function useModal () {
     visibleModal,
     setVisibleModal: handleSetVisibleModal,
     shouldModalBeClosable,
-    setShouldModalBeClosable,
+    toggleShouldModalBeClosable,
   }
 }
 

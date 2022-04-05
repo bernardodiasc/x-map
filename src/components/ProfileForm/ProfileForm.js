@@ -19,14 +19,35 @@ import { ENDPOINTS, FORM_VALIDATION_ERROR_MESSAGE } from '@lib/constants'
 
 import * as styles from './ProfileForm.module.css'
 
-const ProfileForm = () => {
-  const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm()
+const ProfileForm = ({ toggleHasUnsavedChanges }) => {
   const { state: { profile }, actions: { setProfile } } = useAuthContext()
   const { state: { features }, actions: { refetchCollections } } = useAppContext()
   const [formSuccess, setFormSuccess] = useState()
   const [formError, setFormError] = useState()
   const [avatar, setAvatar] = useState()
   const [uploadProgress, setUploadProgress] = useState(0)
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: {
+      errors,
+      isSubmitting,
+      dirtyFields,
+    },
+  } = useForm({
+    defaultValues: {
+      name: profile.name || '',
+      about: profile.about || '',
+      website: profile.website || '',
+      github: profile.github || '',
+      stackoverflow: profile.stackoverflow || '',
+      linkedin: profile.linkedin || '',
+      twitter: profile.twitter || '',
+      instagram: profile.instagram || '',
+    },
+  })
 
   const onSubmit = useCallback(async ({
     name,
@@ -69,6 +90,7 @@ const ProfileForm = () => {
       onUploadProgress: event => {
         const percent = Math.floor((event.loaded / event.total) * 100)
         setUploadProgress(percent)
+        setAvatar()
       }
     }
 
@@ -81,13 +103,23 @@ const ProfileForm = () => {
       )
       const updatedProfile = normalizeProfileApiData(apiData.data)
       setProfile(updatedProfile)
+      reset({
+        name: updatedProfile.name,
+        about: updatedProfile.about,
+        website: updatedProfile.website,
+        github: updatedProfile.github,
+        stackoverflow: updatedProfile.stackoverflow,
+        linkedin: updatedProfile.linkedin,
+        twitter: updatedProfile.twitter,
+        instagram: updatedProfile.instagram,
+      })
       setFormSuccess('Your profile was updated!')
       refetchCollections()
     } catch (error) {
       console.error(error)
       setFormError(error?.response?.data?.error?.message)
     }
-  }, [avatar, profile, refetchCollections, setProfile])
+  }, [avatar, profile, refetchCollections, setProfile, reset])
 
   const handleSetAvatarFile = files => {
     if (files.length > 0) {
@@ -106,6 +138,16 @@ const ProfileForm = () => {
     }
   }, [hasValidationErrors])
 
+  const isDirty = Boolean(size(dirtyFields))
+  const hasNewAvatar = Boolean(avatar)
+  const hasUnsavedChanges = isDirty || hasNewAvatar
+  useEffect(() => {
+    toggleHasUnsavedChanges(hasUnsavedChanges)
+    if (hasUnsavedChanges) {
+      setFormSuccess()
+    }
+  }, [hasUnsavedChanges, toggleHasUnsavedChanges])
+
   return (
     <Form
       title={`Hello ${profile.name}`}
@@ -122,7 +164,6 @@ const ProfileForm = () => {
       <InputLabel title="Full name:" isRequired>
         <InputField
           register={register('name', { required: true })}
-          defaultValue={profile.name}
           disabled={isSubmitting}
           invalid={errors.name}
         />
@@ -139,14 +180,12 @@ const ProfileForm = () => {
       <InputLabel title="About me:">
         <InputField
           register={register('about')}
-          defaultValue={profile.about}
           disabled={isSubmitting}
         />
       </InputLabel>
       <InputLabel title="Website:">
         <InputField
           register={register('website')}
-          defaultValue={profile.website}
           disabled={isSubmitting}
           prefix="http://"
         />
@@ -154,7 +193,6 @@ const ProfileForm = () => {
       <InputLabel title="GitHub:">
         <InputField
           register={register('github')}
-          defaultValue={profile.github}
           disabled={isSubmitting}
           prefix="https://github.com/"
         />
@@ -162,7 +200,6 @@ const ProfileForm = () => {
       <InputLabel title="StackOverflow:">
         <InputField
           register={register('stackoverflow')}
-          defaultValue={profile.stackoverflow}
           disabled={isSubmitting}
           prefix="https://stackoverflow.com/users/"
         />
@@ -170,7 +207,6 @@ const ProfileForm = () => {
       <InputLabel title="LinkedIn:">
         <InputField
           register={register('linkedin')}
-          defaultValue={profile.linkedin}
           disabled={isSubmitting}
           prefix="https://linkedin.com/in/"
         />
@@ -178,7 +214,6 @@ const ProfileForm = () => {
       <InputLabel title="Twitter:">
         <InputField
           register={register('twitter')}
-          defaultValue={profile.twitter}
           disabled={isSubmitting}
           prefix="https://twitter.com/"
         />
@@ -186,7 +221,6 @@ const ProfileForm = () => {
       <InputLabel title="Instagram:">
         <InputField
           register={register('instagram')}
-          defaultValue={profile.instagram}
           disabled={isSubmitting}
           prefix="https://instagram.com/"
         />

@@ -11,7 +11,7 @@ import { getLatestLocation } from '@lib/locations'
 
 import * as styles from './LocationsManager.module.css'
 
-const LocationsManager = () => {
+const LocationsManager = ({ toggleHasUnsavedChanges }) => {
   const { state: { profile } } = useAuthContext()
   const { state: { features } } = useAppContext()
   const [editingLocationId, setEditingLocationId] = useState(getLatestLocation(profile.locations)?.id)
@@ -54,6 +54,7 @@ const LocationsManager = () => {
             <LocationForm
               locationId={editingLocationId}
               toggleLocationFormModal={toggleLocationFormModal}
+              toggleHasUnsavedChanges={toggleHasUnsavedChanges}
             />
           </Modal>
         )}
@@ -64,6 +65,7 @@ const LocationsManager = () => {
   return (
     <LocationForm
       locationId={editingLocationId}
+      toggleHasUnsavedChanges={toggleHasUnsavedChanges}
     />
   )
 }

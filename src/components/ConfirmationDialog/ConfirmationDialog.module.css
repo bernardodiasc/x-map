@@ -1,0 +1,27 @@
+.component {
+  width: 300px;
+}
+
+.component h1 {
+  font-size: 24px;
+  font-weight: 600;
+  margin: 0 0 10px;
+}
+
+.component p {
+  font-size: 18px;
+  margin: 0 0 20px;
+}
+
+.buttons {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.buttons > * {
+  margin: 0 10px 0 0;
+}
+
+.buttons > :last-child {
+  margin: 0;
+}

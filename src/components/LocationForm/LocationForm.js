@@ -18,13 +18,31 @@ import { ENDPOINTS, FORM_VALIDATION_ERROR_MESSAGE } from '@lib/constants'
 
 import * as styles from './LocationForm.module.css'
 
-const LocationForm = ({ locationId, toggleLocationFormModal }) => {
-  const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm()
+const LocationForm = ({ locationId, toggleLocationFormModal, toggleHasUnsavedChanges }) => {
   const { state: { profile }, actions: { setProfile } } = useAuthContext()
   const { state: { features }, actions: { refetchCollections } } = useAppContext()
   const [formSuccess, setFormSuccess] = useState()
   const [formError, setFormError] = useState()
   const [location, setLocation] = useState(getLocationById(profile.locations, locationId))
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: {
+      errors,
+      isSubmitting,
+      dirtyFields,
+    },
+  } = useForm({
+    defaultValues: {
+      country: location.country || '',
+      city: location.city || '',
+      address: location.address || '',
+      start: location.start || '',
+      end: location.end || '',
+    }
+  })
 
   const isNew = !locationId && !location?.id
 
@@ -55,29 +73,32 @@ const LocationForm = ({ locationId, toggleLocationFormModal }) => {
 
     const timezone = await getTimezone({ latitude, longitude })
 
+    const dataObj = {
+      country,
+      city,
+      address,
+      timezone,
+      start: start !== '' ? start : undefined,
+      end: end !== '' ? end : undefined,
+      latitude: String(latitude),
+      longitude: String(longitude),
+      profile: profile.id,
+    }
+
     try {
       const { data: apiData } = await action.method(action.endpoint, {
-        data: {
-          country,
-          city,
-          address,
-          timezone,
-          start: start !== '' ? start : undefined,
-          end: end !== '' ? end : undefined,
-          latitude: String(latitude),
-          longitude: String(longitude),
-          profile: profile.id,
-        }
+        data: dataObj
       })
+      const updatedLocation = normalizeLocationApiData(apiData.data)
       const locations = isNew
         ? [
           ...profile.locations,
-          normalizeLocationApiData(apiData.data),
+          updatedLocation,
         ].sort(sortByStartDate)
         : [
           ...profile.locations.map(location =>
             location.id === apiData.data.id
-              ? normalizeLocationApiData(apiData.data)
+              ? updatedLocation
               : location
           )
         ].sort(sortByStartDate)
@@ -86,7 +107,14 @@ const LocationForm = ({ locationId, toggleLocationFormModal }) => {
         locations,
       }
       setProfile(updatedProfile)
-      setLocation(normalizeLocationApiData(apiData.data))
+      setLocation(updatedLocation)
+      reset({
+        country: updatedLocation.country,
+        city: updatedLocation.city,
+        address: updatedLocation.address,
+        start: updatedLocation.start,
+        end: updatedLocation.end,
+      })
       setFormSuccess('Your location was updated!')
       refetchCollections()
       toggleLocationFormModal && toggleLocationFormModal(false)
@@ -94,7 +122,7 @@ const LocationForm = ({ locationId, toggleLocationFormModal }) => {
       console.error(error)
       setFormError(error?.response?.data?.error?.message)
     }
-  }, [isNew, location.id, locationId, profile, refetchCollections, setProfile, toggleLocationFormModal])
+  }, [isNew, location, locationId, profile, refetchCollections, setProfile, toggleLocationFormModal, reset])
 
   const handleDeleteLocation = useCallback(async () => {
     setFormError()
@@ -129,6 +157,14 @@ const LocationForm = ({ locationId, toggleLocationFormModal }) => {
     }
   }, [hasValidationErrors])
 
+  const hasUnsavedChanges = Boolean(size(dirtyFields))
+  useEffect(() => {
+    toggleHasUnsavedChanges(hasUnsavedChanges)
+    if (hasUnsavedChanges) {
+      setFormSuccess()
+    }
+  }, [hasUnsavedChanges, toggleHasUnsavedChanges])
+
   return (
     <Form
       title="Update your location"
@@ -159,7 +195,6 @@ const LocationForm = ({ locationId, toggleLocationFormModal }) => {
       <InputLabel title="Country:" isRequired>
         <InputField
           register={register('country', { required: true })}
-          defaultValue={location.country}
           disabled={isSubmitting}
           invalid={errors.country}
         />
@@ -168,14 +203,12 @@ const LocationForm = ({ locationId, toggleLocationFormModal }) => {
       <InputLabel title="City:">
         <InputField
           register={register('city')}
-          defaultValue={location.city}
           disabled={isSubmitting}
         />
       </InputLabel>
       <InputLabel title="Address:">
         <InputField
           register={register('address')}
-          defaultValue={location.address}
           disabled={isSubmitting}
         />
       </InputLabel>
@@ -185,7 +218,6 @@ const LocationForm = ({ locationId, toggleLocationFormModal }) => {
             <InputField
               type="date"
               register={register('start')}
-              defaultValue={location.start}
               disabled={isSubmitting}
             />
           </InputLabel>
@@ -193,7 +225,6 @@ const LocationForm = ({ locationId, toggleLocationFormModal }) => {
             <InputField
               type="date"
               register={register('end')}
-              defaultValue={location.end}
               disabled={isSubmitting}
             />
           </InputLabel>

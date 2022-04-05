@@ -11,6 +11,10 @@ const EventCard = ({ item }) => {
     />
   )
 
+  if (!item) {
+    return null
+  }
+
   return (
     <div className={styles.component}>
       <h2 className={styles.title}>

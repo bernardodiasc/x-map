@@ -2,14 +2,21 @@ import { createPortal } from 'react-dom'
 
 import Svg from '@components/Svg'
 
-import * as styles from './Modal.module.css'
+import styles from './Modal.module.css'
+
+type Props = {
+  children?: React.ReactNode,
+  onClose?: () => void,
+  defaultPadding?: boolean,
+  defaultWitdh?: boolean,
+}
 
 const Modal = ({
   children,
   onClose,
   defaultPadding = true,
   defaultWitdh = true,
-}) => {
+}: Props): JSX.Element => {
   const noClick = event => {
     event.stopPropagation()
   }

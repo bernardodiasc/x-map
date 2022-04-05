@@ -24,8 +24,12 @@ const createEventOption = event => ({
   label: event.title,
 })
 
-const EventLocationForm = ({ event = {}, location = {}, toggleModal }) => {
-  const { register, handleSubmit, formState: { errors, isSubmitting }, control } = useForm()
+const EventLocationForm = ({
+  event = {},
+  location = {},
+  toggleModal,
+  toggleHasUnsavedChanges,
+}) => {
   const { state: { profile } } = useAuthContext()
   const { state: { collections: { events } }, actions: { refetchCollections } } = useAppContext()
   const [formSuccess, setFormSuccess] = useState()
@@ -34,6 +38,31 @@ const EventLocationForm = ({ event = {}, location = {}, toggleModal }) => {
   const [isNew, setIsNew] = useState(!location?.id)
   const [eventId, setEventId] = useState(event?.id)
   const [eventOptions, setEventOptions] = useState(events.map(createEventOption))
+
+  const category = eventOptions.find(option => option.value === eventId) || null
+
+  const {
+    register,
+    handleSubmit,
+    control,
+    reset,
+    formState: {
+      errors,
+      isSubmitting,
+      dirtyFields,
+    },
+  } = useForm({
+    defaultValues: {
+      title: editingLocation.title || '',
+      description: editingLocation.description || '',
+      country: editingLocation.country || '',
+      city: editingLocation.city || '',
+      address: editingLocation.address || '',
+      start: editingLocation.start || '',
+      end: editingLocation.end || '',
+      category,
+    }
+  })
 
   const onSubmit = useCallback(async ({
     title,
@@ -62,26 +91,37 @@ const EventLocationForm = ({ event = {}, location = {}, toggleModal }) => {
       return
     }
 
+    const dataObj = {
+      title,
+      description,
+      country,
+      city,
+      address,
+      start: start !== '' ? start : undefined,
+      end: end !== '' ? end : undefined,
+      latitude: String(latitude),
+      longitude: String(longitude),
+      profile: profile.id,
+      category: eventId,
+      event: true,
+    }
+
     try {
       const { data: locationsApiData } = await action.method(action.endpoint, {
-        data: {
-          title,
-          description,
-          country,
-          city,
-          address,
-          start: start !== '' ? start : undefined,
-          end: end !== '' ? end : undefined,
-          latitude: String(latitude),
-          longitude: String(longitude),
-          profile: profile.id,
-          category: eventId,
-          event: true,
-        }
+        data: dataObj
       })
 
       const updatedLocation = normalizeLocationApiData(locationsApiData.data)
       setEditingLocation(updatedLocation)
+      reset({
+        title: updatedLocation.title,
+        description: updatedLocation.description,
+        country: updatedLocation.country,
+        city: updatedLocation.city,
+        address: updatedLocation.address,
+        start: updatedLocation.start,
+        end: updatedLocation.end,
+      })
       setFormSuccess(`The event was ${isNew ? 'created' : 'updated'}!`)
       setIsNew(false)
       refetchCollections()
@@ -89,7 +129,7 @@ const EventLocationForm = ({ event = {}, location = {}, toggleModal }) => {
       console.error(error)
       setFormError(error?.response?.data?.error?.message)
     }
-  }, [eventId, isNew, editingLocation, profile, refetchCollections])
+  }, [eventId, isNew, editingLocation, profile, refetchCollections, reset])
 
   const handleDeleteLocation = useCallback(async () => {
     setFormError()
@@ -142,6 +182,14 @@ const EventLocationForm = ({ event = {}, location = {}, toggleModal }) => {
     }
   }, [hasValidationErrors])
 
+  const hasUnsavedChanges = Boolean(size(dirtyFields))
+  useEffect(() => {
+    toggleHasUnsavedChanges(hasUnsavedChanges)
+    if (hasUnsavedChanges) {
+      setFormSuccess()
+    }
+  }, [hasUnsavedChanges, toggleHasUnsavedChanges])
+
   return (
     <Form
       title={isNew ? 'Create new event' : 'Update the event'}
@@ -165,7 +213,6 @@ const EventLocationForm = ({ event = {}, location = {}, toggleModal }) => {
       <InputLabel title="Title:" isRequired>
         <InputField
           register={register('title', { required: true })}
-          defaultValue={editingLocation.title}
           disabled={isSubmitting}
           invalid={errors.title}
         />
@@ -174,7 +221,6 @@ const EventLocationForm = ({ event = {}, location = {}, toggleModal }) => {
       <InputLabel title="Description:">
         <InputField
           register={register('description')}
-          defaultValue={editingLocation.description}
           disabled={isSubmitting}
         />
       </InputLabel>
@@ -183,6 +229,7 @@ const EventLocationForm = ({ event = {}, location = {}, toggleModal }) => {
         <Controller
           control={control}
           name="category"
+          rules={{ required: true }}
           render={({ field: { onChange, ref } }) => (
             <Creatable
               placeholder="Type to create new or select from the list..."
@@ -198,7 +245,7 @@ const EventLocationForm = ({ event = {}, location = {}, toggleModal }) => {
                 handleCategorySelectorCreate(option)
               }}
               disabled={isSubmitting}
-              value={eventOptions.find(option => option.value === eventId)}
+              value={category}
               maxMenuHeight={210}
             />
           )}
@@ -209,7 +256,6 @@ const EventLocationForm = ({ event = {}, location = {}, toggleModal }) => {
       <InputLabel title="Country:" isRequired>
         <InputField
           register={register('country', { required: true })}
-          defaultValue={editingLocation.country}
           disabled={isSubmitting}
           invalid={errors.country}
         />
@@ -218,7 +264,6 @@ const EventLocationForm = ({ event = {}, location = {}, toggleModal }) => {
       <InputLabel title="City:" isRequired>
         <InputField
           register={register('city', { required: true })}
-          defaultValue={editingLocation.city}
           disabled={isSubmitting}
           invalid={errors.city}
         />
@@ -227,7 +272,6 @@ const EventLocationForm = ({ event = {}, location = {}, toggleModal }) => {
       <InputLabel title="Address:">
         <InputField
           register={register('address')}
-          defaultValue={editingLocation.address}
           disabled={isSubmitting}
         />
       </InputLabel>
@@ -235,7 +279,6 @@ const EventLocationForm = ({ event = {}, location = {}, toggleModal }) => {
         <InputField
           type="date"
           register={register('start', { required: true })}
-          defaultValue={editingLocation.start}
           disabled={isSubmitting}
           invalid={errors.start}
         />
@@ -245,7 +288,6 @@ const EventLocationForm = ({ event = {}, location = {}, toggleModal }) => {
         <InputField
           type="date"
           register={register('end')}
-          defaultValue={editingLocation.end}
           disabled={isSubmitting}
         />
       </InputLabel>
