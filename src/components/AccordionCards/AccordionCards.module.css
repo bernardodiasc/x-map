@@ -1,4 +1,6 @@
-.component {}
+.component {
+  position: relative;
+}
 
 .title {
   display: flex;
@@ -13,65 +15,19 @@
   margin-right: 5px;
 }
 
-.button {
-  display: flex;
-  align-items: center;
-  margin: 0;
-  padding: 20px;
-  cursor: pointer;
-  background: linear-gradient(0deg, rgb(240, 240, 240) 0%, rgba(255, 255, 255) 100%);
+.cards {
+  max-height: calc(100vh - 183px);
+  overflow-y: auto;
 }
 
-.button:hover {
-  background-color: hsl(0, 0%, 95%);
-  background: linear-gradient(180deg, rgba(240, 240, 240) 0%, rgba(255, 255, 255) 100%);
-}
-
-.image {
-  display: inline-flex;
-  margin-right: 10px;
-  flex-shrink: 0;
-  position: relative;
-  width: 32px;
-  height: 32px;
-}
-
-.image img {
-  border-radius: 50%;
-}
-
-.label {
-  width: 100%;
-  margin-right: 5px;
-}
-
-.arrow {
-  flex-shrink: 0;
-}
-
-.button:hover .arrow svg {
-  opacity: 1;
-}
-
-.button .arrow svg {
-  opacity: .6;
-}
-
-.expandedItem > .button {
-  display: none;
-}
-
-.content {
-  display: none;
-}
-
-.item + .item {
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
-}
-
-.expandedItem > .content {
+.item {
   display: block;
-  margin: 10px;
+  margin: 10px 10px 15px;
   border: 1px dashed rgba(0, 0, 0, 0.1);
   border-radius: 5px;
+  position: relative;
+}
+
+.item:last-child {
+  margin: 10px;
 }

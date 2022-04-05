@@ -11,8 +11,7 @@
   border-radius: 4px;
   box-shadow: 5px 5px 10px -6px black;
   padding: 0;
-  max-height: calc(100vh - 120px);
-  overflow-y: auto;
+  max-height: calc(100vh - 110px);
 }
 
 .close {

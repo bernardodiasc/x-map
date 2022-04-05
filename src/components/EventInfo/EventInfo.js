@@ -20,7 +20,6 @@ const EventInfo = () => {
     <AccordionCards
       Card={EventCard}
       data={selectedEvents}
-      label='title'
     />
   )
 }

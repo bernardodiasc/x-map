@@ -20,7 +20,6 @@ const ProfileInfo = () => {
     <AccordionCards
       Card={ProfileCard}
       data={selectedProfiles}
-      label='name'
     />
   )
 }

@@ -63,10 +63,12 @@ export default function MapContainer({ google, featureCollection }) {
     const isAllMarkersOnSamePosition = checkIfAllMarkersAreOnSamePosition(markers)
     return new google.maps.Marker({
       position,
-      icon: {
-        url: `data:image/svg+xml;base64,${svg}`,
-        scaledSize: new google.maps.Size(45, 45),
-      },
+      icon: isAllMarkersOnSamePosition
+        ? undefined
+        : {
+          url: `data:image/svg+xml;base64,${svg}`,
+          scaledSize: new google.maps.Size(45, 45),
+        },
       label: {
         text: String(count),
         color: 'rgba(255,255,255,0.9)',
@@ -139,6 +141,12 @@ export default function MapContainer({ google, featureCollection }) {
       scaleControl
       fullscreenControl={false}
       keyboardShortcuts={false}
+      zoomControlOptions={{
+        position: google.maps.ControlPosition.LEFT_BOTTOM,
+      }}
+      streetViewControlOptions={{
+        position: google.maps.ControlPosition.LEFT_BOTTOM,
+      }}
     />
   )
 }
