@@ -26,7 +26,6 @@ export const normalizeLocationApiData = location => {
       Number(location.attributes.longitude),
       Number(location.attributes.latitude),
     ],
-    event: location.attributes.event,
     title: location.attributes.title,
     description: location.attributes.description,
   }

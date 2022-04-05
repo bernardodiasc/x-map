@@ -103,7 +103,6 @@ const EventLocationForm = ({
       longitude: String(longitude),
       profile: profile.id,
       category: eventId,
-      event: true,
     }
 
     try {
