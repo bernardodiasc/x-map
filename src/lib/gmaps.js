@@ -31,7 +31,8 @@ export const getGeocode = async ({ country, city, address }) => {
         latitude: undefined,
       }
     }
-    const { location } = results[0]?.geometry
+    const { geometry } = results[0]
+    const { location } = geometry
     return {
       longitude: location.lng,
       latitude: location.lat,

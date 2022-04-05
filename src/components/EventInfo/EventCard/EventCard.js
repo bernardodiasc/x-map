@@ -25,7 +25,7 @@ const EventCard = ({ item }) => {
         <Svg name="calendar" width="24" height="24" />
         Schedule:
       </h3>
-      {item.locations.map(renderEventLocationCard)}
+      {item.locations?.map(renderEventLocationCard)}
     </div>
   )
 }

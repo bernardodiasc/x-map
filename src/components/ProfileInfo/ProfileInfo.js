@@ -4,7 +4,7 @@ import AccordionCards from '@components/AccordionCards'
 import useAppContext from '@contexts/App'
 import useMapContext from '@contexts/Map'
 
-import { getRecordsByCoordinates } from '@lib/locations'
+import { getProfilesByCoordinates } from '@lib/profiles'
 
 const ProfileInfo = () => {
   const { state: { collections } } = useAppContext()
@@ -14,7 +14,7 @@ const ProfileInfo = () => {
     return null
   }
 
-  const selectedProfiles = getRecordsByCoordinates(collections.profiles, selectedCoordinates)
+  const selectedProfiles = getProfilesByCoordinates(collections.profiles, selectedCoordinates)
 
   return (
     <AccordionCards

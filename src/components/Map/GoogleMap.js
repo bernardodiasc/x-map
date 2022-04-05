@@ -5,19 +5,14 @@ import { MarkerClusterer } from '@googlemaps/markerclusterer'
 import useAppContext from '@contexts/App'
 import useMapContext from '@contexts/Map'
 
-import { getRecordsByCoordinates } from '@lib/locations'
-
 const mapStyles = {
   width: '100%',
   height: 'calc(100vh - 80px)',
 }
 
 export default function MapContainer({ google, featureCollection }) {
-  const { state: { collections, features } } = useAppContext()
-  const {
-    state: { selectedCollection },
-    actions: { setSelectedCoordinates }
-  } = useMapContext()
+  const { state: { features } } = useAppContext()
+  const { actions: { setSelectedCoordinates } } = useMapContext()
 
   const bounds = useMemo(() => new google.maps.LatLngBounds(), [google])
 
@@ -26,11 +21,19 @@ export default function MapContainer({ google, featureCollection }) {
       const position = cur.getPosition()
       return [...acc, { key, lat: position.lat(), lng: position.lng() }]
     }, [])
-    const isAllMarkersOnSamePosition = allMarkersPositions.reduce((acc, cur, key) => {
-      return Boolean(allMarkersPositions
-        .find(marker => marker.key !== key && marker.lat === cur.lat && marker.lng === cur.lng)
-      )
-    }, true)
+
+    let isAllMarkersOnSamePosition = true
+    allMarkersPositions.forEach(element => {
+      const diffrentPositionMarker = allMarkersPositions
+        .find(marker => marker.key !== element.key
+          && marker.lat !== element.lat
+          && marker.lng !== element.lng
+        )
+      if (diffrentPositionMarker) {
+        isAllMarkersOnSamePosition = false
+      }
+    })
+
     if (isAllMarkersOnSamePosition) {
       const position = cluster.markers[0].position
       setSelectedCoordinates([position.lng(), position.lat()])
@@ -50,11 +53,10 @@ export default function MapContainer({ google, featureCollection }) {
     google.maps.event.addListener(map.data, 'addfeature', function (event) {
       if (event.feature.getGeometry().getType() === 'Point') {
         const coordinates = event.feature.getProperty('coordinates')
-        const records = getRecordsByCoordinates(collections[selectedCollection.toLowerCase()], coordinates)
 
         const marker = new google.maps.Marker({
           position: event.feature.getGeometry().get(),
-          label: String(records.length),
+          label: '1',
           map: map,
         })
 

@@ -14,7 +14,7 @@ import InputError from '@components/InputError'
 import Button from '@components/Button'
 
 import { normalizeLocationApiData } from '@lib/locations'
-import { getGeocode } from '@lib/gmaps'
+import { getGeocode, getTimezone } from '@lib/gmaps'
 import { ENDPOINTS, FORM_VALIDATION_ERROR_MESSAGE } from '@lib/constants'
 
 import * as styles from './EventLocationForm.module.css'
@@ -91,12 +91,15 @@ const EventLocationForm = ({
       return
     }
 
+    const timezone = await getTimezone({ latitude, longitude })
+
     const dataObj = {
       title,
       description,
       country,
       city,
       address,
+      timezone,
       start: start !== '' ? start : undefined,
       end: end !== '' ? end : undefined,
       latitude: String(latitude),

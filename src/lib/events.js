@@ -1,4 +1,4 @@
-import { normalizeLocationsApiData, getFutureLocations, sortByStartDate } from '@lib/locations'
+import { normalizeLocationsApiData, sortByStartDate, compareCoordinates } from '@lib/locations'
 
 export const normalizeEventApiData = event => {
   const locations = normalizeLocationsApiData(event.attributes.locations)
@@ -14,15 +14,14 @@ export const normalizeEventsApiData = apiData => apiData?.data
   ? apiData.data.map(normalizeEventApiData)
   : undefined
 
-export const getEventsWithCoordinatesFromFutureLocations = events =>
-  events?.reduce((acc, cur) => {
+export const getEventsWithCoordinatesFromAllLocations = (events = []) => events
+  .reduce((acc, cur) => {
     if (cur?.locations?.length === 0) {
       return acc
     }
-    const futureLocations = getFutureLocations(cur.locations)
     return [
       ...acc,
-      ...futureLocations.map(location => ({
+      ...cur.locations.map(location => ({
         id: cur.id,
         title: cur.title,
         location: location,
@@ -30,9 +29,37 @@ export const getEventsWithCoordinatesFromFutureLocations = events =>
       }))
     ]
   }, [])
+  .sort((a, b) => sortByStartDate(a.location, b.location))
 
-export const getEventsByProfileId = (events, profileId) =>
-  events.reduce((acc, cur) => {
-    const locations = cur.locations.filter(location => location.profile === profileId).sort(sortByStartDate)
-    return locations.length > 0 ? [...acc, { ...cur, locations }] : acc
+export const getCategoryEvents = (events = []) => events
+  .reduce((acc, cur) => {
+    const existingCategory = acc.find(category => category.id === cur.id)
+    if (existingCategory) {
+      return acc
+    }
+    const sameCategoryEvents = events.filter(category => category.id === cur.id)
+    const eventByCategory = {
+      id: sameCategoryEvents[0].id,
+      title: sameCategoryEvents[0].title,
+      locations: sameCategoryEvents.map(event => event.location),
+    }
+    return [...acc, eventByCategory]
   }, [])
+
+export const getEventsByCoordinates = (events, coordinates) => {
+  const eventsFromAllLocations = getEventsWithCoordinatesFromAllLocations(events)
+  const eventsByCoordinates = eventsFromAllLocations
+    .reduce((acc, cur) => {
+      const hasSameCoordinates = compareCoordinates(cur.location, coordinates)
+      if (!hasSameCoordinates) {
+        return acc
+      }
+      return [...acc, cur]
+    }, [])
+  return getCategoryEvents(eventsByCoordinates)
+}
+
+export const getEventsByProfileId = (events, profileId) => events.reduce((acc, cur) => {
+  const locations = cur.locations.filter(location => location.profile === profileId).sort(sortByStartDate)
+  return locations.length > 0 ? [...acc, { ...cur, locations }] : acc
+}, [])

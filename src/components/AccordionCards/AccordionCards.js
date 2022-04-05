@@ -14,9 +14,9 @@ const AccordionCards = ({ Card, data = [], label }) => {
     setExpanded(i)
   }
 
-  const formattedLocationTitle = getFormattedLocationTitle(data[0]?.location)
+  const formattedLocationTitle = getFormattedLocationTitle(data[0]?.location || data[0]?.locations[0])
 
-  return data.length > 1 ? (
+  return (
     <div className={styles.component}>
       <h2 className={styles.title}>
         <Svg name="mapMarker" width="32" height="32" />
@@ -27,7 +27,7 @@ const AccordionCards = ({ Card, data = [], label }) => {
           key={`profile-${item.id}`}
           className={[
             styles.item,
-            expanded === i ? styles.expandedItem : styles.item
+            styles.expandedItem,
           ].join(' ')}
         >
           <h3
@@ -59,8 +59,6 @@ const AccordionCards = ({ Card, data = [], label }) => {
         </div>
       ))}
     </div>
-  ) : (
-    <Card item={data[0]} />
   )
 }
 

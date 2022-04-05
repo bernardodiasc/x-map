@@ -1,4 +1,4 @@
-import { normalizeLocationsApiData, getLatestLocation } from '@lib/locations'
+import { normalizeLocationsApiData, getLatestLocation, compareCoordinates } from '@lib/locations'
 
 export const normalizeProfileApiData = profile => {
   const locations = normalizeLocationsApiData(profile.attributes.locations)
@@ -30,17 +30,31 @@ export const normalizeProfilesApiData = apiData => apiData?.data
   ? apiData.data.map(normalizeProfileApiData)
   : undefined
 
-export const getProfilesWithCoordinatesFromLatestLocation = profiles => profiles?.reduce((acc, cur) => {
-  if (cur?.locations?.length === 0) {
-    return acc
-  }
-  const latestLocation = getLatestLocation(cur.locations)
-  return [
-    ...acc,
-    {
-      ...cur,
-      location: latestLocation,
-      coordinates: latestLocation.coordinates,
+export const getProfilesWithCoordinatesFromLatestLocation = profiles =>
+  profiles?.reduce((acc, cur) => {
+    if (cur?.locations?.length === 0) {
+      return acc
     }
-  ]
-}, [])
+    const latestLocation = getLatestLocation(cur.locations)
+    return [
+      ...acc,
+      {
+        ...cur,
+        location: latestLocation,
+        coordinates: latestLocation.coordinates,
+      }
+    ]
+  }, [])
+
+export const getProfilesByCoordinates = (profiles, coordinates) => {
+  const profilesWithLatestLocation = getProfilesWithCoordinatesFromLatestLocation(profiles)
+  const profilesByCoordinates = profilesWithLatestLocation
+    .reduce((acc, cur) => {
+      const hasSameCoordinates = compareCoordinates(cur.location, coordinates)
+      if (!hasSameCoordinates) {
+        return acc
+      }
+      return [...acc, cur]
+    }, [])
+  return profilesByCoordinates
+}

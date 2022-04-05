@@ -4,7 +4,7 @@ import AccordionCards from '@components/AccordionCards'
 import useAppContext from '@contexts/App'
 import useMapContext from '@contexts/Map'
 
-import { getRecordsByCoordinates } from '@lib/locations'
+import { getEventsByCoordinates } from '@lib/events'
 
 const EventInfo = () => {
   const { state: { collections } } = useAppContext()
@@ -14,7 +14,7 @@ const EventInfo = () => {
     return null
   }
 
-  const selectedEvents = getRecordsByCoordinates(collections.events, selectedCoordinates)
+  const selectedEvents = getEventsByCoordinates(collections.events, selectedCoordinates)
 
   return (
     <AccordionCards
