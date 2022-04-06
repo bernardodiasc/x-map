@@ -3,16 +3,12 @@ import ct from 'countries-and-timezones'
 
 import Svg from '@components/Svg'
 
-import { getFormattedLocationTitle } from '@lib/locations'
-
 import * as styles from './ProfileCard.module.css'
 
-const ProfileCard = ({ item, inAccordion }) => {
+const ProfileCard = ({ item }) => {
   if (!item) {
     return null
   }
-
-  const formattedLocationTitle = getFormattedLocationTitle(item.location)
 
   let timezone
   if (item.location?.timezone) {
@@ -21,30 +17,20 @@ const ProfileCard = ({ item, inAccordion }) => {
   }
 
   return (
-    <div className={[styles.profile, inAccordion ? styles.accordion : ''].join(' ')}>
+    <div className={styles.profile}>
       <div className={styles.avatar}>
-        {item.avatar ? (
-          <Image
-            className={styles.image}
-            src={item.avatar ? item.avatar.url : '/avatar.png'}
-            alt={item.name}
-            width="200"
-            height="200"
-            layout="fill"
-            objectFit="cover"
-          />
-        ) : (
-          <Svg name="avatar" width="200" height="200" />
-        )}
+        <Image
+          className={styles.image}
+          src={item.avatar ? item.avatar.url : '/avatar.png'}
+          alt={item.name}
+          width="200"
+          height="200"
+          layout="fill"
+          objectFit="cover"
+        />
       </div>
       <div className={styles.info}>
         <h2 className={styles.name}>{item.name}</h2>
-        {!inAccordion && (
-          <div className={styles.location}>
-            <Svg name="marker" width="18" height="18" />
-            {formattedLocationTitle}
-          </div>
-        )}
         {timezone && (
           <div className={styles.timezone}>
             <Svg name="clock" width="16" height="16" />
@@ -62,7 +48,7 @@ const ProfileCard = ({ item, inAccordion }) => {
               target="_blank"
               rel="noreferrer"
             >
-              <Svg name="website" width="32" height="32" />
+              <Svg name="website" width="38" height="38" />
             </a>
           )}
           {item.github && (
@@ -72,7 +58,7 @@ const ProfileCard = ({ item, inAccordion }) => {
               target="_blank"
               rel="noreferrer"
             >
-              <Svg name="github" width="32" height="32" />
+              <Svg name="github" width="38" height="38" />
             </a>
           )}
           {item.stackoverflow && (
@@ -82,7 +68,7 @@ const ProfileCard = ({ item, inAccordion }) => {
               target="_blank"
               rel="noreferrer"
             >
-              <Svg name="stackoverflow" width="32" height="32" />
+              <Svg name="stackoverflow" width="38" height="38" />
             </a>
           )}
           {item.linkedin && (
@@ -92,7 +78,7 @@ const ProfileCard = ({ item, inAccordion }) => {
               target="_blank"
               rel="noreferrer"
             >
-              <Svg name="linkedin" width="32" height="32" />
+              <Svg name="linkedin" width="38" height="38" />
             </a>
           )}
           {item.twitter && (
@@ -102,7 +88,7 @@ const ProfileCard = ({ item, inAccordion }) => {
               target="_blank"
               rel="noreferrer"
             >
-              <Svg name="twitter" width="32" height="32" />
+              <Svg name="twitter" width="38" height="38" />
             </a>
           )}
           {item.instagram && (
@@ -112,7 +98,7 @@ const ProfileCard = ({ item, inAccordion }) => {
               target="_blank"
               rel="noreferrer"
             >
-              <Svg name="instagram" width="32" height="32" />
+              <Svg name="instagram" width="38" height="38" />
             </a>
           )}
         </div>

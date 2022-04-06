@@ -24,8 +24,14 @@
   font-style: italic;
 }
 
+.message {
+  line-height: 1.4;
+  margin: 15px 0;
+}
+
 .dropzone:hover {
   background-color: hsl(0, 0%, 98%);
+  border-color: hsl(0, 0%, 60%);
 }
 
 .dropzoneFocused,

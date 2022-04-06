@@ -49,6 +49,7 @@
 
 .content {
   overflow-x: auto;
+  max-width: 100%;
 }
 
 .defaultPadding {
@@ -57,5 +58,24 @@
 
 .defaultWitdh {
   width: 500px;
-  max-width: calc(80vw - 60px);
+}
+
+@media only screen and (max-width: 320px) {
+  .defaultPadding {
+    padding: 30px 10px;
+  }
+}
+
+@media only screen and (max-width: 560px) {
+  .modal {
+    padding: 10px;
+  }
+
+  .frame {
+    max-width: calc(100vw - 20px);
+  }
+
+  .defaultPadding {
+    padding: 30px 20px;
+  }
 }

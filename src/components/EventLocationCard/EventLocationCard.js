@@ -15,7 +15,7 @@ const EventLocationCard = ({ location, onClick }) => {
 
   return (
     <div
-      className={styles.component}
+      className={[styles.component, onClick ? styles.clickable : ''].join(' ')}
       onClick={handleOnClick}
     >
       <div className={styles.info}>

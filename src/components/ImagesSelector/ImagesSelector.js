@@ -81,13 +81,13 @@ const ImagesSelector = ({ title, images = [], maxFiles = 1, selectFiles, disable
       <div {...getRootProps({ className: dropzoneClassNames })}>
         <input {...getInputProps()} />
         {isDragAccept && (
-          <div>All files will be accepted!</div>
+          <div className={styles.message}>All files will be accepted!</div>
         )}
         {isDragReject && (
-          <div>Some files will be rejected!</div>
+          <div className={styles.message}>Some files will be rejected!</div>
         )}
         {!isDragActive && (
-          <div>Drag and drop files here, or click to select files...</div>
+          <div className={styles.message}>Drag and drop files here, or click to select files...</div>
         )}
         <ShowThumbnails images={thumbnails} />
       </div>

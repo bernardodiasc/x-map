@@ -1,5 +1,6 @@
 .component {
   width: 300px;
+  max-width: 100%;
 }
 
 .component h1 {

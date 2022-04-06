@@ -3,11 +3,15 @@ import EventLocationCard from '@components/EventLocationCard'
 
 import * as styles from './EventCard.module.css'
 
-const EventCard = ({ item }) => {
+const EventCard = ({ item, onLocationClick }) => {
+  const handleLocationClick = (event, location) =>
+    onLocationClick && onLocationClick(item, location)
+
   const renderEventLocationCard = (location) => (
     <EventLocationCard
       key={`event-${item.id}-location-${location.id}`}
       location={location}
+      onClick={handleLocationClick(item, location)}
     />
   )
 

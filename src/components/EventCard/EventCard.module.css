@@ -1,0 +1,35 @@
+.component {
+  margin: 0;
+  padding: 20px;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  font-size: 26px;
+  margin: 0 0 10px;
+}
+
+.title > svg {
+  margin: 0 10px 0 0;
+}
+
+.schedule {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  margin: 0 0 15px;
+  background: hsl(0, 0%, 97%);
+  padding: 4px 8px;
+  border-radius: 5px;
+}
+
+.schedule > svg {
+  margin: 0 5px 0 0;
+}
+
+@media only screen and (max-width: 480px) {
+  .component {
+    padding: 10px;
+  }
+}

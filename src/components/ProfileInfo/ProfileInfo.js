@@ -1,4 +1,4 @@
-import ProfileCard from '@components/ProfileInfo/ProfileCard'
+import ProfileCard from '@components/ProfileCard'
 import AccordionCards from '@components/AccordionCards'
 
 import useAppContext from '@contexts/App'

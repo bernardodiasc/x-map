@@ -4,10 +4,6 @@
   padding: 10px;
 }
 
-.image {
-  border-radius: 10px;
-}
-
 .avatar {
   flex-shrink: 0;
   margin-right: 10px;
@@ -19,6 +15,10 @@
 
 .avatar > svg {
   max-width: 100%;
+}
+
+.image {
+  border-radius: 10px;
 }
 
 .info {
@@ -33,13 +33,9 @@
   font-size: 28px;
 }
 
-.location,
 .timezone {
   display: flex;
   align-items: center;
-  margin: 0 0 5px;
-  font-size: 20px;
-  font-weight: 500;
 }
 
 .timezone {
@@ -48,7 +44,6 @@
   margin: 0 0 10px;
 }
 
-.location > svg,
 .timezone > svg {
   width: 20px;
   margin: 0 3px 0 0;
@@ -64,6 +59,8 @@
   display: flex;
   justify-content: flex-end;
   align-items: flex-end;
+  flex-wrap: wrap;
+  align-content: flex-end;
   height: 100%;
 }
 
@@ -75,4 +72,50 @@
 
 .links > a:hover {
   opacity: 1;
+}
+
+@media only screen and (max-width: 320px) {
+  .name {
+    margin: 0 0 10px;
+    font-size: 20px;
+  }
+
+  .timezone {
+    font-size: 12px;
+    margin: 0 0 5px;
+  }
+
+  .about {
+    font-size: 16px;
+    margin: 0 0 15px;
+  }
+
+  .links {
+    justify-content: space-between;
+  }
+
+  .links > a {
+    margin: 0;
+  }
+
+  .links > a > svg {
+    width: 32px;
+    height: 32px;
+  }
+}
+
+@media only screen and (max-width: 560px) {
+  .profile {
+    flex-direction: column;
+  }
+
+  .avatar {
+    margin: 0 0 10px;
+    width: 100%;
+    max-width: unset;
+  }
+
+  .name {
+    text-align: center;
+  }
 }

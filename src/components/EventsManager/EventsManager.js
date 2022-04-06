@@ -3,7 +3,7 @@ import { useState, useCallback } from 'react'
 import useAuthContext from '@contexts/Auth'
 import useAppContext from '@contexts/App'
 
-import EventLocationCard from '@components/EventLocationCard'
+import EventCard from '@components/EventCard'
 import EventLocationForm from '@components/EventLocationForm'
 import Modal from '@components/Modal'
 import Button from '@components/Button'
@@ -31,22 +31,12 @@ const EventsManager = ({
     toggleAnotherModalVisibility(true)
   }, [toggleAnotherModalVisibility])
 
-  const renderEventLocationCard = (event, location) => (
-    <EventLocationCard
-      key={`event-${event.id}-location-${location.id}`}
-      event={event}
-      location={location}
-      onClick={handleEditLocation(event, location)}
-    />
-  )
-
   const renderEventRow = event => (
-    <div key={`event-${event.id}`}>
-      <div className={styles.title}>
-        {event.title}
-      </div>
-      {event.locations.map(location => renderEventLocationCard(event, location))}
-    </div>
+    <EventCard
+      key={`event-${event.id}`}
+      item={event}
+      onLocationClick={handleEditLocation}
+    />
   )
 
   return (

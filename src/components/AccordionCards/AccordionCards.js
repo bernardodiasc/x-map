@@ -18,7 +18,7 @@ const AccordionCards = ({ Card, data = [] }) => {
             key={`profile-${item.id}`}
             className={styles.item}
           >
-            <Card item={item} inAccordion />
+            <Card item={item} />
           </div>
         ))}
       </div>

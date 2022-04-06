@@ -1,4 +1,4 @@
-import EventCard from '@components/EventInfo/EventCard'
+import EventCard from '@components/EventCard'
 import AccordionCards from '@components/AccordionCards'
 
 import useAppContext from '@contexts/App'
