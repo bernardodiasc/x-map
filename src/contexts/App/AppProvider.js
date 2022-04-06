@@ -1,4 +1,4 @@
-import { useMemo, useEffect } from 'react'
+import { useMemo, useEffect, useState } from 'react'
 
 import AppContext from './AppContext'
 
@@ -7,7 +7,6 @@ import useAuthContext from '@contexts/Auth'
 import useProfiles from '@hooks/useProfiles'
 import useEvents from '@hooks/useEvents'
 import useFeatureFlags from '@hooks/useFeatureFlags'
-import useModal from '@hooks/useModal'
 
 import { MODAL_IDS } from '@lib/constants'
 
@@ -16,12 +15,8 @@ const AppProvider = ({ children }) => {
   const { profiles, mutate: refetchProfiles } = useProfiles()
   const { events, mutate: refetchEvents } = useEvents()
   const { features } = useFeatureFlags()
-  const {
-    visibleModal,
-    setVisibleModal,
-    shouldModalBeClosable,
-    toggleShouldModalBeClosable,
-  } = useModal()
+  const [visibleModal, setVisibleModal] = useState(undefined)
+  const [shouldModalBeClosable, toggleShouldModalBeClosable] = useState(true)
 
   const isLoadingApp = (token && (!user || !isLoadedProfile)) || !profiles || !events || !features
 
