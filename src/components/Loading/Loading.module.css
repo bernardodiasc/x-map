@@ -9,7 +9,6 @@
 }
 
 .modal {
-  max-width: calc(80vw - 60px);
   height: 400px;
   max-height: calc(100vh - 120px);
 }
