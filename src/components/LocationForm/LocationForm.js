@@ -168,6 +168,7 @@ const LocationForm = ({ locationId, toggleLocationFormModal, toggleHasUnsavedCha
   return (
     <Form
       title="Update your location"
+      description={isNew && 'Please fill up required info before proceed :)'}
       onSubmit={handleSubmit(onSubmit)}
       successMessage={formSuccess}
       errorMessage={formError}

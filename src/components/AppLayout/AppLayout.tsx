@@ -47,12 +47,16 @@ const AppLayout = ({ children }: Props): JSX.Element => {
     } else {
       anotherModalVisibility
         ? toggleAnotherModalVisibility(false)
-        : shouldModalBeClosable && setVisibleModal()
+        : setVisibleModal()
     }
   }
 
   const modalContents = {
-    [MODAL_IDS.JOIN_SCREEN]: <JoinScreen />,
+    [MODAL_IDS.JOIN_SCREEN]: (
+      <JoinScreen
+        toggleHasUnsavedChanges={toggleHasUnsavedChanges}
+      />
+    ),
     [MODAL_IDS.PROFILE_FORM]: (
       <ProfileForm
         toggleHasUnsavedChanges={toggleHasUnsavedChanges}
@@ -93,7 +97,7 @@ const AppLayout = ({ children }: Props): JSX.Element => {
         </Modal>
       )}
       {visibleModal && (
-        <Modal onClose={handleCloseModal}>
+        <Modal onClose={shouldModalBeClosable && handleCloseModal}>
           {modalContents[visibleModal]}
         </Modal>
       )}

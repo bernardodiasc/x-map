@@ -3,7 +3,7 @@ import { useState, useEffect, useCallback } from 'react'
 import useAuthContext from '@contexts/Auth'
 import useAppContext from '@contexts/App'
 
-import AccountForm from '@components/AccountForm'
+import ProfileForm from '@components/ProfileForm'
 import LogInForm from '@components/LogInForm'
 import SignUpForm from '@components/SignUpForm'
 import Button from '@components/Button'
@@ -11,7 +11,7 @@ import Loading from '@components/Loading'
 
 import * as styles from './JoinScreen.module.css'
 
-const JoinScreen = () => {
+const JoinScreen = ({ toggleHasUnsavedChanges }) => {
   const { state: { user, profile, isLoadingProfile } } = useAuthContext()
   const { actions: { setVisibleModal } } = useAppContext()
   const [displaySignUpForm, setDisplaySignUpForm] = useState(false)
@@ -35,7 +35,9 @@ const JoinScreen = () => {
 
   if (user) {
     return (
-      <AccountForm />
+      <ProfileForm
+        toggleHasUnsavedChanges={toggleHasUnsavedChanges}
+      />
     )
   }
 
