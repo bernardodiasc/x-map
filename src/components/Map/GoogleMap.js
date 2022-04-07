@@ -9,7 +9,7 @@ import { getFormattedLocationTitle } from '@lib/locations'
 
 const mapStyles = {
   width: '100%',
-  height: 'calc(100vh - 80px)',
+  height: '100%',
 }
 
 const getAllMarkersPositions = markers =>
@@ -82,6 +82,8 @@ export default function MapContainer({ google, featureCollection }) {
   }
 
   const loadGeoData = (mapProps, map) => {
+    window.appMainMap = map
+
     let markerClusterer
     if (features?.MARKER_CLUSTERER) {
       markerClusterer = new MarkerClusterer({
