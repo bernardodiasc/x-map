@@ -1,78 +1,29 @@
-import useAuthContext from '@contexts/Auth'
 import useAppContext from '@contexts/App'
-import useMapContext from '@contexts/Map'
 
-import MainHeader from '@components/MainHeader'
 import MainMenu from '@components/MainMenu'
-import Button from '@components/Button'
+import Svg from '@components/Svg'
 
-import { MODAL_IDS, COLLECTIONS } from '@lib/constants'
+import * as styles from './AppHeader.module.css'
 
 const AppHeader = () => {
-  const { state: { token } } = useAuthContext()
-  const {
-    state: { isLoadingApp, features },
-    actions: { setVisibleModal },
-  } = useAppContext()
-  const {
-    state: { selectedCollection },
-    actions: { setSelectedCollection },
-  } = useMapContext()
-
-  const handleToggleVisibleModal = modalID => () => setVisibleModal(modalID)
-
-  const collectionSelection = selectedCollection === COLLECTIONS.PROFILES ? {
-    onClick: () => setSelectedCollection(COLLECTIONS.EVENTS),
-    children: (
-      <span>
-        View Events
-      </span>
-    ),
-  } : {
-    onClick: () => setSelectedCollection(COLLECTIONS.PROFILES),
-    children: (
-      <span>
-        View Profiles
-      </span>
-    ),
-  }
-
-  if (isLoadingApp) {
-    return (
-      <MainHeader>
-        <Button onClick={handleToggleVisibleModal(MODAL_IDS.FAQ)}>
-          ?
-        </Button>
-      </MainHeader>
-    )
-  }
-
-  if (!token) {
-    return (
-      <MainHeader>
-        {features?.EVENTS && (
-          <Button {...collectionSelection} />
-        )}
-        <Button onClick={handleToggleVisibleModal(MODAL_IDS.JOIN_SCREEN)}>
-          Join the Map
-        </Button>
-        <Button onClick={handleToggleVisibleModal(MODAL_IDS.FAQ)}>
-          ?
-        </Button>
-      </MainHeader>
-    )
-  }
-
+  const { state: { isLoadingApp } } = useAppContext()
   return (
-    <MainHeader>
-      {features?.EVENTS && (
-        <Button {...collectionSelection} />
-      )}
-      <MainMenu />
-      <Button onClick={handleToggleVisibleModal(MODAL_IDS.FAQ)}>
-        ?
-      </Button>
-    </MainHeader>
+    <div className={styles.component}>
+      <div className={styles.logo}>
+        <Svg name="map" width="56" height="56" />
+        <Svg name="xteam" width="109" height="46" />
+      </div>
+      <div className={styles.controls}>
+        <div className={styles.message}>
+          {/*
+            TO DO: add some sort of instruction based on the profile state.
+          */}
+        </div>
+        {!isLoadingApp && (
+          <MainMenu />
+        )}
+      </div>
+    </div>
   )
 }
 

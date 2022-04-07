@@ -1,1 +1,42 @@
-.component {}
+.component {
+  display: flex;
+  justify-content: space-between;
+  height: 100%;
+  padding: 0 20px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  height: 46px;
+  align-self: center;
+  margin: 0 10px 0 0;
+}
+
+.logo > svg {
+  margin: 0 5px 0 0;
+}
+
+.logo > img {
+  display: block;
+  height: 46px;
+  width: 109px;
+  margin: 0;
+}
+
+.controls {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.message {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
