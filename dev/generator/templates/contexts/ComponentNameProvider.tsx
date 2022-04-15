@@ -1,6 +1,10 @@
 import <%= componentName %>Context from './<%= componentName %>Context'
 
-const <%= componentName %>Provider = ({ children, ...props }) => {
+type Props = {
+  children?: React.ReactNode,
+}
+
+const <%= componentName %>Provider = ({ children, ...props }: Props): JSX.Element => {
   return (
     <<%= componentName %>Context.Provider
       value={{

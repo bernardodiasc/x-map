@@ -1,12 +1,12 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react'
-// import { action } from '@storybook/addon-actions'
-// import { expect } from '@storybook/jest'
-// import { within, userEvent } from '@storybook/testing-library'
+import { action } from '@storybook/addon-actions'
+import { within, userEvent } from '@storybook/testing-library'
+import { expect } from '@storybook/jest'
 
 import <%= componentName %> from './<%= componentName %>'
 
 export default {
-  title: '<%= componentPath %>',
+  title: '<% if (parentComponent) { %><%= parentComponent.replace(/\w/, c => c.toUpperCase()) %>/<%= componentName %><% } else { %><%= componentName %><% } %>',
   component: <%= componentName %>,
   decorators: [
     (Story) => (
@@ -21,18 +21,10 @@ const Template: ComponentStory<typeof <%= componentName %>> = (args) => <<%= com
 
 export const <%= componentName %>Story = Template.bind({})
 <%= componentName %>Story.storyName = '<%= componentName %>'
-<%= componentName %>Story.args = {
-  // onClick: action('button-click')
+<%= componentName %>Story.args = { onClick: action('button-click') }
+<%= componentName %>Story.play = async ({ args, canvasElement }) => {
+  const canvas = within(canvasElement)
+  await userEvent.type(canvas.getByTestId('email'), 'email@provider.com', { delay: 100 })
+  await userEvent.click(canvas.getByTestId('button'))
+  await expect(args.onClick).toHaveBeenCalled()
 }
-// https://testing-library.com/
-// https://storybook.js.org/docs/react/writing-tests/interaction-testing#api-for-user-events
-// <%= componentName %>Story.play = async ({ args, canvasElement }) => {
-//   const canvas = within(canvasElement)
-//   await userEvent.type(
-//     canvas.getByTestId('email'),
-//     'email@provider.com',
-//     { delay: 100 }
-//   )
-//   await userEvent.click(canvas.getByRole('button'))
-//   await expect(args.onClick).toHaveBeenCalled()
-// }

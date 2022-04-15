@@ -7,7 +7,7 @@ const TEMPLATES_DIR = '/templates'
 const CHOICES = fs.readdirSync(`${__dirname}${TEMPLATES_DIR}`)
 const OUTPUT_DIR = path.resolve(__dirname, '../../src')
 
-const capitalize = s => (s && s[0].toUpperCase() + s.slice(1)) || ""
+const capitalize = s => (s && s[0].toUpperCase() + s.slice(1)) || ''
 
 inquirer
   .prompt([
@@ -27,21 +27,13 @@ inquirer
       }
     },
     {
-      name: 'nestedComponent',
-      type: 'confirm',
-      message: 'Nested component?',
-      default: false
-    },
-    {
       name: 'parentComponent',
       type: 'input',
-      message: 'Parent component:',
+      message: 'Sub directory (optional):',
       validate: function (input) {
-        if (/^([A-Za-z])+$/.test(input)) return true
+        if (input === '') return true
+        else if (/^([A-Za-z])+$/.test(input)) return true
         else return 'Component name may only include letters.'
-      },
-      when: function(answers) {
-        return answers.nestedComponent;
       }
     }
   ])
@@ -50,10 +42,17 @@ inquirer
     const componentName = answers.componentName
     const parentComponent = answers.parentComponent
     const templatePath = `${__dirname}${TEMPLATES_DIR}/${componentType}`
+
+    const componentRootPath = `${OUTPUT_DIR}/${componentType}`
     const componentPath = `${parentComponent ? `${parentComponent}/` : ''}${componentName}`
-    const componentClass = `${parentComponent ? `${parentComponent}-` : ''}${componentName}`
-    const componentFullPath = `${OUTPUT_DIR}/${componentType}/${componentPath}`
-    const options = { componentName, componentType, parentComponent, componentPath, componentClass }
+    const componentFullPath = `${componentRootPath}/${componentPath}`
+    const componentParentPath = `${componentRootPath}${parentComponent ? `/${parentComponent}` : ''}`
+
+    const options = { componentName, componentType, parentComponent, componentPath }
+
+    if (parentComponent && !fs.existsSync(componentParentPath)) {
+      fs.mkdirSync(componentParentPath)
+    }
 
     fs.mkdirSync(componentFullPath)
     createDirectoryContents(templatePath, componentFullPath, options)
