@@ -9,7 +9,11 @@ const <%= componentName %> = ({
   onClick,
   label = 'ClickMe!'
 }: Props): JSX.Element => {
-  return onClick ? (
+  if (!onClick) {
+    return null
+  }
+
+  return (
     <div
       data-testid="<%= componentName %>"
       className={styles.component}
@@ -22,7 +26,7 @@ const <%= componentName %> = ({
         {label}
       </button>
     </div>
-  ) : null
+  )
 }
 
 export default <%= componentName %>

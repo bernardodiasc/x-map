@@ -1,36 +1,29 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react'
+import { action } from '@storybook/addon-actions'
 import { within, userEvent } from '@storybook/testing-library'
 import { expect } from '@storybook/jest'
 
 import <%= componentName %> from './<%= componentName %>'
 
+import { storiesConfig } from '.'
+
 export default {
-  title: '<% if (parentComponent) { %><%= parentComponent.replace(/\w/, c => c.toUpperCase()) %>/<%= componentName %><% } else { %><%= componentName %><% } %>/Demos',
-  component: <%= componentName %>,
-  decorators: [
-    (Story) => (
-      <div style={{ margin: '3em' }}>
-        <Story />
-      </div>
-    ),
-  ],
-  argTypes: {
-    onClick: { action: true },
-  },
-  parameters: {
-    controls: {
-      exclude: 'onClick',
-    }
-  },
+  ...storiesConfig,
+  title: `${storiesConfig.title}/Use Cases`,
 } as ComponentMeta<typeof <%= componentName %>>
 
 const Template: ComponentStory<typeof <%= componentName %>> = (args) => (
-  <<%= componentName %> {...args} />
+  <<%= componentName %>
+    onClick={action('onClick')}
+    {...args}
+  />
 )
 
 export const Default<%= componentName %> = Template.bind({})
-Default<%= componentName %>.storyName = 'default'
-Default<%= componentName %>.args = {}
+Default<%= componentName %>.storyName = 'Demo'
+Default<%= componentName %>.args = {
+  onClick: action('onClick')
+}
 Default<%= componentName %>.play = async ({ args, canvasElement }) => {
   const canvas = within(canvasElement)
   await userEvent.type(canvas.getByTestId('email'), 'email@provider.com', { delay: 100 })

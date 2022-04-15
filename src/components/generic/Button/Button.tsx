@@ -23,7 +23,12 @@ const Button = ({
     link ? styles.link : '',
     className,
   ].join(' ')
-  return children && onClick ? (
+
+  if (!children || !onClick) {
+    return null
+  }
+
+  return (
     <button
       data-testid="button"
       type={type}
@@ -33,7 +38,7 @@ const Button = ({
     >
       {children}
     </button>
-  ) : null
+  )
 }
 
 export default Button

@@ -4,9 +4,11 @@ import { expect } from '@storybook/jest'
 
 import <%= componentName %> from './<%= componentName %>'
 
+import { storiesConfig } from '.'
+
 export default {
-  title: '<% if (parentComponent) { %><%= parentComponent.replace(/\w/, c => c.toUpperCase()) %>/<%= componentName %><% } else { %><%= componentName %><% } %>/Debug',
-  component: <%= componentName %>
+  ...storiesConfig,
+  title: `${storiesConfig.title}/Debug`,
 } as ComponentMeta<typeof <%= componentName %>>
 
 const Template: ComponentStory<typeof <%= componentName %>> = (args) => <<%= componentName %> {...args} />
