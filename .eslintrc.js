@@ -1,6 +1,6 @@
 /*eslint-env node*/
-const OFF = 0
-const ERROR = 2
+const OFF = 0;
+const ERROR = 2;
 module.exports = {
   root: true,
   env: {
@@ -8,15 +8,7 @@ module.exports = {
     es2021: true,
     'jest/globals': true
   },
-  extends: [
-    'eslint:recommended',
-    'plugin:react/recommended',
-    'plugin:react/jsx-runtime',
-    'next/core-web-vitals',
-    'plugin:@typescript-eslint/recommended',
-    'plugin:jest/recommended',
-    'plugin:jest/style'
-  ],
+  extends: ['eslint:recommended', 'plugin:react/recommended', 'plugin:react/jsx-runtime', 'next/core-web-vitals', 'plugin:@typescript-eslint/recommended', 'plugin:jest/recommended', 'plugin:jest/style', 'plugin:storybook/recommended'],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaFeatures: {
@@ -25,11 +17,7 @@ module.exports = {
     ecmaVersion: 12,
     sourceType: 'module'
   },
-  plugins: [
-    'react',
-    '@typescript-eslint',
-    'jest'
-  ],
+  plugins: ['react', '@typescript-eslint', 'jest'],
   rules: {
     'indent': [ERROR, 2],
     'linebreak-style': [ERROR, 'unix'],
@@ -38,4 +26,4 @@ module.exports = {
     'react/prop-types': [OFF],
     '@typescript-eslint/no-empty-function': [OFF]
   }
-}
+};
