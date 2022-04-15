@@ -6,11 +6,11 @@ const localStorage = getLocalStorage()
 
 const AUTH_TOKEN = 'xWorldMap_authToken'
 
-export function getAuthToken () {
+export function getAuthToken (): string {
   return localStorage[AUTH_TOKEN]
 }
 
-export function initAuthHeader (token: string) {
+export function initAuthHeader (token: string): void {
   if (token) {
     axios.defaults.headers.common.Authorization = `Bearer ${token}`
   } else {
@@ -18,7 +18,7 @@ export function initAuthHeader (token: string) {
   }
 }
 
-export function setAuthToken (token: string) {
+export function setAuthToken (token: string): void {
   if (token) {
     localStorage.setItem(AUTH_TOKEN, token)
   } else {
