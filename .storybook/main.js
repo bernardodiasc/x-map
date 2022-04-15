@@ -1,18 +1,19 @@
 const path = require('path')
 
 module.exports = {
-  "stories": [
-    "../src/**/*.stories.mdx",
-    "../src/**/*.stories.@(js|jsx|ts|tsx)"
+  stories: [
+    '../src/**/*.stories.mdx',
+    '../src/**/*.stories.@(js|jsx|ts|tsx)',
   ],
-  "addons": [
-    "@storybook/addon-links",
-    "@storybook/addon-essentials",
-    "@storybook/addon-interactions"
+  addons: [
+    '@storybook/addon-links',
+    '@storybook/addon-essentials',
+    '@storybook/addon-actions',
+    '@storybook/addon-interactions',
   ],
-  "framework": "@storybook/react",
-  "core": {
-    "builder": "@storybook/builder-webpack5"
+  framework: '@storybook/react',
+  core: {
+    builder: '@storybook/builder-webpack5',
   },
   webpackFinal: async (config, { configType }) => {
     config.resolve.alias = {
@@ -25,12 +26,13 @@ module.exports = {
       '@hooks': path.resolve(__dirname, './src/hooks'),
       '@lib': path.resolve(__dirname, './src/lib'),
     }
-
     config.module.rules.push({
       test: /\.geojson$/,
-      use: ['json-loader']
+      use: ['json-loader'],
     })
-
     return config
-  }
+  },
+  features: {
+    interactionsDebugger: true,
+  },
 }
