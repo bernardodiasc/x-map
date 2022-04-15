@@ -5,9 +5,15 @@ type Props = {
   label?: string,
 }
 
-const <%= componentName %> = ({ onClick, label = 'ClickMe!' }: Props): JSX.Element => {
-  return (
-    <div className={styles.component}>
+const <%= componentName %> = ({
+  onClick,
+  label = 'ClickMe!'
+}: Props): JSX.Element => {
+  return onClick ? (
+    <div
+      data-testid="<%= componentName %>"
+      className={styles.component}
+    >
       <input data-testid="email" />
       <button
         data-testid="button"
@@ -16,7 +22,7 @@ const <%= componentName %> = ({ onClick, label = 'ClickMe!' }: Props): JSX.Eleme
         {label}
       </button>
     </div>
-  )
+  ) : null
 }
 
 export default <%= componentName %>

@@ -4,13 +4,14 @@ import * as NextImage from 'next/image'
 import '../src/styles/globals.css'
 
 export const parameters = {
-  actions: { argTypesRegex: '^on[A-Z].*' },
+  // actions: { argTypesRegex: '^on[A-Z].*' },
   controls: {
     expanded: true,
     matchers: {
       color: /(background|color)$/i,
       date: /Date$/,
     },
+    sort: 'requiredFirst',
   },
   options: {
     storySort: {

@@ -24,6 +24,7 @@
       "@public/*": ["public/*"],
       "@data/*": ["public/data/*"],
       "@components/*": ["src/components/*"],
+      "@containers/*": ["src/containers/*"],
       "@contexts/*": ["src/contexts/*"],
       "@hooks/*": ["src/hooks/*"],
       "@lib/*": ["src/lib/*"]
