@@ -1,9 +1,11 @@
+import { RegisterOptions } from 'react-hook-form'
+
 import styles from './InputField.module.css'
 
-interface Props extends React.InputHTMLAttributes<HTMLButtonElement> {
-  invalid: boolean
-  register: boolean
-  prefix: string
+interface Props extends HTMLInputElement {
+  invalid?: boolean
+  register?: RegisterOptions
+  prefix?: string
 }
 
 const InputField = ({
@@ -25,9 +27,15 @@ const InputField = ({
       className={styles.component}
     >
       {prefix && (
-        <span className={styles.prefix}>{prefix}</span>
+        <span
+          data-testid="InputField-prefix"
+          className={styles.prefix}
+        >
+          {prefix}
+        </span>
       )}
       <input
+        data-testid="InputField-input"
         type={type}
         className={inputClassNames}
         {...props}

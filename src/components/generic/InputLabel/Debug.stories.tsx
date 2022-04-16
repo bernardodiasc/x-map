@@ -4,9 +4,11 @@ import { expect } from '@storybook/jest'
 
 import InputLabel from './InputLabel'
 
+import { storiesConfig } from '.'
+
 export default {
-  title: 'Generic/InputLabel/Debug',
-  component: InputLabel
+  ...storiesConfig,
+  title: `${storiesConfig.title}/Debug`,
 } as ComponentMeta<typeof InputLabel>
 
 const Template: ComponentStory<typeof InputLabel> = (args) => <InputLabel {...args} />
@@ -17,5 +19,5 @@ BlankStory.args = {}
 BlankStory.play = async ({ canvasElement }) => {
   const canvas = within(canvasElement)
   const component = canvas.queryByTestId('InputLabel')
-  await expect(component).toBeInTheDocument()
+  await expect(component).not.toBeInTheDocument()
 }

@@ -3,11 +3,11 @@ import styles from './Form.module.css'
 type Props = {
   title?: string,
   description?: string,
-  onSubmit: () => void,
+  onSubmit?: () => void,
   successMessage?: string,
   errorMessage?: string,
   className?: string,
-  children: React.ReactNode,
+  children?: React.ReactNode,
   control?: React.ReactNode,
 }
 

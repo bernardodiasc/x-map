@@ -1,9 +1,9 @@
 import styles from './InputLabel.module.css'
 
 type Props = {
-  title: string,
-  isRequired: boolean,
-  children: React.ReactNode,
+  title?: string,
+  isRequired?: boolean,
+  children?: React.ReactNode,
 }
 
 const InputLabel = ({
@@ -11,6 +11,10 @@ const InputLabel = ({
   isRequired,
   children
 }: Props): JSX.Element => {
+  if (!title && !children) {
+    return null
+  }
+
   return (
     <label
       data-testid="InputLabel"

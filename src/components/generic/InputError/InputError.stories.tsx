@@ -1,27 +1,18 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react'
-// import { within, userEvent } from '@storybook/testing-library'
-// import { expect } from '@storybook/jest'
+import { within } from '@storybook/testing-library'
+import { expect } from '@storybook/jest'
 
 import InputError from './InputError'
 
+import { storiesConfig } from '.'
+
 export default {
-  title: 'Generic/InputError',
-  component: InputError,
-  // decorators: [
-  //   (Story) => (
-  //     <div style={{ margin: '3em' }}>
-  //       <Story />
-  //     </div>
-  //   ),
-  // ],
-  // argTypes: {
-  //   onClick: { action: true },
-  // },
-  // parameters: {
-  //   controls: {
-  //     exclude: 'onClick',
-  //   }
-  // },
+  ...storiesConfig,
+  argTypes: {
+    children: {
+      defaultValue: 'This is an error message!',
+    },
+  },
 } as ComponentMeta<typeof InputError>
 
 const Template: ComponentStory<typeof InputError> = (args) => (
@@ -30,10 +21,13 @@ const Template: ComponentStory<typeof InputError> = (args) => (
 
 export const DefaultInputError = Template.bind({})
 DefaultInputError.storyName = 'Demo'
-DefaultInputError.args = {}
-// DefaultInputError.play = async ({ args, canvasElement }) => {
-//   const canvas = within(canvasElement)
-//   await userEvent.type(canvas.getByTestId('email'), 'email@provider.com', { delay: 100 })
-//   await userEvent.click(canvas.getByTestId('button'))
-//   await expect(args.onClick).toHaveBeenCalled()
-// }
+DefaultInputError.args = {
+  hasError: true,
+  children: 'This is an error message!',
+}
+DefaultInputError.play = async ({ args, canvasElement }) => {
+  const canvas = within(canvasElement)
+  const component = canvas.queryByTestId('InputError')
+  await expect(component).toBeInTheDocument()
+  await expect(component).toHaveTextContent(args.children)
+}

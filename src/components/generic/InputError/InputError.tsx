@@ -1,8 +1,8 @@
 import styles from './InputError.module.css'
 
 type Props = {
-  hasError: boolean,
-  children: React.ReactNode,
+  hasError?: boolean,
+  children?: React.ReactNode,
 }
 
 const InputError = ({

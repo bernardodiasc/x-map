@@ -15,7 +15,8 @@ export const parameters = {
   },
   options: {
     storySort: {
-      // order: ['Intro', 'Pages', ['Home', 'Login', 'Admin'], 'Components', '*', 'WIP'],
+      // TO DO: make uso of some sort of general sorting
+      // order: ['Form', ['InputField', 'InputLabel', 'InputError'], 'Components', ['Button'], '*', 'WIP'],
     },
   },
 }

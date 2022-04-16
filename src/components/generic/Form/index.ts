@@ -7,9 +7,6 @@ export const storiesConfig = {
   component: Form,
   argTypes: {
     onSubmit: { action: true },
-    children: {
-      defaultValue: 'This is a Form!'
-    }
   },
   parameters: {
     controls: {

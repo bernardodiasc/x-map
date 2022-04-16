@@ -1,11 +1,11 @@
 import styles from './Button.module.css'
 
 interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  wide: boolean
-  link: boolean
-  className: string
-  onClick: () => void
-  children: React.ReactNode
+  wide?: boolean
+  link?: boolean
+  className?: string
+  onClick?: () => void
+  children?: React.ReactNode
 }
 
 const Button = ({

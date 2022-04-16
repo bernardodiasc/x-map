@@ -1,6 +1,6 @@
 /*eslint-env node*/
-const OFF = 0;
-const ERROR = 2;
+const OFF = 0
+const ERROR = 2
 module.exports = {
   root: true,
   env: {
@@ -24,6 +24,7 @@ module.exports = {
     'quotes': [ERROR, 'single'],
     'semi': [ERROR, 'never'],
     'react/prop-types': [OFF],
-    '@typescript-eslint/no-empty-function': [OFF]
+    '@typescript-eslint/no-empty-function': [OFF],
+    'jest/no-standalone-expect': [OFF]
   }
-};
+}

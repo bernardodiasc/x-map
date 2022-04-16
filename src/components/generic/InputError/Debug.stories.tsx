@@ -4,9 +4,16 @@ import { expect } from '@storybook/jest'
 
 import InputError from './InputError'
 
+import { storiesConfig } from '.'
+
 export default {
-  title: 'Generic/InputError/Debug',
-  component: InputError
+  ...storiesConfig,
+  title: `${storiesConfig.title}/Debug`,
+  argTypes: {
+    children: {
+      type: 'string',
+    },
+  },
 } as ComponentMeta<typeof InputError>
 
 const Template: ComponentStory<typeof InputError> = (args) => <InputError {...args} />
