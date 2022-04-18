@@ -2,6 +2,9 @@
 
 World map to display people, events, travels and more.
 
+- Website: x-world-map.com
+- Design System: x-world-map.com/docs
+
 ## Getting Started
 
 First create a `.env.local` in the root of this project and add the keys:
@@ -36,4 +39,10 @@ Run the app:
 
 ```bash
 yarn develop
+```
+
+#### Design System
+
+```bash
+yarn storybook
 ```
