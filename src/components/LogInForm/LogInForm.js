@@ -5,11 +5,11 @@ import size from 'lodash.size'
 
 import useAuthContext from '@contexts/Auth'
 
-import Form from '@components/Form'
-import InputField from '@components/InputField'
-import InputLabel from '@components/InputLabel'
-import InputError from '@components/InputError'
-import Button from '@components/Button'
+import Form from '@components/form/Form'
+import InputField from '@components/form/InputField'
+import InputLabel from '@components/form/InputLabel'
+import InputError from '@components/form/InputError'
+import Button from '@components/generic/Button'
 
 import { ENDPOINTS, EMAIL_REGEX, FORM_VALIDATION_ERROR_MESSAGE } from '@lib/constants'
 

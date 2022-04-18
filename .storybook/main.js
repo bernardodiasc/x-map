@@ -21,12 +21,6 @@ module.exports = {
     interactionsDebugger: true,
   },
   staticDirs: ['../public/static'],
-  // managerWebpack: async (config, { configType }) => {
-  //   if (configType === 'PRODUCTION') {
-  //     config.output.publicPath = PUBLIC_PATH
-  //   }
-  //   return config
-  // },
   webpackFinal: async (config, { configType }) => {
     config.resolve.alias = {
       ...config.resolve.alias,
@@ -43,9 +37,6 @@ module.exports = {
       test: /\.geojson$/,
       use: ['json-loader'],
     })
-    // if (configType === 'PRODUCTION') {
-    //   config.output.publicPath = PUBLIC_PATH
-    // }
     return config
   },
   managerHead: (head, { configType }) => {

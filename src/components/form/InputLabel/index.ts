@@ -3,7 +3,7 @@ import InputLabel from './InputLabel'
 export default InputLabel
 
 export const storiesConfig = {
-  title: 'Generic/InputLabel',
+  title: 'Form/InputLabel',
   component: InputLabel,
   parameters: {
     controls: {

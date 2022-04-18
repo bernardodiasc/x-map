@@ -21,7 +21,7 @@ const ProfileCard = ({ item }) => {
       <div className={styles.avatar}>
         <Image
           className={styles.image}
-          src={item.avatar ? item.avatar.url : '/avatar.png'}
+          src={item.avatar ? item.avatar.url : '/static/avatar.png'}
           alt={item.name}
           width="200"
           height="200"

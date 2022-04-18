@@ -3,7 +3,7 @@ import InputField from './InputField'
 export default InputField
 
 export const storiesConfig = {
-  title: 'Generic/InputField',
+  title: 'Form/InputField',
   component: InputField,
   argTypes: {
     defaultValue: {

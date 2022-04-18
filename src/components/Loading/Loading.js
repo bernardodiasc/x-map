@@ -1,6 +1,6 @@
 import Image from 'next/image'
 
-import loader from '@public/x-loader.gif'
+import loader from '@public/static/x-loader.gif'
 
 import * as styles from './Loading.module.css'
 

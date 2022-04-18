@@ -4,7 +4,7 @@ import useAuthContext from '@contexts/Auth'
 import useAppContext from '@contexts/App'
 import useMapContext from '@contexts/Map'
 
-import Button from '@components/Button'
+import Button from '@components/generic/Button'
 import Svg from '@components/Svg'
 
 import useOnClickOutside from '@hooks/useOnClickOutside'

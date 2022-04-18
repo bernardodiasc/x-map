@@ -3,6 +3,6 @@ import InputError from './InputError'
 export default InputError
 
 export const storiesConfig = {
-  title: 'Generic/InputError',
+  title: 'Form/InputError',
   component: InputError,
 }

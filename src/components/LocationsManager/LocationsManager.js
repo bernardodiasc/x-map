@@ -5,7 +5,7 @@ import useAppContext from '@contexts/App'
 
 import LocationForm from '@components/LocationForm'
 import Modal from '@components/Modal'
-import Button from '@components/Button'
+import Button from '@components/generic/Button'
 
 import { getLatestLocation } from '@lib/locations'
 
