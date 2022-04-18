@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 
-import Svg from '@components/Svg'
+import Svg from '@components/generic/Svg'
 import ProfileInfo from '@components/ProfileInfo'
 import EventInfo from '@components/EventInfo'
 

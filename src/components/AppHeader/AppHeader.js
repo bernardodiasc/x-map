@@ -1,7 +1,7 @@
 import useAppContext from '@contexts/App'
 
 import MainMenu from '@components/MainMenu'
-import Svg from '@components/Svg'
+import Svg from '@components/generic/Svg'
 
 import * as styles from './AppHeader.module.css'
 

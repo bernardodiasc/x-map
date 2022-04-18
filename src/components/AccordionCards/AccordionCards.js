@@ -1,4 +1,4 @@
-import Svg from '@components/Svg'
+import Svg from '@components/generic/Svg'
 
 import { getFormattedLocationTitle } from '@lib/locations'
 

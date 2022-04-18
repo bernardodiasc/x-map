@@ -5,7 +5,7 @@ import useAppContext from '@contexts/App'
 import useMapContext from '@contexts/Map'
 
 import Button from '@components/generic/Button'
-import Svg from '@components/Svg'
+import Svg from '@components/generic/Svg'
 
 import useOnClickOutside from '@hooks/useOnClickOutside'
 

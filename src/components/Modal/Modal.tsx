@@ -1,6 +1,6 @@
 import { createPortal } from 'react-dom'
 
-import Svg from '@components/Svg'
+import Svg from '@components/generic/Svg'
 
 import styles from './Modal.module.css'
 

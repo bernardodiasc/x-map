@@ -1,6 +1,12 @@
-import * as styles from './Svg.module.css'
+import styles from './Svg.module.css'
 
-const Svg = ({ name, width, height }) => {
+type Props = {
+  name?: string,
+  width?: string,
+  height?: string,
+}
+
+const Svg = ({ name, width, height }: Props): JSX.Element => {
   const BaseSvg = (props) => (
     <svg
       className={styles.component}

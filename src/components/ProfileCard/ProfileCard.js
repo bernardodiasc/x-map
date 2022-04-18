@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import ct from 'countries-and-timezones'
 
-import Svg from '@components/Svg'
+import Svg from '@components/generic/Svg'
 
 import * as styles from './ProfileCard.module.css'
 
