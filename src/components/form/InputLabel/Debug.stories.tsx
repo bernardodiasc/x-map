@@ -13,10 +13,10 @@ export default {
 
 const Template: ComponentStory<typeof InputLabel> = (args) => <InputLabel {...args} />
 
-export const BlankStory = Template.bind({})
-BlankStory.storyName = 'No props'
-BlankStory.args = {}
-BlankStory.play = async ({ canvasElement }) => {
+export const NoProps_InputLabel = Template.bind({})
+NoProps_InputLabel.storyName = 'No props'
+NoProps_InputLabel.args = {}
+NoProps_InputLabel.play = async ({ canvasElement }) => {
   const canvas = within(canvasElement)
   const component = canvas.queryByTestId('InputLabel')
   await expect(component).not.toBeInTheDocument()

@@ -17,10 +17,10 @@ const Template: ComponentStory<typeof InputField> = (args) => (
 const getValueBackspace = value =>
   Array.from(value).map(() => ('{backspace}')).join('')
 
-export const DefaultInputField = Template.bind({})
-DefaultInputField.storyName = 'Demo'
-DefaultInputField.args = { defaultValue: 'Lorem ipsum...' }
-DefaultInputField.play = async ({ args, canvasElement }) => {
+export const Default_InputField = Template.bind({})
+Default_InputField.storyName = 'Demo'
+Default_InputField.args = { defaultValue: 'Lorem ipsum...' }
+Default_InputField.play = async ({ args, canvasElement }) => {
   const canvas = within(canvasElement)
   const input = canvas.getByTestId('InputField-input') as HTMLInputElement
   await expect(input).toBeInTheDocument()

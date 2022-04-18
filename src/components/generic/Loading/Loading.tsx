@@ -11,6 +11,7 @@ type Props = {
 const Loading = ({ inModal }: Props): JSX.Element => {
   return (
     <div
+      data-testid="Loading"
       className={[
         styles.component,
         inModal ? styles.modal : ''

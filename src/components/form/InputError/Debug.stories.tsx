@@ -18,10 +18,10 @@ export default {
 
 const Template: ComponentStory<typeof InputError> = (args) => <InputError {...args} />
 
-export const BlankStory = Template.bind({})
-BlankStory.storyName = 'No props'
-BlankStory.args = {}
-BlankStory.play = async ({ canvasElement }) => {
+export const NoProps_InputError = Template.bind({})
+NoProps_InputError.storyName = 'No props'
+NoProps_InputError.args = {}
+NoProps_InputError.play = async ({ canvasElement }) => {
   const canvas = within(canvasElement)
   const component = canvas.queryByTestId('InputError')
   await expect(component).not.toBeInTheDocument()

@@ -13,11 +13,11 @@ export default {
 
 const Template: ComponentStory<typeof Button> = (args) => <Button {...args} />
 
-export const BlankStory = Template.bind({})
-BlankStory.storyName = 'No props'
-BlankStory.args = {}
-BlankStory.play = async ({ canvasElement }) => {
+export const NoProps_Button = Template.bind({})
+NoProps_Button.storyName = 'No props'
+NoProps_Button.args = {}
+NoProps_Button.play = async ({ canvasElement }) => {
   const canvas = within(canvasElement)
-  const button = canvas.queryByTestId('button')
+  const button = canvas.queryByTestId('Button')
   await expect(button).not.toBeInTheDocument()
 }

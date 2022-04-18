@@ -48,17 +48,17 @@ Props_Disabled_InputField.play = async ({ args, canvasElement }) => {
   await expect(input.value).toBe(args.defaultValue)
 }
 
-export const Props_Invalid_InputField = Template.bind({})
-Props_Invalid_InputField.storyName = 'Prop: invalid'
-Props_Invalid_InputField.args = { invalid: true }
+export const Prop_Invalid_InputField = Template.bind({})
+Prop_Invalid_InputField.storyName = 'Prop: invalid'
+Prop_Invalid_InputField.args = { invalid: true }
 
-export const Props_Prefix_InputField = Template.bind({})
-Props_Prefix_InputField.storyName = 'Prop: prefix'
-Props_Prefix_InputField.args = { prefix: 'https://' }
+export const Prop_Prefix_InputField = Template.bind({})
+Prop_Prefix_InputField.storyName = 'Prop: prefix'
+Prop_Prefix_InputField.args = { prefix: 'https://' }
 
-export const PrefixAndInvalid_InputField = Template.bind({})
-PrefixAndInvalid_InputField.storyName = 'Props: prefix, invalid'
-PrefixAndInvalid_InputField.args = {
+export const Props_PrefixAndInvalid_InputField = Template.bind({})
+Props_PrefixAndInvalid_InputField.storyName = 'Props: prefix, invalid'
+Props_PrefixAndInvalid_InputField.args = {
   prefix: 'https://',
   invalid: true,
 }
@@ -71,24 +71,24 @@ Props_PrefixInvalidDisabled_InputField.args = {
   disabled: true,
 }
 
-export const PropType_Passoword_InputField = Template.bind({})
-PropType_Passoword_InputField.storyName = 'Prop: type: "password"'
-PropType_Passoword_InputField.args = { type: 'password' }
+export const Prop_Type_passoword_InputField = Template.bind({})
+Prop_Type_passoword_InputField.storyName = 'Prop: type: "password"'
+Prop_Type_passoword_InputField.args = { type: 'password' }
 
-export const PropType_Date_InputField = Template.bind({})
-PropType_Date_InputField.storyName = 'Prop: type: "date"'
-PropType_Date_InputField.args = { type: 'date', defaultValue: '2022-04-15' }
+export const Prop_Type_date_InputField = Template.bind({})
+Prop_Type_date_InputField.storyName = 'Prop: type: "date"'
+Prop_Type_date_InputField.args = { type: 'date', defaultValue: '2022-04-15' }
 
-export const PropType_Time_InputField = Template.bind({})
-PropType_Time_InputField.storyName = 'Prop: type: "time"'
-PropType_Time_InputField.args = { type: 'time', defaultValue: '20:09:22' }
+export const Prop_Type_time_InputField = Template.bind({})
+Prop_Type_time_InputField.storyName = 'Prop: type: "time"'
+Prop_Type_time_InputField.args = { type: 'time', defaultValue: '20:09:22' }
 
-export const PropType_Number_InputField = Template.bind({})
-PropType_Number_InputField.storyName = 'Prop: type: "number"'
-PropType_Number_InputField.args = { type: 'number', defaultValue: '5' }
+export const Prop_Type_number_InputField = Template.bind({})
+Prop_Type_number_InputField.storyName = 'Prop: type: "number"'
+Prop_Type_number_InputField.args = { type: 'number', defaultValue: '5' }
 
-export const PropType_Color_InputField = Template.bind({})
-PropType_Color_InputField.storyName = 'Prop: type: "color"'
-PropType_Color_InputField.args = { type: 'color', defaultValue: '#FFFF00' }
+export const Prop_Type_color_InputField = Template.bind({})
+Prop_Type_color_InputField.storyName = 'Prop: type: "color"'
+Prop_Type_color_InputField.args = { type: 'color', defaultValue: '#FFFF00' }
 // TO DO: fix control type
-PropType_Color_InputField.argTypes = { type: { color: { control: 'color' } } }
+// Prop_Type_color_InputField.argTypes = { type: { color: { control: 'color' } } }

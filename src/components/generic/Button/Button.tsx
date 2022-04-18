@@ -30,7 +30,7 @@ const Button = ({
 
   return (
     <button
-      data-testid="button"
+      data-testid="Button"
       type={type}
       className={classNames}
       onClick={onClick}

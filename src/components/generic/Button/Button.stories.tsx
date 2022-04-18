@@ -18,13 +18,13 @@ const Template: ComponentStory<typeof Button> = (args) => (
   />
 )
 
-export const DefaultButton = Template.bind({})
-DefaultButton.storyName = 'Demo'
-DefaultButton.args = {
+export const Default_Button = Template.bind({})
+Default_Button.storyName = 'Demo'
+Default_Button.args = {
   onClick: action('Button onClick')
 }
-DefaultButton.play = async ({ args, canvasElement }) => {
+Default_Button.play = async ({ args, canvasElement }) => {
   const canvas = within(canvasElement)
-  await userEvent.click(canvas.getByTestId('button'))
+  await userEvent.click(canvas.getByTestId('Button'))
   await expect(args.onClick).toHaveBeenCalled()
 }

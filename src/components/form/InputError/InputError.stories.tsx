@@ -19,13 +19,13 @@ const Template: ComponentStory<typeof InputError> = (args) => (
   <InputError {...args} />
 )
 
-export const DefaultInputError = Template.bind({})
-DefaultInputError.storyName = 'Demo'
-DefaultInputError.args = {
+export const Default_InputError = Template.bind({})
+Default_InputError.storyName = 'Demo'
+Default_InputError.args = {
   hasError: true,
   children: 'This is an error message!',
 }
-DefaultInputError.play = async ({ args, canvasElement }) => {
+Default_InputError.play = async ({ args, canvasElement }) => {
   const canvas = within(canvasElement)
   const component = canvas.queryByTestId('InputError')
   await expect(component).toBeInTheDocument()

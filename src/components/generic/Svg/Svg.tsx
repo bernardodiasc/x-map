@@ -9,6 +9,7 @@ type Props = {
 const Svg = ({ name, width, height }: Props): JSX.Element => {
   const BaseSvg = (props) => (
     <svg
+      data-testid="Svg"
       className={styles.component}
       viewBox="0 0 100 100"
       width={`${width}px`}
@@ -408,9 +409,11 @@ const Svg = ({ name, width, height }: Props): JSX.Element => {
     ),
   }
 
+  if (!Images[name]) {
+    return null
+  }
+
   return Images[name]
-    ? Images[name]
-    : null
 }
 
 export default Svg

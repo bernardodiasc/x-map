@@ -13,10 +13,10 @@ export default {
 
 const Template: ComponentStory<typeof Form> = (args) => <Form {...args} />
 
-export const BlankStory = Template.bind({})
-BlankStory.storyName = 'No props'
-BlankStory.args = {}
-BlankStory.play = async ({ canvasElement }) => {
+export const NoProps_Form = Template.bind({})
+NoProps_Form.storyName = 'No props'
+NoProps_Form.args = {}
+NoProps_Form.play = async ({ canvasElement }) => {
   const canvas = within(canvasElement)
   const component = canvas.queryByTestId('Form')
   await expect(component).not.toBeInTheDocument()

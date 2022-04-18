@@ -6,9 +6,9 @@ import InputLabel from './InputLabel'
 
 // TO DO: make webpack alias to work
 import InputField from '../InputField'
-import { DefaultInputField } from '../InputField/InputField.stories'
+import { Default_InputField } from '../InputField/InputField.stories'
 import InputError from '../InputError'
-import { DefaultInputError } from '../InputError/InputError.stories'
+import { Default_InputError } from '../InputError/InputError.stories'
 
 import { storiesConfig } from '.'
 
@@ -26,24 +26,24 @@ const Template: ComponentStory<typeof InputLabel> = (args) => (
   <InputLabel {...args} />
 )
 
-export const DefaultInputLabel = Template.bind({})
-DefaultInputLabel.storyName = 'Demo'
-DefaultInputLabel.args = {
+export const Default_InputLabel = Template.bind({})
+Default_InputLabel.storyName = 'Demo'
+Default_InputLabel.args = {
   title: 'This is the label',
   isRequired: false,
   children: (
     <>
-      <DefaultInputField {...DefaultInputField.args} />
-      <DefaultInputError {...DefaultInputError.args} hasError={false} />
+      <Default_InputField {...Default_InputField.args} />
+      <Default_InputError {...Default_InputError.args} hasError={false} />
     </>
   )
 }
-DefaultInputLabel.play = async ({ args, canvasElement }) => {
+Default_InputLabel.play = async ({ args, canvasElement }) => {
   const canvas = within(canvasElement)
   const component = canvas.queryByTestId('InputLabel')
   await expect(component).toBeInTheDocument()
   await expect(component).toHaveTextContent(args.title)
   await expect(component).not.toHaveTextContent('*')
-  await expect(component).not.toHaveTextContent(DefaultInputError.args.children)
+  await expect(component).not.toHaveTextContent(Default_InputError.args.children)
 }
 
