@@ -17,9 +17,6 @@ export const parameters = {
     storySort: {
       order: [
         'Generic',
-        [
-          'Button',
-        ],
         'Form',
         [
           'Form',
@@ -27,6 +24,7 @@ export const parameters = {
           'InputError',
           'InputLabel',
         ],
+        'Custom',
         '*',
         'WIP'
       ],

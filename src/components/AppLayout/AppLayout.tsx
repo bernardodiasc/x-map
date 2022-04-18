@@ -10,7 +10,7 @@ import LocationsManager from '@components/LocationsManager'
 import EventsManager from '@components/EventsManager'
 import FrequentlyAskedQuestions from '@components/FrequentlyAskedQuestions'
 import InfoPanel from '@components/InfoPanel'
-import ConfirmationDialog from '@components/ConfirmationDialog'
+import ConfirmationDialog from '@components/generic/ConfirmationDialog'
 
 import { MODAL_IDS } from '@lib/constants'
 
