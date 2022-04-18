@@ -1,6 +1,6 @@
 const path = require('path')
 
-// const PUBLIC_PATH = '/docs/';
+const PUBLIC_PATH = '/docs/';
 
 module.exports = {
   stories: [
@@ -48,12 +48,12 @@ module.exports = {
     // }
     return config
   },
-  // managerHead: (head, { configType }) => {
-  //   if (configType === 'PRODUCTION') {
-  //     return (`
-  //       ${head}
-  //       <base href="${PUBLIC_PATH}">
-  //     `);
-  //   }
-  // },
+  managerHead: (head, { configType }) => {
+    if (configType === 'PRODUCTION') {
+      return (`
+        ${head}
+        <base href="${PUBLIC_PATH}">
+      `);
+    }
+  },
 }
