@@ -25,7 +25,9 @@ Default_<%= componentName %>.args = {
 }
 Default_<%= componentName %>.play = async ({ args, canvasElement }) => {
   const canvas = within(canvasElement)
-  await userEvent.type(canvas.getByTestId('email'), 'email@provider.com', { delay: 100 })
-  await userEvent.click(canvas.getByTestId('button'))
+  const component = canvas.queryByTestId('<%= componentName %>')
+  await expect(component).toBeInTheDocument()
+  await userEvent.type(canvas.queryByTestId('email'), 'email@provider.com', { delay: 100 })
+  await userEvent.click(canvas.queryByTestId('button'))
   await expect(args.onClick).toHaveBeenCalled()
 }

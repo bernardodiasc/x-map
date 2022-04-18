@@ -3,7 +3,7 @@ import { useState } from 'react'
 import useAppContext from '@contexts/App'
 
 import AppHeader from '@components/AppHeader'
-import Modal from '@components/Modal'
+import Modal from '@components/generic/Modal'
 import JoinScreen from '@components/JoinScreen'
 import ProfileForm from '@components/ProfileForm'
 import LocationsManager from '@components/LocationsManager'
@@ -87,7 +87,7 @@ const AppLayout = ({ children }: Props): JSX.Element => {
         {children}
       </div>
       {discardConfirmationVisibility && (
-        <Modal defaultWitdh={false}>
+        <Modal defaultWidth={false}>
           <ConfirmationDialog
             title="Attention!"
             message="Are you sure you want to discard unsave changes?"

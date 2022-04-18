@@ -2,24 +2,26 @@ import { ComponentStory, ComponentMeta } from '@storybook/react'
 import { within } from '@storybook/testing-library'
 import { expect } from '@storybook/jest'
 
-import Button from './Button'
+import Modal from './Modal'
 
 import { storiesConfig } from '.'
 
 export default {
   ...storiesConfig,
   title: `${storiesConfig.title}/Debug`,
-} as ComponentMeta<typeof Button>
+} as ComponentMeta<typeof Modal>
 
-const Template: ComponentStory<typeof Button> = (args) => <Button {...args} />
+const Template: ComponentStory<typeof Modal> = (args) => (
+  <Modal {...args} />
+)
 
-export const NoProps_Button = Template.bind({})
-NoProps_Button.storyName = 'No props'
-NoProps_Button.args = {
+export const NoProps_Modal = Template.bind({})
+NoProps_Modal.storyName = 'No props'
+NoProps_Modal.args = {
   children: undefined,
 }
-NoProps_Button.play = async ({ canvasElement }) => {
+NoProps_Modal.play = async ({ canvasElement }) => {
   const canvas = within(canvasElement)
-  const component = canvas.queryByTestId('Button')
+  const component = canvas.queryByTestId('Modal')
   await expect(component).not.toBeInTheDocument()
 }

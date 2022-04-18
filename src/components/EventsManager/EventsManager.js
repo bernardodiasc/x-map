@@ -5,7 +5,7 @@ import useAppContext from '@contexts/App'
 
 import EventCard from '@components/EventCard'
 import EventLocationForm from '@components/EventLocationForm'
-import Modal from '@components/Modal'
+import Modal from '@components/generic/Modal'
 import Button from '@components/generic/Button'
 
 import { getEventsByProfileId } from '@lib/events'

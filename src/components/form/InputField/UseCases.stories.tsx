@@ -43,7 +43,7 @@ Props_Disabled_InputField.storyName = 'Prop: disabled'
 Props_Disabled_InputField.args = { disabled: true }
 Props_Disabled_InputField.play = async ({ args, canvasElement }) => {
   const canvas = within(canvasElement)
-  const input = canvas.getByTestId('InputField-input') as HTMLInputElement
+  const input = canvas.queryByTestId('InputField-input') as HTMLInputElement
   await userEvent.type(input, 'Trying to type anything...', { delay: 1 })
   await expect(input.value).toBe(args.defaultValue)
 }

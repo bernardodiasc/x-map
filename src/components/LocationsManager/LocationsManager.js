@@ -4,7 +4,7 @@ import useAuthContext from '@contexts/Auth'
 import useAppContext from '@contexts/App'
 
 import LocationForm from '@components/LocationForm'
-import Modal from '@components/Modal'
+import Modal from '@components/generic/Modal'
 import Button from '@components/generic/Button'
 
 import { getLatestLocation } from '@lib/locations'

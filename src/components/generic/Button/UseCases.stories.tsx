@@ -32,6 +32,7 @@ Prop_Disabled_Button.storyName = 'Prop: disabled'
 Prop_Disabled_Button.args = { disabled: true, onClick: action('Button onClick') }
 Prop_Disabled_Button.play = async ({ args, canvasElement }) => {
   const canvas = within(canvasElement)
-  await userEvent.click(canvas.getByTestId('Button'))
+  const component = canvas.queryByTestId('Button')
+  await userEvent.click(component)
   await expect(args.onClick).not.toHaveBeenCalled()
 }

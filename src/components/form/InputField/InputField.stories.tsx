@@ -22,7 +22,9 @@ Default_InputField.storyName = 'Demo'
 Default_InputField.args = { defaultValue: 'Lorem ipsum...' }
 Default_InputField.play = async ({ args, canvasElement }) => {
   const canvas = within(canvasElement)
-  const input = canvas.getByTestId('InputField-input') as HTMLInputElement
+  const component = canvas.queryByTestId('InputField')
+  await expect(component).toBeInTheDocument()
+  const input = canvas.queryByTestId('InputField-input') as HTMLInputElement
   await expect(input).toBeInTheDocument()
 
   let delay = 100

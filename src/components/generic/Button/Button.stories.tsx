@@ -25,6 +25,8 @@ Default_Button.args = {
 }
 Default_Button.play = async ({ args, canvasElement }) => {
   const canvas = within(canvasElement)
-  await userEvent.click(canvas.getByTestId('Button'))
+  const component = canvas.queryByTestId('Button')
+  await expect(component).toBeInTheDocument()
+  await userEvent.click(component)
   await expect(args.onClick).toHaveBeenCalled()
 }
