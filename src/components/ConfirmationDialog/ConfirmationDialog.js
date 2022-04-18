@@ -1,4 +1,4 @@
-import Button from '@components/Button'
+import Button from '@components/generic/Button'
 
 import * as styles from './ConfirmationDialog.module.css'
 

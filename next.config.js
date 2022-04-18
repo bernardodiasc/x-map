@@ -12,6 +12,7 @@ module.exports = {
       '@public': path.resolve(__dirname, './public'),
       '@data': path.resolve(__dirname, './public/data'),
       '@components': path.resolve(__dirname, './src/components'),
+      '@containers': path.resolve(__dirname, './src/containers'),
       '@contexts': path.resolve(__dirname, './src/contexts'),
       '@hooks': path.resolve(__dirname, './src/hooks'),
       '@lib': path.resolve(__dirname, './src/lib'),
