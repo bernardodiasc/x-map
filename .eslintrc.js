@@ -25,6 +25,7 @@ module.exports = {
     'semi': [ERROR, 'never'],
     'react/prop-types': [OFF],
     '@typescript-eslint/no-empty-function': [OFF],
-    'jest/no-standalone-expect': [OFF]
+    '@typescript-eslint/ban-ts-comment': [OFF],
+    'jest/no-standalone-expect': [OFF],
   }
 }

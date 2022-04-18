@@ -2,10 +2,12 @@ import { RegisterOptions } from 'react-hook-form'
 
 import styles from './InputField.module.css'
 
-interface Props extends HTMLInputElement {
-  invalid?: boolean
-  register?: RegisterOptions
-  prefix?: string
+type Props = {
+  type?: 'button' | 'checkbox' | 'color' | 'date' | 'datetime' | 'email' | 'file' | 'hidden' | 'image' | 'month' | 'number' | 'password' | 'radio' | 'range' | 'reset' | 'search' | 'submit' | 'tel' | 'text' | 'time' | 'url' | 'week'
+  invalid?: boolean,
+  register?: RegisterOptions,
+  prefix?: string,
+  disabled?: boolean,
 }
 
 const InputField = ({
@@ -13,13 +15,14 @@ const InputField = ({
   invalid,
   register,
   prefix,
+  disabled,
   ...props
 }: Props): JSX.Element => {
   const inputClassNames = [
     styles.input,
     prefix ? styles.withPrefix : '',
     invalid ? styles.invalid : '',
-    props.disabled ? styles.disabled : '',
+    disabled ? styles.disabled : '',
   ].join(' ')
   return (
     <div
@@ -34,10 +37,12 @@ const InputField = ({
           {prefix}
         </span>
       )}
+      {/* @ts-ignore */}
       <input
         data-testid="InputField-input"
         type={type}
         className={inputClassNames}
+        disabled={disabled}
         {...props}
         {...register}
       />
