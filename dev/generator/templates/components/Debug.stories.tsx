@@ -13,10 +13,10 @@ export default {
 
 const Template: ComponentStory<typeof <%= componentName %>> = (args) => <<%= componentName %> {...args} />
 
-export const BlankStory = Template.bind({})
-BlankStory.storyName = 'No props'
-BlankStory.args = {}
-BlankStory.play = async ({ canvasElement }) => {
+export const NoProps_<%= componentName %> = Template.bind({})
+NoProps_<%= componentName %>.storyName = 'No props'
+NoProps_<%= componentName %>.args = {}
+NoProps_<%= componentName %>.play = async ({ canvasElement }) => {
   const canvas = within(canvasElement)
   const component = canvas.queryByTestId('<%= componentName %>')
   await expect(component).not.toBeInTheDocument()

@@ -8,8 +8,7 @@ import <%= componentName %> from './<%= componentName %>'
 import { storiesConfig } from '.'
 
 export default {
-  ...storiesConfig,
-  title: `${storiesConfig.title}/Use Cases`,
+  ...storiesConfig
 } as ComponentMeta<typeof <%= componentName %>>
 
 const Template: ComponentStory<typeof <%= componentName %>> = (args) => (
@@ -19,12 +18,12 @@ const Template: ComponentStory<typeof <%= componentName %>> = (args) => (
   />
 )
 
-export const Default<%= componentName %> = Template.bind({})
-Default<%= componentName %>.storyName = 'Demo'
-Default<%= componentName %>.args = {
+export const Default_<%= componentName %> = Template.bind({})
+Default_<%= componentName %>.storyName = 'Demo'
+Default_<%= componentName %>.args = {
   onClick: action('onClick')
 }
-Default<%= componentName %>.play = async ({ args, canvasElement }) => {
+Default_<%= componentName %>.play = async ({ args, canvasElement }) => {
   const canvas = within(canvasElement)
   await userEvent.type(canvas.getByTestId('email'), 'email@provider.com', { delay: 100 })
   await userEvent.click(canvas.getByTestId('button'))
