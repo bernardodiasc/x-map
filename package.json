@@ -22,7 +22,7 @@
     "gen": "node dev/generator/generator.js",
     "prepare": "husky install",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook -o docs"
+    "build-storybook": "build-storybook -o ./public/docs"
   },
   "dependencies": {
     "@googlemaps/markerclusterer": "^1.0.27",
