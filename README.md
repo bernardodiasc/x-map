@@ -2,8 +2,8 @@
 
 World map to display people, events, travels and more.
 
-- Website: x-world-map.com
-- Design System: x-world-map.com/docs
+- Website: [x-world-map.com](https://x-world-map.com/)
+- Design System: [x-world-map.com/docs](https://x-world-map.com/docs/)
 
 ## Getting Started
 
