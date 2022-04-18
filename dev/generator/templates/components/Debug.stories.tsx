@@ -11,7 +11,9 @@ export default {
   title: `${storiesConfig.title}/Debug`,
 } as ComponentMeta<typeof <%= componentName %>>
 
-const Template: ComponentStory<typeof <%= componentName %>> = (args) => <<%= componentName %> {...args} />
+const Template: ComponentStory<typeof <%= componentName %>> = (args) => (
+  <<%= componentName %> {...args} />
+)
 
 export const NoProps_<%= componentName %> = Template.bind({})
 NoProps_<%= componentName %>.storyName = 'No props'

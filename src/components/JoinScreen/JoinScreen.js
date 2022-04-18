@@ -7,7 +7,7 @@ import ProfileForm from '@components/ProfileForm'
 import LogInForm from '@components/LogInForm'
 import SignUpForm from '@components/SignUpForm'
 import Button from '@components/generic/Button'
-import Loading from '@components/Loading'
+import Loading from '@components/generic/Loading'
 
 import * as styles from './JoinScreen.module.css'
 

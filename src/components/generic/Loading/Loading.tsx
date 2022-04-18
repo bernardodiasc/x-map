@@ -2,9 +2,13 @@ import Image from 'next/image'
 
 import loader from '@public/static/x-loader.gif'
 
-import * as styles from './Loading.module.css'
+import styles from './Loading.module.css'
 
-const Loading = ({ inModal }) => {
+type Props = {
+  inModal?: boolean,
+}
+
+const Loading = ({ inModal }: Props): JSX.Element => {
   return (
     <div
       className={[

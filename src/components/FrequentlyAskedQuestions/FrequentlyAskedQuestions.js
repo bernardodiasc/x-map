@@ -1,6 +1,6 @@
 import Markdown from 'markdown-to-jsx'
 
-import Loading from '@components/Loading'
+import Loading from '@components/generic/Loading'
 
 import useFrequentlyAskedQuestions from '@hooks/useFrequentlyAskedQuestions'
 

@@ -17,9 +17,9 @@ const Template: ComponentStory<typeof <%= componentName %>> = (args) => (
   />
 )
 
-export const WithPlaceholder_<%= componentName %> = Template.bind({})
-WithPlaceholder_<%= componentName %>.storyName = 'With placeholder'
-WithPlaceholder_<%= componentName %>.args = {
+export const Prop_Placeholder_<%= componentName %> = Template.bind({})
+Prop_Placeholder_<%= componentName %>.storyName = 'Prop: placeholder'
+Prop_Placeholder_<%= componentName %>.args = {
   onClick: action('onClick'),
   placeholder: 'Type your email'
 }
