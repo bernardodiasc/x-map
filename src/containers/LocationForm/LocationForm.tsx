@@ -16,13 +16,21 @@ import { normalizeLocationApiData, sortByStartDate, getLocationById } from '@lib
 import { getGeocode, getTimezone } from '@lib/gmaps'
 import { ENDPOINTS, FORM_VALIDATION_ERROR_MESSAGE } from '@lib/constants'
 
-import * as styles from './LocationForm.module.css'
+type Props = {
+  locationId?: any, // TO DO: FIX THIS
+  toggleLocationFormModal?: any, // TO DO: FIX THIS
+  toggleHasUnsavedChanges?: any, // TO DO: FIX THIS
+}
 
-const LocationForm = ({ locationId, toggleLocationFormModal, toggleHasUnsavedChanges }) => {
+const LocationForm = ({
+  locationId,
+  toggleLocationFormModal,
+  toggleHasUnsavedChanges,
+}: Props): JSX.Element => {
   const { state: { profile }, actions: { setProfile } } = useAuthContext()
   const { state: { features }, actions: { refetchCollections } } = useAppContext()
-  const [formSuccess, setFormSuccess] = useState()
-  const [formError, setFormError] = useState()
+  const [formSuccess, setFormSuccess] = useState<string | undefined>(undefined)
+  const [formError, setFormError] = useState<string | undefined>(undefined)
   const [location, setLocation] = useState(getLocationById(profile.locations, locationId))
 
   const {
@@ -53,8 +61,8 @@ const LocationForm = ({ locationId, toggleLocationFormModal, toggleHasUnsavedCha
     start,
     end,
   }) => {
-    setFormSuccess()
-    setFormError()
+    setFormSuccess(undefined)
+    setFormError(undefined)
 
     const action = isNew ? {
       method: axios.post,
@@ -125,7 +133,7 @@ const LocationForm = ({ locationId, toggleLocationFormModal, toggleHasUnsavedCha
   }, [isNew, location, locationId, profile, refetchCollections, setProfile, toggleLocationFormModal, reset])
 
   const handleDeleteLocation = useCallback(async () => {
-    setFormError()
+    setFormError(undefined)
     try {
       await axios.delete(`${ENDPOINTS.LOCATIONS}/${locationId}`)
       const updatedProfile = {
@@ -150,10 +158,10 @@ const LocationForm = ({ locationId, toggleLocationFormModal, toggleHasUnsavedCha
   const hasValidationErrors = Boolean(size(errors))
   useEffect(() => {
     if (hasValidationErrors) {
-      setFormSuccess()
+      setFormSuccess(undefined)
       setFormError(FORM_VALIDATION_ERROR_MESSAGE)
     } else {
-      setFormError()
+      setFormError(undefined)
     }
   }, [hasValidationErrors])
 
@@ -161,7 +169,7 @@ const LocationForm = ({ locationId, toggleLocationFormModal, toggleHasUnsavedCha
   useEffect(() => {
     toggleHasUnsavedChanges(hasUnsavedChanges)
     if (hasUnsavedChanges) {
-      setFormSuccess()
+      setFormSuccess(undefined)
     }
   }, [hasUnsavedChanges, toggleHasUnsavedChanges])
 
@@ -172,7 +180,6 @@ const LocationForm = ({ locationId, toggleLocationFormModal, toggleHasUnsavedCha
       onSubmit={handleSubmit(onSubmit)}
       successMessage={formSuccess}
       errorMessage={formError}
-      className={styles.component}
       control={(
         <>
           <Button type="submit" wide disabled={isSubmitting}>

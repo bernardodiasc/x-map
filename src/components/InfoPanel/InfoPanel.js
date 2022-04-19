@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
 
 import Svg from '@components/generic/Svg'
-import ProfileInfo from '@components/ProfileInfo'
-import EventInfo from '@components/EventInfo'
+import ProfileInfo from '@containers/ProfileInfo'
+import EventInfo from '@containers/EventInfo'
 
 import useMapContext from '@contexts/Map'
 

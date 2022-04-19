@@ -17,7 +17,12 @@ import { normalizeLocationApiData } from '@lib/locations'
 import { getGeocode, getTimezone } from '@lib/gmaps'
 import { ENDPOINTS, FORM_VALIDATION_ERROR_MESSAGE } from '@lib/constants'
 
-import * as styles from './EventLocationForm.module.css'
+type Props = {
+  event?: any, // TO DO: FIX THIS
+  location?: any, // TO DO: FIX THIS
+  toggleModal?: any, // TO DO: FIX THIS
+  toggleHasUnsavedChanges?: any, // TO DO: FIX THIS
+}
 
 const createEventOption = event => ({
   value: event.id,
@@ -29,11 +34,11 @@ const EventLocationForm = ({
   location = {},
   toggleModal,
   toggleHasUnsavedChanges,
-}) => {
+}: Props): JSX.Element => {
   const { state: { profile } } = useAuthContext()
   const { state: { collections: { events } }, actions: { refetchCollections } } = useAppContext()
-  const [formSuccess, setFormSuccess] = useState()
-  const [formError, setFormError] = useState()
+  const [formSuccess, setFormSuccess] = useState<string | undefined>(undefined)
+  const [formError, setFormError] = useState<string | undefined>(undefined)
   const [editingLocation, setEditingLocation] = useState(location)
   const [isNew, setIsNew] = useState(!location?.id)
   const [eventId, setEventId] = useState(event?.id)
@@ -73,8 +78,8 @@ const EventLocationForm = ({
     start,
     end,
   }) => {
-    setFormSuccess()
-    setFormError()
+    setFormSuccess(undefined)
+    setFormError(undefined)
 
     const action = isNew ? {
       method: axios.post,
@@ -134,7 +139,7 @@ const EventLocationForm = ({
   }, [eventId, isNew, editingLocation, profile, refetchCollections, reset])
 
   const handleDeleteLocation = useCallback(async () => {
-    setFormError()
+    setFormError(undefined)
     try {
       await axios.delete(`${ENDPOINTS.LOCATIONS}/${editingLocation.id}`)
       refetchCollections()
@@ -146,14 +151,14 @@ const EventLocationForm = ({
   }, [editingLocation, refetchCollections, toggleModal])
 
   const handleCategorySelectorChange = option => {
-    setFormSuccess()
-    setFormError()
+    setFormSuccess(undefined)
+    setFormError(undefined)
     setEventId(option?.value)
   }
 
   const handleCategorySelectorCreate = async value => {
-    setFormSuccess()
-    setFormError()
+    setFormSuccess(undefined)
+    setFormError(undefined)
 
     try {
       const { data: eventsApiData } = await axios.post(ENDPOINTS.EVENTS, {
@@ -177,10 +182,10 @@ const EventLocationForm = ({
   const hasValidationErrors = Boolean(size(errors))
   useEffect(() => {
     if (hasValidationErrors) {
-      setFormSuccess()
+      setFormSuccess(undefined)
       setFormError(FORM_VALIDATION_ERROR_MESSAGE)
     } else {
-      setFormError()
+      setFormError(undefined)
     }
   }, [hasValidationErrors])
 
@@ -188,7 +193,7 @@ const EventLocationForm = ({
   useEffect(() => {
     toggleHasUnsavedChanges(hasUnsavedChanges)
     if (hasUnsavedChanges) {
-      setFormSuccess()
+      setFormSuccess(undefined)
     }
   }, [hasUnsavedChanges, toggleHasUnsavedChanges])
 
@@ -198,7 +203,6 @@ const EventLocationForm = ({
       onSubmit={handleSubmit(onSubmit)}
       successMessage={formSuccess}
       errorMessage={formError}
-      className={styles.component}
       control={(
         <>
           <Button type="submit" wide disabled={isSubmitting}>
@@ -235,7 +239,7 @@ const EventLocationForm = ({
           render={({ field: { onChange, ref } }) => (
             <Creatable
               placeholder="Type to create new or select from the list..."
-              inputRef={ref}
+              ref={ref}
               isClearable
               options={eventOptions}
               onChange={option => {
@@ -246,7 +250,7 @@ const EventLocationForm = ({
                 onChange(option)
                 handleCategorySelectorCreate(option)
               }}
-              disabled={isSubmitting}
+              isDisabled={isSubmitting}
               value={category}
               maxMenuHeight={210}
             />

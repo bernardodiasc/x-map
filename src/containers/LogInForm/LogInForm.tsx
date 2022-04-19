@@ -13,17 +13,16 @@ import Button from '@components/generic/Button'
 
 import { ENDPOINTS, EMAIL_REGEX, FORM_VALIDATION_ERROR_MESSAGE } from '@lib/constants'
 
-const SignUpForm = () => {
+const LogInForm = () => {
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm()
   const { actions: { logIn } } = useAuthContext()
-  const [formError, setFormError] = useState()
+  const [formError, setFormError] = useState<string | undefined>(undefined)
 
-  const onSubmit = useCallback(async ({ email, password }) => {
-    setFormError()
+  const onSubmit = useCallback(async ({ identifier, password }) => {
+    setFormError(undefined)
     try {
-      const { data } = await axios.post(ENDPOINTS.SIGN_UP, {
-        username: email,
-        email,
+      const { data } = await axios.post(ENDPOINTS.LOG_IN, {
+        identifier,
         password,
       })
       logIn(data)
@@ -38,24 +37,24 @@ const SignUpForm = () => {
     if (hasValidationErrors) {
       setFormError(FORM_VALIDATION_ERROR_MESSAGE)
     } else {
-      setFormError()
+      setFormError(undefined)
     }
   }, [hasValidationErrors])
 
   return (
     <Form
-      title="Sign Up"
+      title="Log In"
       onSubmit={handleSubmit(onSubmit)}
       errorMessage={formError}
       control={(
         <Button type="submit" wide disabled={isSubmitting}>
-          {isSubmitting ? 'Signing up...' : 'Sign Up'}
+          {isSubmitting ? 'Logging in...' : 'Log In'}
         </Button>
       )}
     >
       <InputLabel title="Email:">
         <InputField
-          register={register('email', {
+          register={register('identifier', {
             required: 'The email is required.',
             pattern: {
               value: EMAIL_REGEX,
@@ -63,15 +62,15 @@ const SignUpForm = () => {
             }
           })}
           disabled={isSubmitting}
-          invalid={errors.email}
+          invalid={errors.identifier}
         />
-        <InputError hasError={errors.email}>{errors.email?.message}</InputError>
+        <InputError hasError={errors.identifier}>{errors.identifier?.message}</InputError>
       </InputLabel>
       <InputLabel title="Password:">
         <InputField
           type="password"
           register={register('password', {
-            required: 'The password is required.',
+            required: 'This password is required.',
             minLength: {
               value: 6,
               message: 'The password must be at least 6 characters.'
@@ -86,4 +85,4 @@ const SignUpForm = () => {
   )
 }
 
-export default SignUpForm
+export default LogInForm

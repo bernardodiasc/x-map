@@ -1,5 +1,5 @@
 import EventCard from '@components/custom/EventCard'
-import AccordionCards from '@components/custom/CardList'
+import CardList from '@components/custom/CardList'
 
 import useAppContext from '@contexts/App'
 import useMapContext from '@contexts/Map'
@@ -17,7 +17,7 @@ const EventInfo = () => {
   const selectedEvents = getEventsByCoordinates(collections.events, selectedCoordinates)
 
   return (
-    <AccordionCards
+    <CardList
       Card={EventCard}
       data={selectedEvents}
     />

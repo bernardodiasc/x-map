@@ -17,14 +17,18 @@ import ImagesSelector from '@components/ImagesSelector'
 import { normalizeProfileApiData } from '@lib/profiles'
 import { ENDPOINTS, FORM_VALIDATION_ERROR_MESSAGE } from '@lib/constants'
 
-import * as styles from './ProfileForm.module.css'
+type Props = {
+  toggleHasUnsavedChanges?: any, // TO DO: FIX THIS
+}
 
-const ProfileForm = ({ toggleHasUnsavedChanges }) => {
+type Avatar = any // TO DO: FIX THIS
+
+const ProfileForm = ({ toggleHasUnsavedChanges }: Props): JSX.Element => {
   const { state: { user, profile }, actions: { setProfile } } = useAuthContext()
   const { state: { features }, actions: { refetchCollections } } = useAppContext()
-  const [formSuccess, setFormSuccess] = useState()
-  const [formError, setFormError] = useState()
-  const [avatar, setAvatar] = useState()
+  const [formSuccess, setFormSuccess] = useState<string | undefined>(undefined)
+  const [formError, setFormError] = useState<string | undefined>(undefined)
+  const [avatar, setAvatar] = useState<Avatar | undefined>(undefined)
   const [uploadProgress, setUploadProgress] = useState(0)
   const [isNew, setIsNew] = useState(!profile?.id)
 
@@ -60,13 +64,14 @@ const ProfileForm = ({ toggleHasUnsavedChanges }) => {
     twitter,
     instagram,
   }) => {
-    setFormSuccess()
-    setFormError()
+    setFormSuccess(undefined)
+    setFormError(undefined)
     setUploadProgress(0)
 
     const formData = new FormData()
 
     const dataObj = {
+      email: undefined,
       name,
       about,
       website,
@@ -95,7 +100,7 @@ const ProfileForm = ({ toggleHasUnsavedChanges }) => {
       onUploadProgress: event => {
         const percent = Math.floor((event.loaded / event.total) * 100)
         setUploadProgress(percent)
-        setAvatar()
+        setAvatar(undefined)
       }
     }
 
@@ -144,11 +149,11 @@ const ProfileForm = ({ toggleHasUnsavedChanges }) => {
   const hasValidationErrors = Boolean(size(errors))
   useEffect(() => {
     if (hasValidationErrors) {
-      setFormSuccess()
+      setFormSuccess(undefined)
       setFormError(FORM_VALIDATION_ERROR_MESSAGE)
       setUploadProgress(0)
     } else {
-      setFormError()
+      setFormError(undefined)
     }
   }, [hasValidationErrors])
 
@@ -158,7 +163,7 @@ const ProfileForm = ({ toggleHasUnsavedChanges }) => {
   useEffect(() => {
     toggleHasUnsavedChanges(hasUnsavedChanges)
     if (hasUnsavedChanges) {
-      setFormSuccess()
+      setFormSuccess(undefined)
     }
   }, [hasUnsavedChanges, toggleHasUnsavedChanges])
 
@@ -169,7 +174,6 @@ const ProfileForm = ({ toggleHasUnsavedChanges }) => {
       onSubmit={handleSubmit(onSubmit)}
       successMessage={formSuccess}
       errorMessage={formError}
-      className={styles.component}
       control={(
         <Button type="submit" wide disabled={isSubmitting}>
           {isSubmitting ? `Saving... ${uploadProgress}%` : 'Save'}

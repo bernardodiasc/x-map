@@ -3,9 +3,9 @@ import { useState, useEffect, useCallback } from 'react'
 import useAuthContext from '@contexts/Auth'
 import useAppContext from '@contexts/App'
 
-import ProfileForm from '@components/ProfileForm'
-import LogInForm from '@components/LogInForm'
-import SignUpForm from '@components/SignUpForm'
+import ProfileForm from '@containers/ProfileForm'
+import LogInForm from '@containers/LogInForm'
+import SignUpForm from '@containers/SignUpForm'
 import Button from '@components/generic/Button'
 import Loading from '@components/generic/Loading'
 

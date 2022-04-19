@@ -1,11 +1,11 @@
-import { RegisterOptions } from 'react-hook-form'
+// import { RegisterOptions } from 'react-hook-form'
 
 import styles from './InputField.module.css'
 
 type Props = {
   type?: 'button' | 'checkbox' | 'color' | 'date' | 'datetime' | 'email' | 'file' | 'hidden' | 'image' | 'month' | 'number' | 'password' | 'radio' | 'range' | 'reset' | 'search' | 'submit' | 'tel' | 'text' | 'time' | 'url' | 'week'
   invalid?: boolean,
-  register?: RegisterOptions,
+  register?: any, // TO DO: FIX THIS RegisterOptions,
   prefix?: string,
   disabled?: boolean,
 }
