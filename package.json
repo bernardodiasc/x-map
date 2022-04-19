@@ -46,6 +46,7 @@
     "react-hook-form": "^7.29.0",
     "react-leaflet": "^3.2.5",
     "react-select": "^5.2.2",
+    "sharp": "^0.30.4",
     "swr": "^1.2.2"
   },
   "devDependencies": {
