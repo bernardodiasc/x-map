@@ -24,7 +24,7 @@ const Button = ({
     className,
   ].join(' ')
 
-  if (!children || !onClick) {
+  if (!children) {
     return null
   }
 

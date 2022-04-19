@@ -46,7 +46,6 @@ const LocationForm = ({
     defaultValues: {
       country: location.country || '',
       city: location.city || '',
-      address: location.address || '',
       start: location.start || '',
       end: location.end || '',
     }
@@ -57,7 +56,6 @@ const LocationForm = ({
   const onSubmit = useCallback(async ({
     country,
     city,
-    address,
     start,
     end,
   }) => {
@@ -72,7 +70,7 @@ const LocationForm = ({
       endpoint: `${ENDPOINTS.LOCATIONS}/${locationId || location.id}`,
     }
 
-    const { latitude, longitude } = await getGeocode({ country, city, address })
+    const { latitude, longitude } = await getGeocode({ country, city, address: undefined })
 
     if (!latitude || !longitude) {
       setFormError('Invalid location.')
@@ -84,7 +82,6 @@ const LocationForm = ({
     const dataObj = {
       country,
       city,
-      address,
       timezone,
       start: start !== '' ? start : undefined,
       end: end !== '' ? end : undefined,
@@ -119,7 +116,6 @@ const LocationForm = ({
       reset({
         country: updatedLocation.country,
         city: updatedLocation.city,
-        address: updatedLocation.address,
         start: updatedLocation.start,
         end: updatedLocation.end,
       })
@@ -208,17 +204,13 @@ const LocationForm = ({
         />
         <InputError hasError={errors.country}>This field is required.</InputError>
       </InputLabel>
-      <InputLabel title="City:">
+      <InputLabel title="City:" isRequired>
         <InputField
-          register={register('city')}
+          register={register('city', { required: true })}
           disabled={isSubmitting}
+          invalid={errors.city}
         />
-      </InputLabel>
-      <InputLabel title="Address:">
-        <InputField
-          register={register('address')}
-          disabled={isSubmitting}
-        />
+        <InputError hasError={errors.city}>This field is required.</InputError>
       </InputLabel>
       {features?.TRAVELS && (
         <>
