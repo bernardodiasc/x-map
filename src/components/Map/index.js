@@ -1,6 +1,6 @@
 import { GoogleApiWrapper } from 'google-maps-react'
 
-import Loading from '../Loading'
+import Loading from '@components/generic/Loading'
 import GoogleMap from './GoogleMap'
 
 export default GoogleApiWrapper(

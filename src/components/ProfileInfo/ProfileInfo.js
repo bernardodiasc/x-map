@@ -1,5 +1,5 @@
 import ProfileCard from '@components/custom/ProfileCard'
-import AccordionCards from '@components/custom/CardLists'
+import AccordionCards from '@components/custom/CardList'
 
 import useAppContext from '@contexts/App'
 import useMapContext from '@contexts/Map'
