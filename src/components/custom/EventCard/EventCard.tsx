@@ -1,9 +1,21 @@
 import Svg from '@components/generic/Svg'
-import EventLocationCard from '@components/EventLocationCard'
+import EventLocationCard from '@components/custom/EventLocationCard'
 
-import * as styles from './EventCard.module.css'
+import styles from './EventCard.module.css'
 
-const EventCard = ({ item, onLocationClick }) => {
+type Props = {
+  item?: any // TO DO: add correct type for Event,
+  onLocationClick?: (event: any, location: any) => void, // TO DO: fix this
+}
+
+const EventCard = ({
+  item,
+  onLocationClick
+}: Props): JSX.Element => {
+  if (!item) {
+    return null
+  }
+
   const handleLocationClick = (event, location) =>
     onLocationClick && onLocationClick(item, location)
 
@@ -15,12 +27,11 @@ const EventCard = ({ item, onLocationClick }) => {
     />
   )
 
-  if (!item) {
-    return null
-  }
-
   return (
-    <div className={styles.component}>
+    <div
+      data-testid="EventCard"
+      className={styles.component}
+    >
       <h2 className={styles.title}>
         <Svg name="ticket" width="32" height="32" />
         {item.title}

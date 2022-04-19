@@ -15,12 +15,12 @@ const Template: ComponentStory<typeof ConfirmationDialog> = (args) => (
   <Default_ConfirmationDialog {...args} />
 )
 
-export const Prop_Placeholder_ConfirmationDialog = Template.bind({})
-Prop_Placeholder_ConfirmationDialog.storyName = 'Inside the Modal'
-Prop_Placeholder_ConfirmationDialog.args = {
+export const InsideModal_ConfirmationDialog = Template.bind({})
+InsideModal_ConfirmationDialog.storyName = 'Inside the Modal'
+InsideModal_ConfirmationDialog.args = {
   ...Default_ConfirmationDialog.args
 }
-Prop_Placeholder_ConfirmationDialog.decorators = [story => (
+InsideModal_ConfirmationDialog.decorators = [story => (
   <Prop_DefaultWidth_false_Modal {...Prop_DefaultWidth_false_Modal.args} defaultWidth={false}>
     {story()}
   </Prop_DefaultWidth_false_Modal>

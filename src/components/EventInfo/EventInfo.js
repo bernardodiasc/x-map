@@ -1,5 +1,5 @@
-import EventCard from '@components/EventCard'
-import AccordionCards from '@components/AccordionCards'
+import EventCard from '@components/custom/EventCard'
+import AccordionCards from '@components/custom/CardLists'
 
 import useAppContext from '@contexts/App'
 import useMapContext from '@contexts/Map'

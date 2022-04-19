@@ -3,7 +3,7 @@ import { useState, useCallback } from 'react'
 import useAuthContext from '@contexts/Auth'
 import useAppContext from '@contexts/App'
 
-import EventCard from '@components/EventCard'
+import EventCard from '@components/custom/EventCard'
 import EventLocationForm from '@components/EventLocationForm'
 import Modal from '@components/generic/Modal'
 import Button from '@components/generic/Button'

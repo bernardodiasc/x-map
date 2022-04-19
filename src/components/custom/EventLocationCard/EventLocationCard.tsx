@@ -1,9 +1,21 @@
 import Markdown from 'markdown-to-jsx'
 import { format } from 'date-fns'
 
-import * as styles from './EventLocationCard.module.css'
+import styles from './EventLocationCard.module.css'
 
-const EventLocationCard = ({ location, onClick }) => {
+type Props = {
+  onClick?: any, // TO DO: fix this
+  location?: any // TO DO: add appropriate type for Location
+}
+
+const EventLocationCard = ({
+  onClick,
+  location,
+}: Props): JSX.Element => {
+  if (!location) {
+    return null
+  }
+
   const handleOnClick = () => {
     onClick && onClick()
   }
@@ -15,6 +27,7 @@ const EventLocationCard = ({ location, onClick }) => {
 
   return (
     <div
+      data-testid="EventLocationCard"
       className={[styles.component, onClick ? styles.clickable : ''].join(' ')}
       onClick={handleOnClick}
     >

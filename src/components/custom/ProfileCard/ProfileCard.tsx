@@ -3,9 +3,13 @@ import ct from 'countries-and-timezones'
 
 import Svg from '@components/generic/Svg'
 
-import * as styles from './ProfileCard.module.css'
+import styles from './ProfileCard.module.css'
 
-const ProfileCard = ({ item }) => {
+type Props = {
+  item?: any // TO DO: add correct type for Profile
+}
+
+const ProfileCard = ({ item }: Props): JSX.Element => {
   if (!item) {
     return null
   }
@@ -17,12 +21,15 @@ const ProfileCard = ({ item }) => {
   }
 
   return (
-    <div className={styles.profile}>
+    <div
+      data-testid="ProfileCard"
+      className={styles.component}
+    >
       <div className={styles.avatar}>
         <Image
           className={styles.image}
           src={item.avatar ? item.avatar.url : '/static/avatar.png'}
-          alt={item.name}
+          alt={item.avatar ? item.avatar.alt : item.name}
           width="200"
           height="200"
           layout="fill"
