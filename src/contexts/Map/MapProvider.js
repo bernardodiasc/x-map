@@ -1,25 +1,35 @@
-import { useEffect, useState } from 'react'
+import { useState } from "react";
 
-import MapContext from './MapContext'
+import MapContext from "./MapContext";
 
-import useAppContext from '@contexts/App'
+import useAppContext from "@contexts/App";
 
-import { dataToGeoFeatureCollection } from '@lib/geo'
-import { getProfilesWithCoordinatesFromLatestLocation } from '@lib/profiles'
-import { getEventsWithCoordinatesFromAllLocations } from '@lib/events'
-import { COLLECTIONS } from '@lib/constants'
+import { dataToGeoFeatureCollection } from "@lib/geo";
+import { getProfilesWithCoordinatesFromLatestLocation } from "@lib/profiles";
+import { getEventsWithCoordinatesFromAllLocations } from "@lib/events";
+import { COLLECTIONS } from "@lib/constants";
 
 const MapProvider = ({ children }) => {
-  const { state: { collections } } = useAppContext()
-  const [selectedCollection, setSelectedCollection] = useState(COLLECTIONS.PROFILES)
-  const [selectedCoordinates, setSelectedCoordinates] = useState()
+  const {
+    state: { collections },
+  } = useAppContext();
+  const [selectedCollection, setSelectedCollection] = useState(
+    COLLECTIONS.EVENTS
+  );
+  const [selectedCoordinates, setSelectedCoordinates] = useState();
 
   const collectionsGeoData = {
-    [COLLECTIONS.PROFILES]: getProfilesWithCoordinatesFromLatestLocation(collections.profiles),
-    [COLLECTIONS.EVENTS]: getEventsWithCoordinatesFromAllLocations(collections.events),
-  }
+    [COLLECTIONS.PROFILES]: getProfilesWithCoordinatesFromLatestLocation(
+      collections.profiles
+    ),
+    [COLLECTIONS.EVENTS]: getEventsWithCoordinatesFromAllLocations(
+      collections.events
+    ),
+  };
 
-  const featureCollection = dataToGeoFeatureCollection(collectionsGeoData[selectedCollection])
+  const featureCollection = dataToGeoFeatureCollection(
+    collectionsGeoData[selectedCollection]
+  );
 
   return (
     <MapContext.Provider
@@ -37,7 +47,7 @@ const MapProvider = ({ children }) => {
     >
       {children}
     </MapContext.Provider>
-  )
-}
+  );
+};
 
-export default MapProvider
+export default MapProvider;
