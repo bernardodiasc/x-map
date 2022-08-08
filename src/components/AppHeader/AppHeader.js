@@ -1,4 +1,5 @@
 import useAppContext from '@contexts/App'
+import useMapContext from '@contexts/Map'
 
 import MainMenu from '@components/MainMenu'
 import Svg from '@components/generic/Svg'
@@ -6,7 +7,13 @@ import Svg from '@components/generic/Svg'
 import * as styles from './AppHeader.module.css'
 
 const AppHeader = () => {
-  const { state: { isLoadingApp } } = useAppContext()
+  const {
+    state: { isLoadingApp },
+  } = useAppContext()
+
+  const {
+    state: { selectedCollection },
+  } = useMapContext()
 
   const handleClickOnLogo = () => {
     if (window.appMainMap) {
@@ -21,15 +28,15 @@ const AppHeader = () => {
         <Svg name="map" width="56" height="56" />
         <Svg name="xteam" width="109" height="46" />
       </div>
+
       <div className={styles.controls}>
+        <p className={styles.collectionLabel}>{selectedCollection}</p>
         <div className={styles.message}>
           {/*
             TO DO: add some sort of instruction based on the profile state.
           */}
         </div>
-        {!isLoadingApp && (
-          <MainMenu />
-        )}
+        {!isLoadingApp && <MainMenu />}
       </div>
     </div>
   )
