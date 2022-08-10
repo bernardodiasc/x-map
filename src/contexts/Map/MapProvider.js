@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 import MapContext from './MapContext'
 
@@ -11,7 +11,7 @@ import { COLLECTIONS } from '@lib/constants'
 
 const MapProvider = ({ children }) => {
   const { state: { collections } } = useAppContext()
-  const [selectedCollection, setSelectedCollection] = useState(COLLECTIONS.PROFILES)
+  const [selectedCollection, setSelectedCollection] = useState(COLLECTIONS.EVENTS)
   const [selectedCoordinates, setSelectedCoordinates] = useState()
 
   const collectionsGeoData = {
