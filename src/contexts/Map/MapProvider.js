@@ -10,7 +10,7 @@ import { getEventsWithCoordinatesFromAllLocations } from '@lib/events'
 import { COLLECTIONS } from '@lib/constants'
 
 const MapProvider = ({ children }) => {
-  const { state: { collections } } = useAppContext();
+  const { state: { collections } } = useAppContext()
   const [selectedCollection, setSelectedCollection] = useState(COLLECTIONS.EVENTS)
   const [selectedCoordinates, setSelectedCoordinates] = useState()
 
