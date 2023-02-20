@@ -7,7 +7,9 @@ World map to display people, events, travels and more.
 
 ## Getting Started
 
-First create a `.env.local` in the root of this project and add the keys:
+First make copy of `.env.example` in the root of this project and use the name `.env.local`.
+
+Then add the keys:
 
 ### X-World-Map API
 
