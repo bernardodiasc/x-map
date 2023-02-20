@@ -6,6 +6,7 @@ import useAuthContext from '@contexts/Auth'
 
 import useProfiles from '@hooks/useProfiles'
 import useEvents from '@hooks/useEvents'
+import useBounties from '@hooks/useBounties'
 import useFeatureFlags from '@hooks/useFeatureFlags'
 
 import { MODAL_IDS, COLLECTIONS } from '@lib/constants'
@@ -14,6 +15,7 @@ const AppProvider = ({ children }) => {
   const { state: { token, user, profile, isLoadingProfile, isLoadedProfile } } = useAuthContext()
   const { profiles, error: profileError, mutate: refetchProfiles } = useProfiles()
   const { events, error: eventsError, mutate: refetchEvents } = useEvents()
+  const { bounties, error: bountiesError } = useBounties()
   const { features } = useFeatureFlags()
   const [visibleModal, setVisibleModal] = useState(undefined)
   const [shouldModalBeClosable, toggleShouldModalBeClosable] = useState(true)
@@ -23,12 +25,14 @@ const AppProvider = ({ children }) => {
   const collections = useMemo(() => ({
     profiles,
     events,
-  }), [profiles, events])
+    bounties,
+  }), [profiles, events, bounties])
 
   const errors = useMemo(() => ({
     [COLLECTIONS.PROFILES]: profileError,
     [COLLECTIONS.EVENTS]: eventsError,
-  }), [profileError, eventsError])
+    [COLLECTIONS.BOUNTIES]: bountiesError,
+  }), [profileError, eventsError, bountiesError])
 
   const hasErrors = Object.values(errors).every(value => value !== undefined)
 

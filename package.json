@@ -29,6 +29,7 @@
     "axios": "^0.26.1",
     "countries-and-timezones": "^3.3.0",
     "date-fns": "^2.28.0",
+    "exif-js": "^2.3.0",
     "google-maps-react": "^2.0.6",
     "json-loader": "^0.5.7",
     "json-schema-faker": "^0.5.0-rcv.42",

@@ -1,5 +1,7 @@
 import { useState, useRef } from 'react'
 
+import PictureUpload from '@containers/PictureUpload'
+
 import useAuthContext from '@contexts/Auth'
 import useAppContext from '@contexts/App'
 import useMapContext from '@contexts/Map'
@@ -38,24 +40,6 @@ const MainMenu = () => {
     ? MODAL_IDS.PROFILE_FORM
     : MODAL_IDS.JOIN_SCREEN
 
-  const collectionSelection = selectedCollection === COLLECTIONS.PROFILES ? {
-    onClick: () => setSelectedCollection(COLLECTIONS.EVENTS),
-    children: (
-      <>
-        <Svg name="calendar" width="24" height="24" />
-        View Events
-      </>
-    ),
-  } : {
-    onClick: () => setSelectedCollection(COLLECTIONS.PROFILES),
-    children: (
-      <>
-        <Svg name="people" width="24" height="24" />
-        View Profiles
-      </>
-    ),
-  }
-
   const handleOnClick = () => {
     toggleIsMenuVisible(!isMenuVisible)
   }
@@ -77,12 +61,25 @@ const MainMenu = () => {
       </div>
       {isMenuVisible && (
         <div className={styles.menu}>
-          {features?.EVENTS && (
-            <>
-              <Button link wide {...collectionSelection} />
-              <hr />
-            </>
+          {selectedCollection !== COLLECTIONS.PROFILES && (
+            <Button link wide onClick={() => setSelectedCollection(COLLECTIONS.PROFILES)}>
+              <Svg name="people" width="24" height="24" />
+              View Profiles
+            </Button>
           )}
+          {features?.EVENTS && selectedCollection !== COLLECTIONS.EVENTS && (
+            <Button link wide onClick={() => setSelectedCollection(COLLECTIONS.EVENTS)}>
+              <Svg name="people" width="24" height="24" />
+              View Events
+            </Button>
+          )}
+          {features?.BOUNTIES && selectedCollection !== COLLECTIONS.BOUNTIES && (
+            <Button link wide onClick={() => setSelectedCollection(COLLECTIONS.BOUNTIES)}>
+              <Svg name="people" width="24" height="24" />
+              View Bounties
+            </Button>
+          )}
+          {(features?.EVENTS || features?.BOUNTIES) ? <hr /> : null}
           {token ? (
             <>
               <Button
@@ -112,6 +109,9 @@ const MainMenu = () => {
                   <Svg name="editcalendar" width="24" height="24" />
                   Manage your events
                 </Button>
+              )}
+              {profile && features?.BOUNTIES && (
+                <PictureUpload />
               )}
               <hr />
               <Button

@@ -13,6 +13,7 @@ export const ENDPOINTS = {
   ATTENDEES: `${process.env.NEXT_PUBLIC_API_URL}/api/attendees`,
   FAQ: `${process.env.NEXT_PUBLIC_API_URL}/api/frequently-asked-questions`,
   FEATURE_FLAGS: `${process.env.NEXT_PUBLIC_API_URL}/api/feature-flags`,
+  BOUNTIES: `${process.env.NEXT_PUBLIC_API_URL}/api/bounties`,
   UPLOAD: `${process.env.NEXT_PUBLIC_API_URL}/api/upload`,
   LOG_IN: `${process.env.NEXT_PUBLIC_API_URL}/api/auth/local`,
   SIGN_UP: `${process.env.NEXT_PUBLIC_API_URL}/api/auth/local/register`,
@@ -23,6 +24,7 @@ export const ENDPOINTS = {
 export const COLLECTIONS = {
   PROFILES: 'PROFILES',
   EVENTS: 'EVENTS',
+  BOUNTIES: 'BOUNTIES',
 }
 
 export const EMAIL_REGEX = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/

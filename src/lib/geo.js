@@ -29,8 +29,8 @@ export const geoFeaturesToCollection = (features = {}) => ({
  * To be used in conjunction with https://github.com/exif-js/exif-js
  */
 export const parseDMS = (gpsLat, gpsLatRef, gpsLong, gpsLongRef) => {
-  let lat = this.convertDMSToDD(gpsLat[0], gpsLat[1], gpsLat[2], gpsLatRef)
-  let lng = this.convertDMSToDD(gpsLong[0], gpsLong[1], gpsLong[2], gpsLongRef)
+  let lat = convertDMSToDD(gpsLat[0], gpsLat[1], gpsLat[2], gpsLatRef)
+  let lng = convertDMSToDD(gpsLong[0], gpsLong[1], gpsLong[2], gpsLongRef)
   return { lat, lng }
 }
 

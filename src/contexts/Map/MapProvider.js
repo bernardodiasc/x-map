@@ -17,6 +17,7 @@ const MapProvider = ({ children }) => {
   const collectionsGeoData = {
     [COLLECTIONS.PROFILES]: getProfilesWithCoordinatesFromLatestLocation(collections.profiles),
     [COLLECTIONS.EVENTS]: getEventsWithCoordinatesFromAllLocations(collections.events),
+    [COLLECTIONS.BOUNTIES]: collections.bounties,
   }
 
   const featureCollection = dataToGeoFeatureCollection(collectionsGeoData[selectedCollection])
