@@ -8,7 +8,7 @@ import * as styles from './AppHeader.module.css'
 
 const AppHeader = () => {
   const {
-    state: { isLoadingApp },
+    state: { isLoadingApp, hasErrors },
   } = useAppContext()
 
   const {
@@ -30,12 +30,14 @@ const AppHeader = () => {
       </div>
 
       <div className={styles.controls}>
-        <p className={styles.collectionLabel}>{selectedCollection}</p>
         <div className={styles.message}>
-          {/*
-            TO DO: add some sort of instruction based on the profile state.
-          */}
+          {hasErrors ? (
+            <span>The server is offline, the data cound&apos;t be loaded.<br/>Please contact administrator.</span>
+          ) : ''}
         </div>
+        <p className={styles.collectionLabel}>
+          {!hasErrors ? selectedCollection : ''}
+        </p>
         {!isLoadingApp && <MainMenu />}
       </div>
     </div>

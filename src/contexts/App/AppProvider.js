@@ -8,12 +8,12 @@ import useProfiles from '@hooks/useProfiles'
 import useEvents from '@hooks/useEvents'
 import useFeatureFlags from '@hooks/useFeatureFlags'
 
-import { MODAL_IDS } from '@lib/constants'
+import { MODAL_IDS, COLLECTIONS } from '@lib/constants'
 
 const AppProvider = ({ children }) => {
   const { state: { token, user, profile, isLoadingProfile, isLoadedProfile } } = useAuthContext()
-  const { profiles, mutate: refetchProfiles } = useProfiles()
-  const { events, mutate: refetchEvents } = useEvents()
+  const { profiles, error: profileError, mutate: refetchProfiles } = useProfiles()
+  const { events, error: eventsError, mutate: refetchEvents } = useEvents()
   const { features } = useFeatureFlags()
   const [visibleModal, setVisibleModal] = useState(undefined)
   const [shouldModalBeClosable, toggleShouldModalBeClosable] = useState(true)
@@ -24,6 +24,13 @@ const AppProvider = ({ children }) => {
     profiles,
     events,
   }), [profiles, events])
+
+  const errors = useMemo(() => ({
+    [COLLECTIONS.PROFILES]: profileError,
+    [COLLECTIONS.EVENTS]: eventsError,
+  }), [profileError, eventsError])
+
+  const hasErrors = Object.values(errors).every(value => value !== undefined)
 
   const refetchCollections = () => {
     refetchProfiles()
@@ -65,6 +72,8 @@ const AppProvider = ({ children }) => {
       value={{
         state: {
           collections,
+          errors,
+          hasErrors,
           visibleModal,
           shouldModalBeClosable,
           features,

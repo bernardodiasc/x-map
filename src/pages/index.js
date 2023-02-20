@@ -5,9 +5,10 @@ import Map from '@components/Map'
 import Loading from '@components/generic/Loading'
 
 export default function Home() {
-  const { state: { isLoadingApp } } = useAppContext()
+  const { state: { isLoadingApp, hasErrors } } = useAppContext()
   const { state: { featureCollection } } = useMapContext()
-  return !isLoadingApp && featureCollection ? (
+
+  return Boolean(!isLoadingApp && featureCollection) || hasErrors ? (
     <Map featureCollection={featureCollection} />
   ) : (
     <Loading />
